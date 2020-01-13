@@ -7,7 +7,14 @@ package com.sise.ccj.constant;
  * @Date 2019/12/29 15:20
  **/
 public interface MongoDbConstant {
+
+    String SPLIT = "${dypId}";
+
     String DATABASE = "dyp";
 
     String MOVE_TABLE = "move";
+
+    String DYP_USER_COLLECTION = "dyp_user_collection";
+
+    String DYP_USER_DYY = "dyp_${dyp}_yy";
 }

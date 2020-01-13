@@ -2,7 +2,9 @@ package com.sise.ccj.constant;
 
 public interface CommonConstant {
 	
-	String Separtor = "-";
+	String SEPARTOR = "-";
+
+	String REPLACE_TOKEN = "${token}";
 
 	/**
 	 * yicall登陆token-session信息存储
@@ -12,7 +14,7 @@ public interface CommonConstant {
 	/**
 	 * zx静默坐席私有登陆的token信息
 	 */
-	String COOKIE_TOKEN = "zx-token";
+	String COOKIE_TOKEN = "token";
 	
 	String KEY_REQUEST_IP_FAIL_COUNT = "dy:wt:tmp:rip:failCount:private:${ip}";
 	/**

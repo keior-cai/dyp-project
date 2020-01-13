@@ -18,15 +18,15 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ServerError {
 
-    UNKNOWN_ERROR(19100000, "系统异常，请联系系统管理员"),
+    UNKNOWN_ERROR(18100000, "系统异常，请联系系统管理员"),
     
-    LOGIN_MISS_SEQNO(19000019, "参数异常,缺失SeqNo"),
+    LOGIN_MISS_SEQNO(18000019, "参数异常,缺失SeqNo"),
     
-    INVALID_LOGIN(19100031, "登录非法token"),
+    INVALID_LOGIN(18100031, "登录非法token"),
     
-    OPEN_PARAM_ERROR(19000017, "%s 参数错误: %s"),
+    OPEN_PARAM_ERROR(18000017, "%s 参数错误: %s"),
 
-    PERMISSION(19000016,"权限不足,请联系管理员"),
+    PERMISSION(18000016,"权限不足,请联系管理员"),
     ;
 
     private int code;

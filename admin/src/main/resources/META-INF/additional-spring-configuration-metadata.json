@@ -1,0 +1,27 @@
+{
+  "properties": [
+    {
+      "name": "admin.loginPath",
+      "type": "java.lang.String",
+      "defaultValue": "http://localhost:9901/admin/index.html#/login",
+      "description": "Description for admin.loginPath."
+    },
+    {
+      "name": "admin.indexPath",
+      "type": "java.lang.String",
+      "defaultValue": "http://localhost:9901/admin/index.html#/index",
+      "description": "Description for admin.indexPath."
+    },
+    {
+      "name": "mysql.datasource.autoCommit",
+      "type": "java.lang.String",
+      "defaultValue": "true",
+      "description": "Description for spring.datasource.autoCommit."
+    },
+    {
+      "name": "mysql.datasource.maximumPoolSize",
+      "type": "java.lang.String",
+      "defaultValue": "8",
+      "description": "Description for spring.datasource.maximumPoolSize."
+    }
+  ] }

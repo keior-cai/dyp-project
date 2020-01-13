@@ -2,13 +2,13 @@ package com.sise.ccj.config.mysql;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.Data;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.context.EnvironmentAware;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -16,13 +16,23 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
+@Data
 @Configuration
 @EnableTransactionManagement
 @MapperScan(basePackages = {"com.sise.ccj.*.dao"})
-public class MyBatisConfig  implements EnvironmentAware {
+@ConfigurationProperties(prefix = "spring.datasource")
+public class MyBatisConfig {
 
-//	@Autowired
-	private Environment env;
+	private String url;
+
+	private String userName;
+
+	private String password;
+
+	private Boolean autoCommit;
+
+	private Integer maximumPoolSize;
+
 
     /**
      * alias所在包，用;隔开
@@ -34,10 +44,6 @@ public class MyBatisConfig  implements EnvironmentAware {
      */
     private static final String MAPPER_LOCATION = "classpath*:mappings/*Mapper.xml";
 
-    @Override
-	public void setEnvironment(Environment environment) {
-		this.env = environment;
-	}
 
 
 	/**
@@ -47,11 +53,11 @@ public class MyBatisConfig  implements EnvironmentAware {
 	@Bean
 	public DataSource dataSource() {
 		HikariConfig config = new HikariConfig();
-		config.setJdbcUrl(env.getProperty("spring.datasource.url"));
-		config.setUsername(env.getProperty("spring.datasource.username"));
-		config.setPassword(env.getProperty("spring.datasource.password"));
-		config.setAutoCommit(Boolean.valueOf(env.getProperty("spring.datasource.auto-commit")));
-		config.setMaximumPoolSize(Integer.valueOf(env.getProperty("spring.datasource.maximum-pool-size")));
+		config.setJdbcUrl(url);
+		config.setUsername(userName);
+		config.setPassword(password);
+		config.setAutoCommit(autoCommit);
+		config.setMaximumPoolSize(maximumPoolSize);
 		return new HikariDataSource(config);
 	}
 
