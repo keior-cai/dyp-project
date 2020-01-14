@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    private static final List<String> collections = Arrays.asList("dyp_${bid}_move", "");
 
     @Override
     public List<DypUserConnection> queryAdmin(AdminRequest param) {
@@ -76,6 +78,15 @@ public class AdminServiceImpl implements AdminService {
         dypUserConnection.setUpdateTime(date);
         dypUserConnection.setDeleted(DeletedEnum.NOT_DELETED.isDelete());
         mongoTemplate.insert(dypUserConnection, MongoDbConstant.DYP_USER_COLLECTION);
+        createCollections(dypUserConnection.getId());
     }
 
+    private void createCollections(ObjectId id){
+        String dypId = id.toString();
+        collections.forEach(e -> {
+            if (!mongoTemplate.collectionExists(e.replace(MongoDbConstant.SPLIT, dypId))){
+                mongoTemplate.createCollection(e.replace(MongoDbConstant.SPLIT, dypId));
+            }
+        });
+    }
 }
