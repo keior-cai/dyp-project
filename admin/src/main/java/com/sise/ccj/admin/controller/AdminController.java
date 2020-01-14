@@ -1,5 +1,6 @@
 package com.sise.ccj.admin.controller;
 
+import com.sise.ccj.pojo.common.DypUserConnection;
 import com.sise.ccj.request.admin.AdminRequest;
 import com.sise.ccj.service.AdminService;
 import com.sise.ccj.vo.HttpBody;
@@ -22,7 +23,8 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping("/addAdmin")
-    public HttpBody addAdmin(){
+    public HttpBody addAdmin(@RequestBody AdminRequest param){
+        adminService.addAdmin(param);
         return HttpBody.SUCCESS;
     }
 
@@ -36,11 +38,13 @@ public class AdminController {
 
     @PostMapping("/deleteAdmin/{adminId}")
     public HttpBody deleteAdmin(@PathVariable String adminId){
+        adminService.deleteAdmin(adminId);
         return HttpBody.SUCCESS;
     }
 
     @PostMapping("/updateAdmin")
-    public HttpBody updateAdmin(){
+    public HttpBody updateAdmin(@RequestBody AdminRequest param){
+        adminService.updateAdmin();
         return HttpBody.SUCCESS;
     }
 

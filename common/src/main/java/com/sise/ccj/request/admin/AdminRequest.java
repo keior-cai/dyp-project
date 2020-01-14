@@ -5,11 +5,17 @@ import lombok.Data;
 
 @Data
 public class AdminRequest extends BaseRequest {
+
+    private String id;
+
     private String userName;
+
+    private String password;
+
+    private String name;
 
     private String startTime;
 
     private String endTime;
 
-    private String name;
 }

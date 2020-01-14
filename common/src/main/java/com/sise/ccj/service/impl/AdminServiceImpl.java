@@ -1,6 +1,5 @@
 package com.sise.ccj.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.sise.ccj.constant.MongoDbConstant;
 import com.sise.ccj.enums.DeletedEnum;
 import com.sise.ccj.enums.admin.AdminRoleEnums;
@@ -9,17 +8,17 @@ import com.sise.ccj.request.BaseRequest;
 import com.sise.ccj.request.admin.AdminRequest;
 import com.sise.ccj.service.AdminService;
 import com.sise.ccj.utils.Pair;
-import org.bson.Document;
+import org.bson.types.ObjectId;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * @ClassName AdminServiceImpl
@@ -51,8 +50,6 @@ public class AdminServiceImpl implements AdminService {
                 .limit(pair.getSecond()),
                 DypUserConnection.class,
                 MongoDbConstant.DYP_USER_COLLECTION);
-
-
     }
 
     @Override
@@ -61,12 +58,24 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteAdmin() {
-
+    public void deleteAdmin(String adminId) {
+        mongoTemplate.updateFirst(
+                Query.query(Criteria.where(DypUserConnection.Field.ID)
+                        .is(new ObjectId(adminId))),
+                Update.update(DypUserConnection.Field.DELETED, DeletedEnum.DELETED),
+                MongoDbConstant.DYP_USER_COLLECTION);
     }
 
     @Override
-    public void addAdmin() {
-
+    public void addAdmin(AdminRequest param) {
+        DypUserConnection dypUserConnection = new DypUserConnection();
+        Date date = new Date();
+        BeanUtils.copyProperties(param, dypUserConnection);
+        dypUserConnection.setRole(AdminRoleEnums.GENERAL_ADMIN.isRole());
+        dypUserConnection.setCreateTime(date);
+        dypUserConnection.setUpdateTime(date);
+        dypUserConnection.setDeleted(DeletedEnum.NOT_DELETED.isDelete());
+        mongoTemplate.insert(dypUserConnection, MongoDbConstant.DYP_USER_COLLECTION);
     }
+
 }

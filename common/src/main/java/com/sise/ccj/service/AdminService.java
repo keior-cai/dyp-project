@@ -18,7 +18,7 @@ public interface AdminService {
 
     void updateAdmin();
 
-    void deleteAdmin();
+    void deleteAdmin(String adminId);
 
-    void addAdmin();
+    void addAdmin(AdminRequest param);
 }
