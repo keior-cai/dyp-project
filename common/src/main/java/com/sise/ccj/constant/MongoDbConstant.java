@@ -19,4 +19,6 @@ public interface MongoDbConstant {
     String DYP_USER_DYY = "dyp_yy";
 
     String DYP_MOVE = "dyp_${dypId}_move";
+
+    String VIP_COLLECTION = "dyp_vip_collection";
 }
