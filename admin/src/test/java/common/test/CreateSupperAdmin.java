@@ -30,13 +30,13 @@ public class CreateSupperAdmin {
 
     @Test
     public void createSupperAdmin(){
-        mongoTemplate.createCollection(DypUserConnection.class);
+//        mongoTemplate.createCollection(DypUserConnection.class);
         DypUserConnection dypUserConnection = new DypUserConnection();
         dypUserConnection.setName("admin");
-        dypUserConnection.setUserName("admin");
+        dypUserConnection.setUserName("dddd");
         dypUserConnection.setPassword("123456");
         dypUserConnection.setCreateTime(new Date());
-        dypUserConnection.setRole(true);
+        dypUserConnection.setRole(false);
         dypUserConnection.setDeleted(false);
         mongoTemplate.insert(dypUserConnection, MongoDbConstant.DYP_USER_COLLECTION);
     }

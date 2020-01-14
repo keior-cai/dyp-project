@@ -1,10 +1,10 @@
 package com.sise.ccj.admin.controller;
 
+import com.sise.ccj.request.admin.AdminRequest;
+import com.sise.ccj.service.AdminService;
 import com.sise.ccj.vo.HttpBody;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
@@ -18,6 +18,8 @@ import java.util.Collections;
 @RequestMapping("/management/admin")
 public class AdminController {
 
+    @Autowired
+    private AdminService adminService;
 
     @PostMapping("/addAdmin")
     public HttpBody addAdmin(){
@@ -26,13 +28,14 @@ public class AdminController {
 
 
     @GetMapping("/queryAdmin")
-    public HttpBody queryAdmin(){
-        return HttpBody.getSucInstance(Collections.emptyList());
+    public HttpBody queryAdmin(AdminRequest param){
+        param.check();
+        return HttpBody.getSucInstance(adminService.queryAdmin(param));
     }
 
 
-    @PostMapping("/deleteAdmin")
-    public HttpBody deleteAdmin(){
+    @PostMapping("/deleteAdmin/{adminId}")
+    public HttpBody deleteAdmin(@PathVariable String adminId){
         return HttpBody.SUCCESS;
     }
 

@@ -1,6 +1,8 @@
 package com.sise.ccj.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sise.ccj.pojo.common.DypUserConnection;
+import com.sise.ccj.request.admin.AdminRequest;
 
 import java.util.List;
 
@@ -12,7 +14,7 @@ import java.util.List;
  **/
 public interface AdminService {
 
-    List<JSONObject> queryAdmin();
+    List<DypUserConnection> queryAdmin(AdminRequest param);
 
     void updateAdmin();
 

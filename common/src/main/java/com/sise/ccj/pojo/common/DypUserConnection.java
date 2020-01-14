@@ -30,6 +30,7 @@ public class DypUserConnection {
 
     private Date updateTime;
 
+
     public class Field {
         private Field() {
         }
