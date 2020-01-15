@@ -20,6 +20,9 @@ public class HttpBody<T> {
      * code 为1 时为有提示语 常量参见 CommonConstant.NOTE_CODE
      * code 为大等于19100000 为错误
      */
+
+    public static final String ERROR = "系统异常，请联系管理员";
+
     private int code;
 
     private String message;

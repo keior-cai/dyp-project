@@ -1,13 +1,10 @@
 package com.sise.ccj.admin.controller;
 
-import com.sise.ccj.pojo.common.DypUserConnection;
 import com.sise.ccj.request.admin.AdminRequest;
 import com.sise.ccj.service.AdminService;
 import com.sise.ccj.vo.HttpBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collections;
 
 /**
  * @ClassName AdminController
@@ -53,8 +50,8 @@ public class AdminController {
         return HttpBody.SUCCESS;
     }
 
-    @GetMapping("/getSupperAdminInfo")
-    public HttpBody getSupperAdminInfo(){
+    @GetMapping("/getAdminInfo")
+    public HttpBody getAdminInfo(){
         return HttpBody.getSucInstance(new Object());
     }
 

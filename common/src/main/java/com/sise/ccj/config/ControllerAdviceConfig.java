@@ -53,6 +53,6 @@ public class ControllerAdviceConfig implements ResponseBodyAdvice<Object> {
             }
             out.write("\"" + new SimpleDateFormat(DateHelper.YYYY_MM_DD_HH_MM_SS).format(object) + "\"");
         });
-        return JSONObject.parse(JSON.toJSONString(o, config));
+        return JSON.parse(JSON.toJSONString(o, config));
     }
 }

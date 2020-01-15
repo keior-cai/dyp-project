@@ -1,7 +1,9 @@
 package com.sise.ccj.admin.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sise.ccj.admin.config.AdminConfig;
+import com.sise.ccj.annotation.AccessAuthority;
 import com.sise.ccj.constant.CommonConstant;
 import com.sise.ccj.request.login.LoginRequest;
 import com.sise.ccj.service.LoginService;
@@ -15,6 +17,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/login")
+@AccessAuthority
 public class LoginController {
 
     @Autowired
@@ -24,17 +27,16 @@ public class LoginController {
     private AdminConfig adminConfig;
 
     @PostMapping("/login")
-    public HttpBody login(@RequestBody LoginRequest param, HttpServletResponse response){
+    public void login(@RequestBody LoginRequest param, HttpServletResponse response) throws IOException {
         JSONObject json = loginService.handleLogin(param);
         Cookie cookie = new Cookie(CommonConstant.COOKIE_TOKEN, json.getString(CommonConstant.COOKIE_TOKEN));
-        cookie.setHttpOnly(true);
+        cookie.setHttpOnly(false);
         cookie.setPath("/");
         cookie.setSecure(true);
         response.addCookie(cookie);
-        return HttpBody.getSucInstance(json);
+        response.getWriter().println(JSON.toJSONString(HttpBody.getSucInstance(json)));
     }
-
-    @GetMapping("/login")
+    @GetMapping("/logout")
     public void logout(HttpServletResponse response) throws IOException {
         response.addCookie(new Cookie(CommonConstant.COOKIE_TOKEN, null));
         response.sendRedirect(adminConfig.getLoginPath());
