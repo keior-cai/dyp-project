@@ -22,7 +22,6 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
     autoCommit: true
     maximumPoolSize: 8
-
 server:
   port: 9901
   servlet:

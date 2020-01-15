@@ -15,9 +15,10 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 @RestController
-@RequestMapping("/login")
 @AccessAuthority
+@RequestMapping("/login")
 public class LoginController {
 
     @Autowired

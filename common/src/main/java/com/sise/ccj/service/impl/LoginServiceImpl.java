@@ -28,6 +28,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private RedisUtil redisUtil;
+
     @Override
     public JSONObject handleLogin(LoginRequest param) {
         UserPO userPO = userMapper.queryUserByNameAndPassword(param.getUserName(), param.getPassword());
