@@ -7,11 +7,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum AdminRoleEnums {
 
-    SUPER_ADMIN(true, "超级管理员"),
-    GENERAL_ADMIN(false, "普通管理员"),
+    SUPER_ADMIN(1, "超级管理员"),
+    GENERAL_ADMIN(0, "普通管理员"),
     ;
 
-    private boolean role;
+    private int role;
 
     private String name;
 

@@ -6,11 +6,11 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum  DeletedEnum {
-    DELETED(true, "已删除"),
-    NOT_DELETED(false, "未删除"),
+    DELETED(1, "已删除"),
+    NOT_DELETED(0, "未删除"),
     ;
 
-    private boolean isDelete;
+    private int isDelete;
 
     private String desc;
 }

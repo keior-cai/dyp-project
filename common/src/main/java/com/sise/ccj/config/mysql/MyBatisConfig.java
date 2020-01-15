@@ -1,8 +1,12 @@
 package com.sise.ccj.config.mysql;
 
+import com.github.pagehelper.PageHelper;
+import com.sise.ccj.config.page.Dialect;
+import com.sise.ccj.config.page.PageHelperWrapper;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Data;
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -19,7 +23,7 @@ import javax.sql.DataSource;
 @Data
 @Configuration
 @EnableTransactionManagement
-@MapperScan(basePackages = {"com.sise.ccj.*.dao"})
+@MapperScan(basePackages = {"com.sise.ccj.*.mapper"})
 @ConfigurationProperties(prefix = "spring.datasource")
 public class MyBatisConfig {
 
@@ -37,12 +41,12 @@ public class MyBatisConfig {
     /**
      * alias所在包，用;隔开
      */
-    private static final String ALIAS = "com.sise.ccj.*.model" ;
+    private static final String ALIAS = "com.sise.ccj.*.pojo" ;
 
     /**
      * mapper文件所在文件夹
      */
-    private static final String MAPPER_LOCATION = "classpath*:mappings/*Mapper.xml";
+    private static final String MAPPER_LOCATION = "classpath:mapping/*Mapper.xml";
 
 
 
@@ -72,16 +76,12 @@ public class MyBatisConfig {
 		SqlSessionFactoryBean sfb = new SqlSessionFactoryBean();
 		sfb.setDataSource(dataSource);
 		sfb.setTypeAliasesPackage(ALIAS);
+		// 开启驼峰命名
+		sfb.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);
 		sfb.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(MAPPER_LOCATION));
-
-		// 插件：
-		 // 1. pageHelper插件
-		// TODO pageHelper以后迁移到公共组件中去
-//		PageHelper pageHelper = PageHelperWrapper.newInstance().setDialect(Dialect.MYSQL)
-//				.setRowBoundsWithCount(true).setPageSizeZero(true).get();
-
-		 // 2. 后续可能有sharding插件
-//		sfb.setPlugins(new Interceptor[]{pageHelper});
+		PageHelper pageHelper = PageHelperWrapper.newInstance().setDialect(Dialect.MYSQL)
+				.setRowBoundsWithCount(true).setPageSizeZero(true).get();
+		sfb.setPlugins(new Interceptor[]{pageHelper});
 		return sfb.getObject();
 	}
 

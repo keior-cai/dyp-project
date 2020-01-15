@@ -34,14 +34,14 @@ public class AdminController {
 
 
     @PostMapping("/deleteAdmin/{adminId}")
-    public HttpBody deleteAdmin(@PathVariable String adminId){
+    public HttpBody deleteAdmin(@PathVariable Integer adminId){
         adminService.deleteAdmin(adminId);
         return HttpBody.SUCCESS;
     }
 
     @PostMapping("/updateAdmin")
     public HttpBody updateAdmin(@RequestBody AdminRequest param){
-        adminService.updateAdmin();
+        adminService.updateAdmin(param);
         return HttpBody.SUCCESS;
     }
 

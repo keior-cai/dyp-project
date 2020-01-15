@@ -8,6 +8,7 @@ import com.sise.ccj.annotation.AccessRolePermission;
 import com.sise.ccj.config.redis.RedisUtil;
 import com.sise.ccj.constant.CommonConstant;
 import com.sise.ccj.enums.admin.AdminRoleEnums;
+import com.sise.ccj.pojo.admin.UserPO;
 import com.sise.ccj.pojo.common.DypUserConnection;
 import com.sise.ccj.vo.HttpBody;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             return true;
         }
         String token = getToken(request);
-        DypUserConnection admin;
+        UserPO admin;
         if (handler instanceof HandlerMethod) {
             HandlerMethod method = (HandlerMethod) handler;
             if (method.hasMethodAnnotation(AccessAuthority.class) ||
@@ -62,7 +63,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                     method.getBeanType().isAnnotationPresent(AccessRolePermission.class)) &&
                     !StringUtils.isEmpty(token)) {
                 admin = getUserInfo(token);
-                if (admin.getRole() != null && AdminRoleEnums.GENERAL_ADMIN.isRole() == admin.getRole()) {
+                if (admin.getRole() != null && AdminRoleEnums.GENERAL_ADMIN.getRole() == admin.getRole()) {
                     // 权限不足
                     HttpBody body = HttpBody.getInstance(HttpBody.NOTE_CODE, "权限不足");
                     response.getWriter().println(JSON.toJSONString(body));
@@ -95,8 +96,8 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
     }
 
-    private DypUserConnection getUserInfo(String token) {
+    private UserPO getUserInfo(String token) {
         String loginKey = CommonConstant.KEY_LOGIN_TOKEN.replace(CommonConstant.REPLACE_TOKEN, token);
-        return redisUtil.get(loginKey, DypUserConnection.class);
+        return redisUtil.get(loginKey, UserPO.class);
     }
 }
