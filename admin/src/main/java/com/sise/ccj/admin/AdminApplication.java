@@ -1,7 +1,7 @@
 package com.sise.ccj.admin;
 
 import com.sise.ccj.admin.config.AdminConfig;
-import com.sise.ccj.admin.config.MyBatisConfig;
+import com.sise.ccj.config.mysql.MyBatisConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;

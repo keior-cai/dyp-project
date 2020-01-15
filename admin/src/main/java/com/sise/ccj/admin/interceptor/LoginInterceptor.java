@@ -1,15 +1,14 @@
 package com.sise.ccj.admin.interceptor;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.sise.ccj.admin.config.AdminConfig;
 import com.sise.ccj.annotation.AccessAuthority;
 import com.sise.ccj.annotation.AccessRolePermission;
+import com.sise.ccj.config.SessionContextHolder;
 import com.sise.ccj.config.redis.RedisUtil;
 import com.sise.ccj.constant.CommonConstant;
 import com.sise.ccj.enums.admin.AdminRoleEnums;
 import com.sise.ccj.pojo.admin.UserPO;
-import com.sise.ccj.pojo.common.DypUserConnection;
 import com.sise.ccj.vo.HttpBody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +38,11 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (handler instanceof ResourceHttpRequestHandler) {
             return true;
         }
-        String token = getToken(request);
-        UserPO admin;
-        if (handler instanceof HandlerMethod) {
+        if (handler instanceof ParameterizableViewController) {
+            writeHtmlRedirect(response, adminConfig.getIndexPath());
+            return true;
+        }
+        if (handler instanceof  HandlerMethod) {
             HandlerMethod method = (HandlerMethod) handler;
             if (method.hasMethodAnnotation(AccessAuthority.class) ||
                     method.getBeanType().isAnnotationPresent(AccessAuthority.class)) {
@@ -53,12 +54,15 @@ public class LoginInterceptor implements HandlerInterceptor {
                     return true;
                 }
             }
-            admin = getUserInfo(token);
+            String token = getToken(request);
+            UserPO admin = getUserInfo(token);
             if (admin == null) {
                 HttpBody body = HttpBody.getInstance(HttpBody.NOTE_CODE, "无效凭证");
                 response.getWriter().println(JSON.toJSONString(body));
                 return false;
             }
+            SessionContextHolder.setToken(token);
+            SessionContextHolder.setLoginAccountInfo(admin);
             if ((method.hasMethodAnnotation(AccessRolePermission.class) ||
                     method.getBeanType().isAnnotationPresent(AccessRolePermission.class)) &&
                     !StringUtils.isEmpty(token)) {
@@ -71,11 +75,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                 }
             }
         }
-        if (handler instanceof ParameterizableViewController) {
-            writeHtmlRedirect(response, adminConfig.getIndexPath());
-            return true;
-        }
-        return false;
+        return true;
     }
 
     private String getToken(HttpServletRequest request) {

@@ -33,7 +33,6 @@ public class LoginController {
         Cookie cookie = new Cookie(CommonConstant.COOKIE_TOKEN, json.getString(CommonConstant.COOKIE_TOKEN));
         cookie.setHttpOnly(false);
         cookie.setPath("/");
-        cookie.setSecure(true);
         response.addCookie(cookie);
         response.getWriter().println(JSON.toJSONString(HttpBody.getSucInstance(json)));
     }

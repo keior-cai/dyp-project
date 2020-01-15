@@ -1,5 +1,7 @@
 package com.sise.ccj.admin.controller;
 
+import com.sise.ccj.config.SessionContextHolder;
+import com.sise.ccj.pojo.admin.UserPO;
 import com.sise.ccj.request.admin.AdminRequest;
 import com.sise.ccj.service.AdminService;
 import com.sise.ccj.vo.HttpBody;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/management/admin")
 public class AdminController {
+
 
     @Autowired
     private AdminService adminService;
@@ -52,7 +55,8 @@ public class AdminController {
 
     @GetMapping("/getAdminInfo")
     public HttpBody getAdminInfo(){
-        return HttpBody.getSucInstance(new Object());
+        UserPO userPO = SessionContextHolder.getAccountAndValid();
+        return HttpBody.getSucInstance(userPO);
     }
 
 }
