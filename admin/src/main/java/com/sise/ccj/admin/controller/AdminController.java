@@ -51,6 +51,7 @@ public class AdminController {
 
 
     @PostMapping("/deleteAdmin/{adminId}")
+    @AccessRolePermission
     public HttpBody deleteAdmin(@PathVariable Integer adminId){
         adminService.deleteAdmin(adminId);
         return HttpBody.SUCCESS;

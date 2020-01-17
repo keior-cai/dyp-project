@@ -36,6 +36,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String ip = request.getRemoteAddr();
         if (handler instanceof ResourceHttpRequestHandler) {
             return true;
         }
@@ -62,6 +63,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                 response.getWriter().println(JSON.toJSONString(body));
                 return false;
             }
+            admin.setIp(ip);
             SessionContextHolder.setToken(token);
             SessionContextHolder.setLoginAccountInfo(admin);
             if ((method.hasMethodAnnotation(AccessRolePermission.class) ||
