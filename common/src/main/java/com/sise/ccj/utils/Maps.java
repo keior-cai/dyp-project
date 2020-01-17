@@ -24,6 +24,21 @@ public class Maps {
         return map;
     }
 
+    public static JSONObject of(Object... objects) {
+        JSONObject map = new JSONObject(objects.length);
+        String key = null;
+        Object value;
+        for (int i = 1; i <= objects.length; i++){
+            if (i % 2 == 1) {
+                key = objects[i-1]+"";
+            }else {
+                value = objects[i-1];
+                map.put(key, value);
+            }
+        }
+        return map;
+    }
+
     public static <K, V extends Comparable<? super V>> List<V> sortByValue(Map<K, V> map, int trim) {
         List<V> list = new ArrayList<>(map.size());
         Stream<Entry<K, V>> st = map.entrySet().stream();

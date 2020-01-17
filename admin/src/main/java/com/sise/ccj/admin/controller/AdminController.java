@@ -1,12 +1,20 @@
 package com.sise.ccj.admin.controller;
 
+import com.sise.ccj.annotation.AccessRolePermission;
 import com.sise.ccj.config.SessionContextHolder;
+import com.sise.ccj.config.redis.RedisUtil;
+import com.sise.ccj.constant.RedisConstant;
+import com.sise.ccj.enums.admin.AdminRoleEnums;
 import com.sise.ccj.pojo.admin.UserPO;
 import com.sise.ccj.request.admin.AdminRequest;
 import com.sise.ccj.service.AdminService;
+import com.sise.ccj.service.StaticsCustomerService;
+import com.sise.ccj.utils.Maps;
 import com.sise.ccj.vo.HttpBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * @ClassName AdminController
@@ -18,9 +26,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/management/admin")
 public class AdminController {
 
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private StaticsCustomerService staticsCustomerService;
 
     @PostMapping("/addAdmin")
     public HttpBody addAdmin(@RequestBody AdminRequest param){
@@ -30,6 +43,7 @@ public class AdminController {
 
 
     @GetMapping("/queryAdmin")
+    @AccessRolePermission
     public HttpBody queryAdmin(AdminRequest param){
         param.check();
         return HttpBody.getSucInstance(adminService.queryAdmin(param));
@@ -57,6 +71,24 @@ public class AdminController {
     public HttpBody getAdminInfo(){
         UserPO userPO = SessionContextHolder.getAccountAndValid();
         return HttpBody.getSucInstance(userPO);
+    }
+
+    @GetMapping("/getCount")
+    public HttpBody getCount(){
+        UserPO userPO = SessionContextHolder.getAccountAndValid();
+        int count = 0;
+        if (userPO.getRole() == AdminRoleEnums.SUPER_ADMIN.getRole()) {
+            Map<Object, Object> map  = redisUtil.entries(RedisConstant.STATICS_CUSTOMER_COUNT);
+            count = map.values().stream().mapToInt(e -> Integer.parseInt(e + "")).sum();
+        }else {
+            count  = Integer.parseInt(redisUtil.hmGet(RedisConstant.STATICS_CUSTOMER_COUNT, userPO.getId()+"")+"");
+        }
+        return HttpBody.getSucInstance(Maps.of("customerCount", count, "systemCount", 0, "userCount",0));
+    }
+
+    @GetMapping("/getStatics")
+    public HttpBody getStatics(){
+        return HttpBody.getSucInstance(staticsCustomerService.queryStatics());
     }
 
 }

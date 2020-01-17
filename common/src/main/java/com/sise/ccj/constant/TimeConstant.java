@@ -2,19 +2,23 @@ package com.sise.ccj.constant;
 
 public interface TimeConstant {
 
-	long SERVEN_DAY_SECOND = 7 * 24 * 60 * 60;
-	
-	long THIRTY_MINUTE_MILLIS = 30 * 60 * 1000;
-	
-	long THIRTY_MINUTE_SECOND = 30 * 60;
+	long SERVEN_DAY_SECOND = 7 * 24 * 60 * 60L;
 
-	long TEN_MINUTE_SECOND = 10 * 60;
+	int SERVEN = 7;
 
-	long ONE_HUNDRED_MILLIS = 100;
+	long SERVEN_DAY_MILLIS = 7 * 24 * 60 * 60 * 1000L;
 
-	long ONE_DAY_SECOND = 24*60*60;
+	long THIRTY_MINUTE_MILLIS = 30 * 60 * 1000L;
 	
-	long ONE_MINUTE_MILLIS = 60 * 1000;
+	long THIRTY_MINUTE_SECOND = 30 * 60L;
+
+	long TEN_MINUTE_SECOND = 10 * 60L;
+
+	long ONE_HUNDRED_MILLIS = 100L;
+
+	long ONE_DAY_SECOND = 24*60*60L;
+	
+	long ONE_MINUTE_MILLIS = 60 * 1000L;
 
 	long NOE_MOUTH_SECOND = 31*24*60*60*1000L;
 }

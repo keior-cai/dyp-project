@@ -8,6 +8,7 @@ import com.sise.ccj.config.SessionContextHolder;
 import com.sise.ccj.config.redis.RedisUtil;
 import com.sise.ccj.constant.CommonConstant;
 import com.sise.ccj.enums.admin.AdminRoleEnums;
+import com.sise.ccj.exception.ServerException;
 import com.sise.ccj.pojo.admin.UserPO;
 import com.sise.ccj.vo.HttpBody;
 import lombok.extern.slf4j.Slf4j;
@@ -80,6 +81,9 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     private String getToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
+        if (cookies == null || cookies.length <= 0) {
+            throw new ServerException("请求不合法");
+        }
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(CommonConstant.COOKIE_TOKEN)) {
                 return cookie.getValue();

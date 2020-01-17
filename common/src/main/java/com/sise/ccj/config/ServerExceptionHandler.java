@@ -3,12 +3,11 @@ package com.sise.ccj.config;
 import com.sise.ccj.exception.ServerException;
 import com.sise.ccj.vo.HttpBody;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
-@RestControllerAdvice(annotations = RestController.class)
+@ControllerAdvice
 public class ServerExceptionHandler {
 
     @ExceptionHandler(Exception.class)

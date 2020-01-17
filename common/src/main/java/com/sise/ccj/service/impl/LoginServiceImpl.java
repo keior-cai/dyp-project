@@ -37,6 +37,7 @@ public class LoginServiceImpl implements LoginService {
             JSONObject json = Maps.of(CommonConstant.COOKIE_TOKEN, token);
             json.put(DypUserConnection.Field.ROLE, userPO.getRole());
             String key = CommonConstant.KEY_LOGIN_TOKEN.replace(CommonConstant.REPLACE_TOKEN, token);
+            userPO.setToken(token);
             redisUtil.set(key, JSON.toJSONString(userPO), TimeConstant.SERVEN_DAY_SECOND);
             return json;
         }

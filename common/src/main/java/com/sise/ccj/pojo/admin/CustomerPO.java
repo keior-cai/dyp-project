@@ -5,30 +5,30 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class UserPO {
+public class CustomerPO {
     private Integer id;
 
     private String name;
 
-    private String userName;
+    private String openId;
 
-    private String password;
+    private String wechatName;
 
-    private String avatar;
+    private String img;
 
-    private Integer role;
+    private Integer sex;
 
     private Integer status;
-
-    private String ip;
-
-    private Integer deleted;
 
     private Date createTime;
 
     private Date updateTime;
 
+    private String ip;
 
-    // ========================
+
+
+    //======================
+
     private String token;
 }

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sise.ccj.mapper.CustomerMapper">
+    <sql id="Base_Column_List">
+        id,wechat_name,name,open_id,ip,create_time,update_time,status
+    </sql>
+    <insert id="addUser" parameterType="com.sise.ccj.pojo.admin.UserPO">
+        INSERT INTO dyp_business.user
+        <trim prefix="(" suffixOverrides="," suffix=")">
+            <if test="userName != null and useName != ''">
+                user_name,
+            </if>
+            <if test="name != null and name != ''">
+                name,
+            </if>
+            <if test="password != null and password != ''">
+                password,
+            </if>
+            <if test="ip != null and ip != ''">
+                ip,
+            </if>
+            <if test="deleted != null and deleted != ''">
+                deleted,
+            </if>
+            <if test="role != null and role != ''">
+                role,
+            </if>
+            <if test="avatar != null and avatar != ''">
+                avatar,
+            </if>
+            <if test="phone != null and phone != ''">
+                phone,
+            </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null and useName != ''">
+                #{userName},
+            </if>
+            <if test="name != null and name != ''">
+                #{name},
+            </if>
+            <if test="password != null and password != ''">
+                #{password},
+            </if>
+            <if test="ip != null and ip != ''">
+                #{ip},
+            </if>
+            <if test="deleted != null and deleted != ''">
+                #{deleted},
+            </if>
+            <if test="role != null and role != ''">
+                #{role},
+            </if>
+            <if test="avatar != null and avatar != ''">
+                #{avatar},
+            </if>
+            <if test="phone != null and phone != ''">
+                #{phone},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateUser" parameterType="com.sise.ccj.pojo.admin.UserPO">
+        UPDATE dyp_business.user
+        SET
+        <trim suffixOverrides="," prefix="SET">
+            <if test="id != null and id != 0">
+                id = #{id},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="ip != null">
+                ip = #{password},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+            <if test="role != null">
+                role = #{role},
+            </if>
+            <if test="avatar != null">
+                avatar = #{avatar},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+        </trim>
+    </update>
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        UPDATE dyp_business.user SET deleted = 1
+    </delete>
+    <select id="queryCustomer" resultType="com.sise.ccj.pojo.admin.CustomerPO">
+        SELECT <include refid="Base_Column_List"/> FROM dyp_business.customer
+    </select>
+
+    <select id="queryUserById" resultType="com.sise.ccj.pojo.admin.UserPO">
+        SELECT <include refid="Base_Column_List"/> FROM dyp_business.user WHERE id = #{id}
+    </select>
+
+    <select id="queryUserByNameAndPassword" resultType="com.sise.ccj.pojo.admin.UserPO">
+        SELECT <include refid="Base_Column_List"/> FROM dyp_business.user WHERE user_name = #{userName} AND password = #{password} AND deleted = 0
+    </select>
+    <select id="queryGeneralUser" resultType="com.sise.ccj.pojo.admin.UserPO">
+        SELECT <include refid="Base_Column_List"/> FROM dyp_business.user WHERE
+        <trim prefixOverrides="AND">
+         <if test="userName != null and userName != ''">
+             user_name LIKE CONCAT('%',#{userName},'%')
+         </if>
+        <if test="endTime != null and startTime != null">
+            AND create_time &gt;= #{startTime} AND create_time &lt; #{endTime}
+        </if>
+          AND deleted = 0 AND role = 0
+        </trim>
+    </select>
+</mapper>
