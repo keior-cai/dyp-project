@@ -64,6 +64,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                 return false;
             }
             admin.setIp(ip);
+            admin.setTableSpace(CommonConstant.TABLE_SPACE.replace(CommonConstant.TABLE_SPACE_ID, CommonConstant.TABLE_SPACE));
             SessionContextHolder.setToken(token);
             SessionContextHolder.setLoginAccountInfo(admin);
             if ((method.hasMethodAnnotation(AccessRolePermission.class) ||
@@ -73,6 +74,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                 if (admin.getRole() != null && AdminRoleEnums.GENERAL_ADMIN.getRole() == admin.getRole()) {
                     // 权限不足
                     HttpBody body = HttpBody.getInstance(HttpBody.NOTE_CODE, "权限不足");
+                    response.addHeader("Content-Type","application/json;charset=UTF-8");
                     response.getWriter().println(JSON.toJSONString(body));
                     return false;
                 }

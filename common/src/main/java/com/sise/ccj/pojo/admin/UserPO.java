@@ -31,4 +31,6 @@ public class UserPO {
 
     // ========================
     private String token;
+
+    private String tableSpace;
 }

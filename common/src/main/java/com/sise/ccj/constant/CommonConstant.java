@@ -6,6 +6,8 @@ public interface CommonConstant {
 
 	String REPLACE_TOKEN = "${token}";
 
+	String TABLE_SPACE_ID = "${id}";
+
 	/**
 	 * yicall登陆token-session信息存储
 	 */
@@ -27,4 +29,6 @@ public interface CommonConstant {
 	String KEY_REQUEST_IP_VALID = "dy:wt:tmp:rip:failCount:private:${nowTime}:${ip}:${username}";
 
 	String KEY_ACCOUNT_TOKEN = "dy:wt:tmp:account:token:private";
+
+	String TABLE_SPACE = "dyp_${id}_";
 }

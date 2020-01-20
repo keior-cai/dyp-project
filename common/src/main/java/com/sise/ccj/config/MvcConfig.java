@@ -127,13 +127,4 @@ public class MvcConfig implements WebMvcConfigurer {
         ByteArrayHttpMessageConverter bac = new ByteArrayHttpMessageConverter();
         converters.add(bac);
     }
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowCredentials(true)
-                .allowedMethods("*")
-                .maxAge(3600);
-    }
 }
