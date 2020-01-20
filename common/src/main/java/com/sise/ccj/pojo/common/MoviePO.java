@@ -31,4 +31,7 @@ public class MoviePO {
     private Date createTime;
 
     private Date updateTime;
+
+    // ==========================
+    private String dbPrefix;
 }

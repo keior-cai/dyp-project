@@ -131,6 +131,7 @@
     <select id="queryMovieById" resultType="com.sise.ccj.pojo.common.MoviePO">
         SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.movie WHERE id = #{id}
     </select>
+
     <select id="queryMovie" resultType="com.sise.ccj.pojo.common.MoviePO">
         SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.movie
     </select>

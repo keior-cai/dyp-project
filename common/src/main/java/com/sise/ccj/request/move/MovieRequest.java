@@ -1,5 +1,6 @@
 package com.sise.ccj.request.move;
 
+import com.sise.ccj.request.BaseRequest;
 import lombok.Data;
 
 import java.util.Date;
@@ -12,7 +13,7 @@ import java.util.Date;
  **/
 
 @Data
-public class MoveRequest {
+public class MovieRequest  extends BaseRequest {
 
     private String id;
 
