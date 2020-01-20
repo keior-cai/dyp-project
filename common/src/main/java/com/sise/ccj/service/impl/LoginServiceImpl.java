@@ -34,6 +34,7 @@ public class LoginServiceImpl implements LoginService {
         UserPO userPO = userMapper.queryUserByNameAndPassword(param.getUserName(), param.getPassword());
         if (userPO != null) {
             String token = UUID.randomUUID().toString();
+            userPO.setTableSpace(CommonConstant.TABLE_SPACE.replace(CommonConstant.TABLE_SPACE_ID, userPO.getId()+""));
             JSONObject json = Maps.of(CommonConstant.COOKIE_TOKEN, token);
             json.put(DypUserConnection.Field.ROLE, userPO.getRole());
             String key = CommonConstant.KEY_LOGIN_TOKEN.replace(CommonConstant.REPLACE_TOKEN, token);

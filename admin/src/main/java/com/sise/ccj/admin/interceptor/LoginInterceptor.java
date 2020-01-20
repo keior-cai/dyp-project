@@ -64,7 +64,6 @@ public class LoginInterceptor implements HandlerInterceptor {
                 return false;
             }
             admin.setIp(ip);
-            admin.setTableSpace(CommonConstant.TABLE_SPACE.replace(CommonConstant.TABLE_SPACE_ID, admin.getId()+""));
             SessionContextHolder.setToken(token);
             SessionContextHolder.setLoginAccountInfo(admin);
             if ((method.hasMethodAnnotation(AccessRolePermission.class) ||
