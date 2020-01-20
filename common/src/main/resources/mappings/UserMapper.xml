@@ -62,11 +62,7 @@
     </insert>
     <update id="updateUser" parameterType="com.sise.ccj.pojo.admin.UserPO">
         UPDATE dyp_business.user
-        SET
         <trim suffixOverrides="," prefix="SET">
-            <if test="id != null and id != 0">
-                id = #{id},
-            </if>
             <if test="userName != null">
                 user_name = #{userName},
             </if>
