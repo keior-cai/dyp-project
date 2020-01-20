@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sise.ccj.mapper.MovieMapper">
+    <sql id="Base_Column_List">
+        id,name,content,price,vip_price,actor,director,upTime,create_time,update_time,status,deleted
+    </sql>
+    <insert id="addMovie">
+        INSERT INTO ${dbPrefix}.movie
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="vip_price != null">
+                vip_price,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="upTime != null">
+                up_time,
+            </if>
+            <if test="actor != null">
+                actor,
+            </if>
+            <if test="director != null">
+                director,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                updaet_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="vip_price != null">
+                vip_price = #{price},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="upTime != null">
+                up_time = #{upTime},
+            </if>
+            <if test="actor != null">
+                actor = #{actor},
+            </if>
+            <if test="director != null">
+                director = #{director},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                updaet_time = #{updateTime},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateMovie">
+        UPDATE ${dbPrefix}.movie
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="vip_price != null">
+                vip_price = #{price},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="upTime != null">
+                up_time = #{upTime},
+            </if>
+            <if test="actor != null">
+                actor = #{actor},
+            </if>
+            <if test="director != null">
+                director = #{director},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                updaet_time = #{updateTime},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+        </trim>
+    </update>
+    <delete id="delMovie">
+        UPDATE ${dbPrefix}.movie
+          SET deleted = 1 WHERE id = #{id}
+    </delete>
+    <select id="queryMovieById" resultType="com.sise.ccj.pojo.common.MoviePO">
+        SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.movie WHERE id = #{id}
+    </select>
+    <select id="queryMovie" resultType="com.sise.ccj.pojo.common.MoviePO">
+        SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.movie
+    </select>
+
+</mapper>
