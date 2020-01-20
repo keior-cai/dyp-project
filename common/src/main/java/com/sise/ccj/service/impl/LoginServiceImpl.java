@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Slf4j
@@ -40,6 +41,8 @@ public class LoginServiceImpl implements LoginService {
             String key = CommonConstant.KEY_LOGIN_TOKEN.replace(CommonConstant.REPLACE_TOKEN, token);
             userPO.setToken(token);
             redisUtil.set(key, JSON.toJSONString(userPO), TimeConstant.SERVEN_DAY_SECOND);
+            userPO.setUpdateTime(new Date());
+            userMapper.updateUser(userPO);
             return json;
         }
         throw new ServerException(ServerNote.USER_NAME_PASSWORD_ERROR);

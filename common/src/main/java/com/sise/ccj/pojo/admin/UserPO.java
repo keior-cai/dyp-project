@@ -14,6 +14,8 @@ public class UserPO {
 
     private String password;
 
+    private String phone;
+
     private String avatar;
 
     private Integer role;

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sise.ccj.mapper.MovieMapper">
     <sql id="Base_Column_List">
-        id,name,content,price,vip_price,actor,director,upTime,create_time,update_time,status,deleted
+        id,name,content,price,vip_price,actor,director,up_time,create_time,update_time,status,deleted
     </sql>
     <insert id="addMovie">
         INSERT INTO ${dbPrefix}.movie
