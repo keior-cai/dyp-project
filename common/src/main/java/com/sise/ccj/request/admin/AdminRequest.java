@@ -12,6 +12,8 @@ public class AdminRequest extends BaseRequest {
 
     private String password;
 
+    private String status;
+
     private String name;
 
     private String startTime;

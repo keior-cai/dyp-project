@@ -204,6 +204,9 @@
          <if test="userName != null and userName != ''">
              user_name LIKE CONCAT('%',#{userName},'%')
          </if>
+         <if test="status != null and status != ''">
+            AND status = #{status}
+         </if>
         <if test="startTime != null and startTime != ''">
             AND create_time &gt;= #{startTime} AND create_time &lt; #{endTime}
         </if>

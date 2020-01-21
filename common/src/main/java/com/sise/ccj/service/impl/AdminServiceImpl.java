@@ -31,7 +31,7 @@ public class AdminServiceImpl implements AdminService {
     public BaseVO
     queryAdmin(AdminRequest param) {
         PageHelper.startPage(param.getPage(), param.getSize());
-        Page<UserPO> userPOS = userMapper.queryGeneralUser(param.getUserName(), param.getStartTime(), param.getEndTime());
+        Page<UserPO> userPOS = userMapper.queryGeneralUser(param.getUserName(), param.getStartTime(), param.getEndTime(), param.getStatus());
         return BaseVO.builder(userPOS);
     }
 
