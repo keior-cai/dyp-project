@@ -1,5 +1,6 @@
 package com.sise.ccj.service;
 
+import com.sise.ccj.pojo.admin.UserPO;
 import com.sise.ccj.request.admin.AdminRequest;
 import com.sise.ccj.vo.BaseVO;
 
@@ -18,4 +19,8 @@ public interface AdminService {
     void deleteAdmin(Integer id);
 
     void addAdmin(AdminRequest param);
+
+    void activeAdmin(Integer id);
+
+    void insertUpdate(UserPO userPO);
 }

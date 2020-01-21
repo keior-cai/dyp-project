@@ -49,6 +49,12 @@ public class AdminController {
         return HttpBody.getSucInstance(adminService.queryAdmin(param));
     }
 
+    @PostMapping("/insertUpdate")
+    public HttpBody insertUpdate(@RequestBody UserPO userPO){
+        adminService.insertUpdate(userPO);
+        return HttpBody.SUCCESS;
+    }
+
 
     @PostMapping("/deleteAdmin/{adminId}")
     @AccessRolePermission
@@ -90,6 +96,13 @@ public class AdminController {
     @GetMapping("/getStatics")
     public HttpBody getStatics(){
         return HttpBody.getSucInstance(staticsCustomerService.queryStatics());
+    }
+
+
+    @PostMapping("/activeAdmin/{id}")
+    public HttpBody activeAdmin(@PathVariable Integer id){
+        adminService.activeAdmin(id);
+        return HttpBody.SUCCESS;
     }
 
 }

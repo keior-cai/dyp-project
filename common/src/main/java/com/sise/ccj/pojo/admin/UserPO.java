@@ -20,7 +20,7 @@ public class UserPO {
 
     private Integer role;
 
-    private Integer status;
+    private String status;
 
     private String ip;
 

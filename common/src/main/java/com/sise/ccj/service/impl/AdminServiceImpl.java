@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sise.ccj.enums.DeletedEnum;
 import com.sise.ccj.enums.admin.AdminRoleEnums;
+import com.sise.ccj.enums.admin.AdminStatus;
 import com.sise.ccj.mapper.UserMapper;
 import com.sise.ccj.pojo.admin.UserPO;
 import com.sise.ccj.request.admin.AdminRequest;
@@ -27,7 +28,8 @@ public class AdminServiceImpl implements AdminService {
     private UserMapper userMapper;
 
     @Override
-    public BaseVO queryAdmin(AdminRequest param) {
+    public BaseVO
+    queryAdmin(AdminRequest param) {
         PageHelper.startPage(param.getPage(), param.getSize());
         Page<UserPO> userPOS = userMapper.queryGeneralUser(param.getUserName(), param.getStartTime(), param.getEndTime());
         return BaseVO.builder(userPOS);
@@ -52,5 +54,18 @@ public class AdminServiceImpl implements AdminService {
         userPO.setRole(AdminRoleEnums.GENERAL_ADMIN.getRole());
         userPO.setDeleted(DeletedEnum.NOT_DELETED.getIsDelete());
         userMapper.addUser(userPO);
+    }
+
+    @Override
+    public void activeAdmin(Integer id) {
+        UserPO userPO = new UserPO();
+        userPO.setId(id);
+        userPO.setStatus(AdminStatus.ACTIVE.name());
+        userMapper.updateUser(userPO);
+    }
+
+    @Override
+    public void insertUpdate(UserPO userPO) {
+        userMapper.insertUpdate(userPO);
     }
 }
