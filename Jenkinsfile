@@ -1,11 +1,11 @@
 pipeline {
   agent none
-    parameters {
-      string(name: 'version', default: 'v1.00.00', description: '指定发布版本')
-      string(name: 'env', defaultValue: 'dev', description: '指定要发布的环境，test/dev')
-      string(name: 'moduleName', defaultValue: 'dyp', description: '指定要发布的模块名称，dyp')
-      string(name: 'iPort', defaultValue: '8088', description: '指定要绑定的内部端口，8088')
-    }
+  parameters {
+    string(name: 'version', default: 'v1.00.00', description: '指定发布版本')
+    string(name: 'env', defaultValue: 'dev', description: '指定要发布的环境，test/dev')
+    string(name: 'moduleName', defaultValue: 'dyp', description: '指定要发布的模块名称，dyp')
+    string(name: 'iPort', defaultValue: '8088', description: '指定要绑定的内部端口，8088')
+  }
   stages {
     stage('init') {
       agent any
