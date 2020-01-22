@@ -26,8 +26,7 @@ pipeline {
   	agent any
   	steps{
   	  script {
-  	      sh "ssh -o StrictHostKeyChecking=no root@$47.106.78.139 rm -rf /data/pkg/dyp/operation/"
-  		}
+  	    }
   	  }
   	}
   }
