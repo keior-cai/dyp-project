@@ -1,9 +1,6 @@
 pipeline {
    agent any
    stages {
-       stage('init') {
-           agent any
-       }
        stage('package'){
            agent {
                docker {
@@ -16,9 +13,6 @@ pipeline {
                    sh "mvn clean package -DskipTests"
                }
            }
-       }
-       stage('deploy'){
-           agent any
        }
    }
 }
