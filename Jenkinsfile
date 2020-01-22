@@ -23,8 +23,6 @@ pipeline {
               CREDENTIALS = '28bc5121-16fd-44d4-9928-b2551090fe8e'
             }
           }
-        sh "rm -rf ${DOCKER_DIR} && mkdir ${DOCKER_DIR}"
-        sh "mkdir ${DOCKER_DIR}/${params.moduleName}"
       }
     }
 
