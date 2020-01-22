@@ -9,23 +9,22 @@ pipeline {
   stages {
     stage('init') {
       agent any
-        steps {
-          script{
-            if (params.env == 'test') {
-              DEPLOY_SERVERS = ['47.106.78.139']
-              USER = 'dev'
-              TYPE = 'test'
-              CREDENTIALS = 'abce3891-44dd-409f-a9fc-66c4d6253c7f'
-            } else if (params.env == 'dev') {
-              DEPLOY_SERVERS = ['47.106.78.139']
-              USER = 'root'
-              TYPE = 'dev'
-              CREDENTIALS = '28bc5121-16fd-44d4-9928-b2551090fe8e'
-            }
+      steps {
+        script{
+          if (params.env == 'test') {
+            DEPLOY_SERVERS = ['47.106.78.139']
+            USER = 'dev'
+            TYPE = 'test'
+            CREDENTIALS = 'abce3891-44dd-409f-a9fc-66c4d6253c7f'
+          } else if (params.env == 'dev') {
+            DEPLOY_SERVERS = ['47.106.78.139']
+            USER = 'root'
+            TYPE = 'dev'
+            CREDENTIALS = '28bc5121-16fd-44d4-9928-b2551090fe8e'
           }
+        }
       }
     }
-
   }
   stages {
     stage('package'){
