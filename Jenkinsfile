@@ -1,6 +1,7 @@
 pipeline {
   agent none
     parameters {
+      string(name: 'version', default: 'v1.00.00', description: '指定发布版本')
       string(name: 'env', defaultValue: 'dev', description: '指定要发布的环境，test/dev')
       string(name: 'moduleName', defaultValue: 'dyp', description: '指定要发布的模块名称，dyp')
       string(name: 'iPort', defaultValue: '8088', description: '指定要绑定的内部端口，8088')
@@ -15,11 +16,11 @@ pipeline {
               USER = 'dev'
               TYPE = 'test'
               CREDENTIALS = 'abce3891-44dd-409f-a9fc-66c4d6253c7f'
-            } else if (params.env == 'zhaoyun') {
+            } else if (params.env == 'dev') {
               DEPLOY_SERVERS = ['10.4.4.48']
-              USER = 'dev'
-              TYPE = 'zhaoyun'
-              CREDENTIALS = 'cd65958f-0d37-4e76-a2fc-2efeec149537'
+              USER = 'root'
+              TYPE = 'dev'
+              CREDENTIALS = '28bc5121-16fd-44d4-9928-b2551090fe8e'
             }
           }
         sh "rm -rf ${DOCKER_DIR} && mkdir ${DOCKER_DIR}"
@@ -49,7 +50,7 @@ pipeline {
   	  script {
   		sshagent(credentials: [CREDENTIALS]){
   		  for(String DEPLOY_SERVER:DEPLOY_SERVERS){
-  			sh "ssh -o StrictHostKeyChecking=no ${USER}@${DEPLOY_SERVER} rm -rf /data/pkg/yicall/operation/yicall_${params.yicallVersion}"
+  			sh "ssh -o StrictHostKeyChecking=no ${USER}@${DEPLOY_SERVER} rm -rf /data/pkg/dyp/operation/dyp_${params.version}"
   		  }
   		}
   	  }
