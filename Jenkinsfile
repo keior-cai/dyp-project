@@ -1,9 +1,8 @@
 pipeline {
+   agent any
    stages {
        stage('init') {
            agent any
-           steps {
-           }
        }
        stage('package'){
            agent {
@@ -20,10 +19,6 @@ pipeline {
        }
        stage('deploy'){
            agent any
-           steps{
-               script {
-               }
-           }
        }
    }
 }
