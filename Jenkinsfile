@@ -1,4 +1,4 @@
-pipeline {
+
   agent none
   parameters {
     string(name: 'version', default: 'v1.00.00', description: '指定发布版本')
@@ -53,4 +53,3 @@ pipeline {
   	  }
   	}
   }
-}
