@@ -6,8 +6,8 @@ spring:
       port: 27017
   redis:
     database: 10
-    host: 172.16.30.33
-    port: 6389
+    host: 47.106.78.139
+    port: 6379
     password: 123456
     timeout: 5000 #连接超时时间（毫秒）
     pool:
@@ -23,7 +23,7 @@ spring:
     autoCommit: true
     maximumPoolSize: 8
   resources:
-    static-locations: classpath:/META-INF/resources/,classpath:/static,classpath:/resources/,file:D:/my/bs/dyp-project-fe/dist
+    static-locations: classpath:/META-INF/resources/,classpath:/static,classpath:/resources/,file:C:/Users/Administrator/Desktop/dy/vue-manage-system/dist
 server:
   port: 9901
   servlet:

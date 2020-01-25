@@ -107,4 +107,5 @@ public class LoginInterceptor implements HandlerInterceptor {
         String loginKey = CommonConstant.KEY_LOGIN_TOKEN.replace(CommonConstant.REPLACE_TOKEN, token);
         return redisUtil.get(loginKey, UserPO.class);
     }
+
 }

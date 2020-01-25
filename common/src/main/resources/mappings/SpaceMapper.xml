@@ -65,6 +65,72 @@
             </if>
         </trim>
     </insert>
+    <insert id="insertUpdate">
+        INSERT INTO ${dbPrefix}.space
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            <if test="address != null">
+                address,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="total != null">
+                total,
+            </if>
+            <if test="num != null">
+                num,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            #{id},
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="address != null">
+                #{address},
+            </if>
+            <if test="total != null">
+                #{total},
+            </if>
+            <if test="num != null">
+                #{num},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="deleted != null">
+                #{deleted},
+            </if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="name != null">
+                name = values(name),
+            </if>
+            <if test="address != null">
+                address = values(address),
+            </if>
+            <if test="total != null">
+                total = values(total),
+            </if>
+            <if test="num != null">
+                num = values(num),
+            </if>
+            <if test="status != null">
+                status = values(status),
+            </if>
+            <if test="deleted != null">
+                deleted = values(deleted),
+            </if>
+        </trim>
+    </insert>
     <update id="updateSpace">
         UPDATE ${dbPrefix}.space
         <trim prefix="SET" suffixOverrides=",">
@@ -105,7 +171,18 @@
         SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.space WHERE id = #{id}
     </select>
     <select id="querySpace" resultType="com.sise.ccj.pojo.admin.SpacePO">
-        SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.space
+        SELECT <include refid="Base_Column_List"/>
+        FROM ${dbPrefix}.space
+        WHERE deleted = 0
+        <if test="name != null and name != ''">
+            AND name LIKE concat('%',#{name},'%')
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            AND create_time &gt;= #{startTime} AND create_time &lt; ${endTime}
+        </if>
     </select>
 
 </mapper>

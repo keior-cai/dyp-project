@@ -26,7 +26,8 @@ public class SpaceServiceImpl implements SpaceService {
     @Override
     public BaseVO querySpace(SpaceRequest param, UserPO loginPo) {
         PageHelper.startPage(param.getPage(), param.getSize());
-        return BaseVO.builder(spaceMapper.querySpace(loginPo.getTableSpace()));
+        param.setDbPrefix(loginPo.getTableSpace());
+        return BaseVO.builder(spaceMapper.querySpace(param));
     }
 
     @Override
@@ -45,4 +46,25 @@ public class SpaceServiceImpl implements SpaceService {
         spacePO.setDbPrefix(loginPo.getTableSpace());
         spaceMapper.updateSpace(spacePO);
     }
+
+    @Override
+    public void insertUpdate(SpacePO spacePO, UserPO loginPo) {
+        spacePO.setDbPrefix(loginPo.getTableSpace());
+        SpacePO spacePO1 = null;
+        if (spacePO.getId() != null) {
+            spacePO1 = spaceMapper.querySpaceById(loginPo.getTableSpace(), spacePO.getId());
+            if (spacePO1 != null) {
+                if (spacePO1.getTotal().byteValue() != spacePO1.getNum()) {
+                    spacePO.setNum(null);
+                }else {
+                    // 初始化容量c
+                    spacePO.setNum(spacePO.getTotal());
+                }
+            }
+        }else {
+            spacePO.setNum(spacePO.getTotal());
+        }
+        spaceMapper.insertUpdate(spacePO);
+    }
+
 }

@@ -7,4 +7,6 @@ import com.sise.ccj.request.admin.CustomerRequest;
 public interface CustomerMapper {
 
     Page<CustomerPO> queryCustomer(CustomerRequest param);
+
+    CustomerPO queryUserById(Integer id);
 }

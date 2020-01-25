@@ -33,6 +33,7 @@ import java.util.Locale;
  * @Author CCJ
  * @Date 2019/12/29 15:51
  **/
+@Component
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
@@ -126,5 +127,33 @@ public class MvcConfig implements WebMvcConfigurer {
         // 3. 增加byte数组，处理下载文件功能
         ByteArrayHttpMessageConverter bac = new ByteArrayHttpMessageConverter();
         converters.add(bac);
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/*")
+                .allowedOrigins("*")
+                .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowCredentials(true)
+                .maxAge(3600)
+                .allowedHeaders("*");
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowCredentials(true)
+                .maxAge(3600)
+                .allowedHeaders("*");
+        registry.addMapping("/admin/**")
+                .allowedOrigins("*")
+                .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowCredentials(true)
+                .maxAge(3600)
+                .allowedHeaders("*");
+        registry.addMapping("/admin/*")
+                .allowedOrigins("*")
+                .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowCredentials(true)
+                .maxAge(3600)
+                .allowedHeaders("*");
     }
 }

@@ -1,6 +1,5 @@
 package com.sise.ccj.service;
 
-import com.github.pagehelper.Page;
 import com.sise.ccj.pojo.admin.SpacePO;
 import com.sise.ccj.pojo.admin.UserPO;
 import com.sise.ccj.request.admin.SpaceRequest;
@@ -16,4 +15,6 @@ public interface SpaceService {
     void delSpace(UserPO loginPo,Integer id);
 
     void updateSpace(SpacePO spacePO, UserPO loginPo);
+
+    void insertUpdate(SpacePO spacePO, UserPO loginPo);
 }

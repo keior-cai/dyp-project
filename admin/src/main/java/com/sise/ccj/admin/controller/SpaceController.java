@@ -42,4 +42,11 @@ public class SpaceController {
         return HttpBody.SUCCESS;
     }
 
+    @PostMapping("/insertUpdate")
+    public HttpBody insertUpdate(@RequestBody SpacePO spacePO){
+        UserPO userPO = SessionContextHolder.getAccountAndValid();
+        spaceService.insertUpdate(spacePO, userPO);
+        return HttpBody.SUCCESS;
+    }
+
 }

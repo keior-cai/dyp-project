@@ -16,7 +16,7 @@ public class SpacePO {
 
     private Integer num;
 
-    private Integer status;
+    private String status;
 
     private Date createTime;
 
