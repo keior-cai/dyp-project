@@ -16,4 +16,6 @@ public interface MovieMapper {
     void delMovie(@Param("dbPrefix") String dbPrefix, @Param("id") Integer id);
 
     void updateMovie(MoviePO moviePO);
+
+    void insertUpdate(MoviePO moviePO);
 }

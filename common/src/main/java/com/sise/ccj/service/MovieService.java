@@ -16,4 +16,6 @@ public interface MovieService {
 
     void updateMovie(MoviePO param, UserPO logPo);
 
+    void insertUpdate(MoviePO param, UserPO logPo);
+
 }

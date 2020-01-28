@@ -23,15 +23,15 @@ spring:
     autoCommit: true
     maximumPoolSize: 8
   resources:
-    static-locations: classpath:/META-INF/resources/,classpath:/static,classpath:/resources/,file:C:/Users/Administrator/Desktop/dy/vue-manage-system/dist
+    static-locations: classpath:/META-INF/resources/,classpath:/static,classpath:/resources/,file:C:/Users/Administrator/Desktop/dy/dyp/dist
 server:
-  port: 9901
+  port: 9902
   servlet:
-    context-path: /admin
+    context-path: /customer
   compression:
     enabled: true
     min-response-size: 1024
     mime-types: application/javascript,text/css,application/json,application/xml,text/html,text/xml,text/plain
-admin:
-  loginPath: http://localhost:9901/admin/index.html#/login
-  indexPath: http://localhost:9901/admin/index.html#/index
+customer:
+  loginPath: http://localhost:9902/admin/index.html#/login
+  indexPath: http://localhost:9902/admin/index.html#/index

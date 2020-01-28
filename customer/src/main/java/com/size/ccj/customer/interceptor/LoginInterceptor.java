@@ -1,7 +1,6 @@
-package com.sise.ccj.admin.interceptor;
+package com.size.ccj.customer.interceptor;
 
 import com.alibaba.fastjson.JSON;
-import com.sise.ccj.admin.config.AdminConfig;
 import com.sise.ccj.annotation.AccessAuthority;
 import com.sise.ccj.annotation.AccessRolePermission;
 import com.sise.ccj.config.SessionContextHolder;
@@ -11,6 +10,7 @@ import com.sise.ccj.enums.admin.AdminRoleEnums;
 import com.sise.ccj.exception.ServerException;
 import com.sise.ccj.pojo.admin.UserPO;
 import com.sise.ccj.vo.HttpBody;
+import com.size.ccj.customer.config.CustomerConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +30,7 @@ import java.io.IOException;
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
     @Autowired
-    private AdminConfig adminConfig;
+    private CustomerConfig customerConfig;
 
     @Autowired
     private RedisUtil redisUtil;
@@ -42,7 +42,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             return true;
         }
         if (handler instanceof ParameterizableViewController) {
-            writeHtmlRedirect(response, adminConfig.getIndexPath());
+            writeHtmlRedirect(response, customerConfig.getIndexPath());
             return true;
         }
         if (handler instanceof  HandlerMethod) {

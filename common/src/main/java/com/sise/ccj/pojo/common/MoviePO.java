@@ -10,6 +10,8 @@ public class MoviePO {
 
     private String name;
 
+    private String title;
+
     private String content;
 
     private String labels;
@@ -22,6 +24,8 @@ public class MoviePO {
 
     private Date upTime;
 
+    private Date downTime;
+
     private String director;
 
     private String actor;
@@ -31,6 +35,8 @@ public class MoviePO {
     private Date createTime;
 
     private Date updateTime;
+
+    private String imgUrl;
 
     // ==========================
     private String dbPrefix;

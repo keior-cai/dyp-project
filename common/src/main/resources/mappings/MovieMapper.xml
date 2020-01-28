@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sise.ccj.mapper.MovieMapper">
     <sql id="Base_Column_List">
-        id,name,content,price,vip_price,actor,director,up_time,create_time,update_time,status,deleted
+        id,name,title,content,price,vip_price,actor,director,up_time,down_time,create_time,update_time,status,deleted,img_url
     </sql>
     <insert id="addMovie">
         INSERT INTO ${dbPrefix}.movie
@@ -13,13 +13,16 @@
             <if test="name != null">
                 name,
             </if>
+            <if test="title != null">
+                title,
+            </if>
             <if test="content != null">
                 content,
             </if>
             <if test="price != null">
                 price,
             </if>
-            <if test="vip_price != null">
+            <if test="vipPrice != null">
                 vip_price,
             </if>
             <if test="status != null">
@@ -38,10 +41,13 @@
                 create_time,
             </if>
             <if test="updateTime != null">
-                updaet_time,
+                update_time,
             </if>
             <if test="deleted != null">
                 deleted,
+            </if>
+            <if test="imgUrl != null">
+                img_url,
             </if>
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
@@ -51,14 +57,17 @@
             <if test="name != null">
                 name = #{name},
             </if>
+            <if test="title != null">
+                title = #{title},
+            </if>
             <if test="content != null">
                 content = #{content},
             </if>
             <if test="price != null">
                 price = #{price},
             </if>
-            <if test="vip_price != null">
-                vip_price = #{price},
+            <if test="vipPrice != null">
+                vip_price = #{vipPrice},
             </if>
             <if test="status != null">
                 status = #{status},
@@ -76,10 +85,133 @@
                 create_time = #{createTime},
             </if>
             <if test="updateTime != null">
-                updaet_time = #{updateTime},
+                update_time = #{updateTime},
             </if>
             <if test="deleted != null">
                 deleted = #{deleted},
+            </if>
+            <if test="imgUrl">
+                img_url = #{imgUrl}
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertUpdate">
+        INSERT INTO ${dbPrefix}.movie
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            <if test="name != null">
+                name,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="vipPrice != null">
+                vip_price,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="upTime != null">
+                up_time,
+            </if>
+            <if test="downTime != null">
+                down_time,
+            </if>
+            <if test="actor != null">
+                actor,
+            </if>
+            <if test="director != null">
+                director,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="imgUrl != null">
+                img_url,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            #{id},
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="title != null">
+                #{title},
+            </if>
+            <if test="content != null">
+                #{content},
+            </if>
+            <if test="price != null">
+                #{price},
+            </if>
+            <if test="vipPrice != null">
+                #{vipPrice},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="upTime != null">
+                #{upTime},
+            </if>
+            <if test="downTime != null">
+                #{downTime},
+            </if>
+            <if test="actor != null">
+                #{actor},
+            </if>
+            <if test="director != null">
+                #{director},
+            </if>
+            <if test="deleted != null">
+                #{deleted},
+            </if>
+            <if test="imgUrl != null">
+                #{imgUrl},
+            </if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="name != null">
+                name = values(name),
+            </if>
+            <if test="title != null">
+                title = values(title),
+            </if>
+            <if test="content != null">
+                content = values(content),
+            </if>
+            <if test="price != null">
+                price = values(price),
+            </if>
+            <if test="vipPrice != null">
+                vip_price = values(vip_price),
+            </if>
+            <if test="status != null">
+                status = values(status),
+            </if>
+            <if test="upTime != null">
+                up_time = values(up_time),
+            </if>
+            <if test="downTime != null">
+                down_time = values(down_time),
+            </if>
+            <if test="actor != null">
+                actor = values(actor),
+            </if>
+            <if test="director != null">
+                director = values(director),
+            </if>
+            <if test="deleted != null">
+                deleted = values(deleted),
+            </if>
+            <if test="imgUrl != null">
+                img_url = values(img_url)
             </if>
         </trim>
     </insert>
@@ -92,6 +224,9 @@
             <if test="name != null">
                 name = #{name},
             </if>
+            <if test="title != null">
+                title = #{title},
+            </if>
             <if test="content != null">
                 content = #{content},
             </if>
@@ -117,10 +252,13 @@
                 create_time = #{createTime},
             </if>
             <if test="updateTime != null">
-                updaet_time = #{updateTime},
+                update_time = #{updateTime},
             </if>
             <if test="deleted != null">
                 deleted = #{deleted},
+            </if>
+            <if test="imgUrl != null">
+                img_url = #{imgUrl},
             </if>
         </trim>
     </update>
@@ -129,11 +267,14 @@
           SET deleted = 1 WHERE id = #{id}
     </delete>
     <select id="queryMovieById" resultType="com.sise.ccj.pojo.common.MoviePO">
-        SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.movie WHERE id = #{id}
+        SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.movie
+        WHERE id = #{id}
+        AND deleted = 0
     </select>
 
     <select id="queryMovie" resultType="com.sise.ccj.pojo.common.MoviePO">
         SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.movie
+        WHERE deleted = 0
     </select>
 
 </mapper>

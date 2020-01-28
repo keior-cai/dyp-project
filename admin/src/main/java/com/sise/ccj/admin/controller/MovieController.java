@@ -46,4 +46,9 @@ public class MovieController {
         moveService.delMovie(id, SessionContextHolder.getAccountAndValid());
         return HttpBody.SUCCESS;
     }
+    @PostMapping("/insertUpdate")
+    public HttpBody insertUpdate(@RequestBody MoviePO param){
+        moveService.insertUpdate(param, SessionContextHolder.getAccountAndValid());
+        return HttpBody.SUCCESS;
+    }
 }

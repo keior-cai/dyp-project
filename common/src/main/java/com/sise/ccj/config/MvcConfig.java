@@ -33,7 +33,6 @@ import java.util.Locale;
  * @Author CCJ
  * @Date 2019/12/29 15:51
  **/
-@Component
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 

@@ -50,4 +50,10 @@ public class MovieServiceImpl implements MovieService {
         param.setDbPrefix(logPo.getTableSpace());
         movieMapper.updateMovie(param);
     }
+
+    @Override
+    public void insertUpdate(MoviePO param, UserPO logPo) {
+        param.setDbPrefix(logPo.getTableSpace());
+        movieMapper.insertUpdate(param);
+    }
 }

@@ -1,0 +1,15 @@
+{
+  "properties": [
+    {
+      "name": "customer.loginPath",
+      "type": "java.lang.String",
+      "defaultValue": "http://localhost:9901/admin/index.html#/login",
+      "description": "customer login path"
+    },
+    {
+      "name": "customer.indexPath",
+      "type": "java.lang.String",
+      "defaultValue": "http://localhost:9901/admin/index.html#/index",
+      "description": "customer index path"
+    }
+  ] }
