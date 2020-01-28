@@ -1,4 +1,4 @@
-package com.size.ccj.customer.config;
+package com.sise.ccj.customer.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

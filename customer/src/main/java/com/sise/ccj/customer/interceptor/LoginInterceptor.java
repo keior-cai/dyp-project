@@ -1,4 +1,4 @@
-package com.size.ccj.customer.interceptor;
+package com.sise.ccj.customer.interceptor;
 
 import com.alibaba.fastjson.JSON;
 import com.sise.ccj.annotation.AccessAuthority;
@@ -6,14 +6,13 @@ import com.sise.ccj.annotation.AccessRolePermission;
 import com.sise.ccj.config.SessionContextHolder;
 import com.sise.ccj.config.redis.RedisUtil;
 import com.sise.ccj.constant.CommonConstant;
+import com.sise.ccj.customer.config.CustomerConfig;
 import com.sise.ccj.enums.admin.AdminRoleEnums;
 import com.sise.ccj.exception.ServerException;
 import com.sise.ccj.pojo.admin.UserPO;
 import com.sise.ccj.vo.HttpBody;
-import com.size.ccj.customer.config.CustomerConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;

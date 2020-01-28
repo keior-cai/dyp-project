@@ -3,13 +3,25 @@
     {
       "name": "customer.loginPath",
       "type": "java.lang.String",
-      "defaultValue": "http://localhost:9901/admin/index.html#/login",
-      "description": "customer login path"
+      "defaultValue": "http://localhost:9902/customer/index.html#/login",
+      "description": "Description for customer.loginPath."
     },
     {
       "name": "customer.indexPath",
       "type": "java.lang.String",
-      "defaultValue": "http://localhost:9901/admin/index.html#/index",
-      "description": "customer index path"
+      "defaultValue": "http://localhost:9902/customer/index.html#/index",
+      "description": "Description for customer.indexPath."
+    },
+    {
+      "name": "spring.datasource.autoCommit",
+      "type": "java.lang.String",
+      "defaultValue": "true",
+      "description": "Description for spring.datasource.autoCommit."
+    },
+    {
+      "name": "spring.datasource.maximumPoolSize",
+      "type": "java.lang.String",
+      "defaultValue": "8",
+      "description": "Description for spring.datasource.maximumPoolSize."
     }
   ] }

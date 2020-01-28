@@ -13,13 +13,13 @@
       "description": "Description for admin.indexPath."
     },
     {
-      "name": "mysql.datasource.autoCommit",
+      "name": "spring.datasource.autoCommit",
       "type": "java.lang.String",
       "defaultValue": "true",
       "description": "Description for spring.datasource.autoCommit."
     },
     {
-      "name": "mysql.datasource.maximumPoolSize",
+      "name": "spring.datasource.maximumPoolSize",
       "type": "java.lang.String",
       "defaultValue": "8",
       "description": "Description for spring.datasource.maximumPoolSize."

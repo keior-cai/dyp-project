@@ -1,7 +1,7 @@
-package com.size.ccj.customer;
+package com.sise.ccj.customer;
 
 import com.sise.ccj.config.mysql.MyBatisConfig;
-import com.size.ccj.customer.config.CustomerConfig;
+import com.sise.ccj.customer.config.CustomerConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
