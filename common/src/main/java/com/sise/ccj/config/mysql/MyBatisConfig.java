@@ -30,7 +30,7 @@ public class MyBatisConfig {
 
 	private String url;
 
-	private String userName;
+	private String username;
 
 	private String password;
 
@@ -59,7 +59,7 @@ public class MyBatisConfig {
 	public DataSource dataSource() {
 		HikariConfig config = new HikariConfig();
 		config.setJdbcUrl(url);
-		config.setUsername(userName);
+		config.setUsername(username);
 		config.setPassword(password);
 		config.setAutoCommit(autoCommit);
 		config.setMaximumPoolSize(maximumPoolSize);

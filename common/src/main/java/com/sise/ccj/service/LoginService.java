@@ -5,5 +5,5 @@ import com.sise.ccj.request.login.LoginRequest;
 
 public interface LoginService {
 
-    JSONObject handleLogin(LoginRequest param);
+    JSONObject handleLogin(LoginRequest param,String ip);
 }

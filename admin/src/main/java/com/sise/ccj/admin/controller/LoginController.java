@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -28,8 +29,9 @@ public class LoginController {
     private AdminConfig adminConfig;
 
     @PostMapping("/login")
-    public void login(@RequestBody LoginRequest param, HttpServletResponse response) throws IOException {
-        JSONObject json = loginService.handleLogin(param);
+    public void login(@RequestBody LoginRequest param, HttpServletResponse response, HttpServletRequest request) throws IOException {
+        String ip = request.getRemoteAddr();
+        JSONObject json = loginService.handleLogin(param, ip);
         Cookie cookie = new Cookie(CommonConstant.COOKIE_TOKEN, json.getString(CommonConstant.COOKIE_TOKEN));
         cookie.setHttpOnly(false);
         cookie.setPath("/");

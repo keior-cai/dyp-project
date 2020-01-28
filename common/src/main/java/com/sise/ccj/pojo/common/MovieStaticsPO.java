@@ -4,23 +4,34 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * @ClassName MovieStaticsPO
+ * @Description
+ * @Author CCJ
+ * @Date 2020/1/29 2:39
+ **/
 @Data
 public class MovieStaticsPO {
     private Integer id;
 
-    private Integer movieId;
+    private String name;
 
-    private Integer totalOrder;
+    private String imgUrl;
 
-    private Double totalMoney;
-
-    private Integer vipCount;
+    private Double total;
 
     private Integer count;
 
-    private Double vipMoney;
+    private Integer turnCount;
+
+    private String title;
+
+    private Double pointCount;
 
     private Date createTime;
 
     private Date updateTime;
+
+    //=====================
+    private String dbPrefix;
 }

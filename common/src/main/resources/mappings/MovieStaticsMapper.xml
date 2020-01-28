@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sise.ccj.mapper.MovieStaticsMapper">
+    <sql id="Base_Column_List">
+        id,name,title,count,turn_count,total,point_count,img_url,create_time,update_time,
+    </sql>
+    <insert id="addMovie">
+        INSERT INTO dyp_business.movie_statics
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+            <if test="turnCount != null">
+                turn_count,
+            </if>
+            <if test="pointCount != null">
+                point_count,
+            </if>
+            <if test="imgUrl != null">
+                img_url,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="title != null">
+                #{title},
+            </if>
+            <if test="count != null">
+                #{count},
+            </if>
+            <if test="turnCount != null">
+                #{turnCount},
+            </if>
+            <if test="pointCount != null">
+                #{pointCount},
+            </if>
+            <if test="imgUrl != null">
+                #{imgUrl},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertUpdate">
+        INSERT INTO dyp_business.movie_statics
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            <if test="name != null">
+                name,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+            <if test="turnCount != null">
+                turn_count,
+            </if>
+            <if test="pointCount != null">
+                point_count,
+            </if>
+            <if test="imgUrl != null">
+                img_url,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="title != null">
+                #{title},
+            </if>
+            <if test="count != null">
+                #{count},
+            </if>
+            <if test="turnCount != null">
+                #{turnCount},
+            </if>
+            <if test="pointCount != null">
+                #{pointCount},
+            </if>
+            <if test="imgUrl != null">
+                #{imgUrl},
+            </if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="name != null">
+                name = values(name),
+            </if>
+            <if test="title != null">
+                title = values(title),
+            </if>
+            <if test="count != null">
+                count = values(count),
+            </if>
+            <if test="turnCount != null">
+                turn_count = values(turn_count),
+            </if>
+            <if test="total != null">
+                total = values(total),
+            </if>
+            <if test="pointCount != null">
+                point_count = values(point_count),
+            </if>
+            <if test="imgUrl != null">
+                img_url = values(img_url)
+            </if>
+        </trim>
+    </insert>
+    <update id="updateMovie">
+        UPDATE dyp_business.movie_statics
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="count != null">
+                count = #{count},
+            </if>
+            <if test="turnCount != null">
+                turn_count = #{turnCount},
+            </if>
+            <if test="total != null">
+                total = #{total},
+            </if>
+            <if test="pointCount != null">
+                point_count = #{pointCount},
+            </if>
+            <if test="imgUrl != null">
+                img_url = #{imgUrl},
+            </if>
+        </trim>
+    </update>
+    <delete id="delMovie">
+        UPDATE dyp_business.movie_statics
+          SET deleted = 1 WHERE id = #{id}
+    </delete>
+    <select id="queryMovieById" resultType="com.sise.ccj.pojo.common.MovieStaticsPO">
+        SELECT <include refid="Base_Column_List"/> FROM dyp_business.movie_statics
+        WHERE id = #{id}
+        AND deleted = 0
+    </select>
+
+    <select id="queryMovie" resultType="com.sise.ccj.pojo.common.MovieStaticsPO">
+        SELECT <include refid="Base_Column_List"/> FROM dyp_business.movie_statics
+        WHERE deleted = 0
+    </select>
+
+</mapper>

@@ -31,7 +31,7 @@ public class LoginServiceImpl implements LoginService {
     private RedisUtil redisUtil;
 
     @Override
-    public JSONObject handleLogin(LoginRequest param) {
+    public JSONObject handleLogin(LoginRequest param, String ip) {
         UserPO userPO = userMapper.queryUserByNameAndPassword(param.getUserName(), param.getPassword());
         if (userPO != null) {
             String token = UUID.randomUUID().toString();
@@ -42,6 +42,7 @@ public class LoginServiceImpl implements LoginService {
             userPO.setToken(token);
             redisUtil.set(key, JSON.toJSONString(userPO), TimeConstant.SERVEN_DAY_SECOND);
             userPO.setUpdateTime(new Date());
+            userPO.setIp(ip);
             userMapper.updateUser(userPO);
             return json;
         }
