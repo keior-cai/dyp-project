@@ -20,4 +20,9 @@ public class CustomerServiceImpl implements CustomerService {
         Page<CustomerPO> customerPOS = customerMapper.queryCustomer(param);
         return BaseVO.builder(customerPOS);
     }
+
+    @Override
+    public void insertUpdate(CustomerPO customerPO) {
+        customerMapper.insertUpdate(customerPO);
+    }
 }

@@ -61,6 +61,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             UserPO admin = getUserInfo(token);
             if (admin == null) {
                 HttpBody body = HttpBody.getInstance(HttpBody.NOTE_CODE, "无效凭证");
+                response.setContentType("application/json;charset=UTF-8");
                 response.getWriter().println(JSON.toJSONString(body));
                 return false;
             }

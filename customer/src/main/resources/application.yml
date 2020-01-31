@@ -6,7 +6,7 @@ spring:
       port: 27017
   redis:
     database: 10
-    host: 47.106.78.139
+    host: 192.168.220.140
     port: 6379
     password: 123456
     timeout: 5000 #连接超时时间（毫秒）
@@ -16,7 +16,7 @@ spring:
       max-active: 4 #连接池最大连接数（使用负值表示没有限制）
       max-wait: -1 #连接池最大阻塞等待时间（使用负值表示没有限制）
   datasource:
-    url: jdbc:mysql://47.106.78.139:3306/mysql?useSSL=false&characterEncoding=utf-8
+    url: jdbc:mysql://192.168.220.140:3306/mysql?useSSL=false&characterEncoding=utf-8
     username: root
     password: 123456
     driverClassName: com.mysql.jdbc.Driver
@@ -35,3 +35,8 @@ server:
 customer:
   loginPath: http://localhost:9902/admin/index.html#/login
   indexPath: http://localhost:9902/admin/index.html#/index
+  ## 微信登录
+  mpAppId: wx36338169bc4d3166
+  mpAppSecret: 5bbe7a2235b6629eaf2b6292cc5663df
+  url: http://47.106.78.139/customer/api/client/login
+  redirectUrl: http://47.106.78.139/customer/index.html#/main/yyList

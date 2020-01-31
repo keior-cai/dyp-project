@@ -1,6 +1,9 @@
 package com.sise.ccj.service.impl;
 
+import com.github.pagehelper.Constant;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.StringUtil;
+import com.sise.ccj.constant.CommonConstant;
 import com.sise.ccj.mapper.MovieMapper;
 import com.sise.ccj.pojo.admin.UserPO;
 import com.sise.ccj.pojo.common.MoviePO;

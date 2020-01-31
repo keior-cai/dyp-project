@@ -31,4 +31,8 @@ public class CustomerPO {
     //======================
 
     private String token;
+
+    private String dbPrefix;
+
+    private String tableSpace;
 }

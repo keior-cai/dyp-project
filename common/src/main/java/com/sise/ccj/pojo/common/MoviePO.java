@@ -38,6 +38,8 @@ public class MoviePO {
 
     private String imgUrl;
 
+    private String info;
+
     // ==========================
     private String dbPrefix;
 }

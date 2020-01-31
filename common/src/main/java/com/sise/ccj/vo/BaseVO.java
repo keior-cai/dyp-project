@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -16,6 +17,9 @@ public class BaseVO<T> {
 
 
     public static BaseVO builder(Page data){
+        if (data.getTotal() == 0){
+            return new BaseVO(0, Collections.emptyList());
+        }
         return new BaseVO(data.getTotal(), data.getResult());
     }
 }

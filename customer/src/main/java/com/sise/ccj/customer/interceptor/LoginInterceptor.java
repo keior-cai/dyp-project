@@ -9,6 +9,7 @@ import com.sise.ccj.constant.CommonConstant;
 import com.sise.ccj.customer.config.CustomerConfig;
 import com.sise.ccj.enums.admin.AdminRoleEnums;
 import com.sise.ccj.exception.ServerException;
+import com.sise.ccj.pojo.admin.CustomerPO;
 import com.sise.ccj.pojo.admin.UserPO;
 import com.sise.ccj.vo.HttpBody;
 import lombok.extern.slf4j.Slf4j;
@@ -57,27 +58,16 @@ public class LoginInterceptor implements HandlerInterceptor {
                 }
             }
             String token = getToken(request);
-            UserPO admin = getUserInfo(token);
+            CustomerPO admin = getUserInfo(token);
             if (admin == null) {
                 HttpBody body = HttpBody.getInstance(HttpBody.NOTE_CODE, "无效凭证");
+                response.setContentType("application/json;charset=UTF-8");
                 response.getWriter().println(JSON.toJSONString(body));
                 return false;
             }
             admin.setIp(ip);
             SessionContextHolder.setToken(token);
             SessionContextHolder.setLoginAccountInfo(admin);
-            if ((method.hasMethodAnnotation(AccessRolePermission.class) ||
-                    method.getBeanType().isAnnotationPresent(AccessRolePermission.class)) &&
-                    !StringUtils.isEmpty(token)) {
-                admin = getUserInfo(token);
-                if (admin.getRole() != null && AdminRoleEnums.GENERAL_ADMIN.getRole() == admin.getRole()) {
-                    // 权限不足
-                    HttpBody body = HttpBody.getInstance(HttpBody.NOTE_CODE, "权限不足");
-                    response.addHeader("Content-Type","application/json;charset=UTF-8");
-                    response.getWriter().println(JSON.toJSONString(body));
-                    return false;
-                }
-            }
         }
         return true;
     }
@@ -103,9 +93,10 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
     }
 
-    private UserPO getUserInfo(String token) {
-        String loginKey = CommonConstant.KEY_LOGIN_TOKEN.replace(CommonConstant.REPLACE_TOKEN, token);
-        return redisUtil.get(loginKey, UserPO.class);
+    private CustomerPO getUserInfo(String token) {
+        String loginKey = CommonConstant.KEY_LOGIN_TOKEN
+                .replace(CommonConstant.REPLACE_TOKEN, token);
+        return redisUtil.get(loginKey, CustomerPO.class);
     }
 
 }

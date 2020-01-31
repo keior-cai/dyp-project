@@ -4,7 +4,7 @@
     <sql id="Base_Column_List">
         id,name,title,count,turn_count,total,point_count,img_url,create_time,update_time,
     </sql>
-    <insert id="addMovie">
+    <insert id="addMovieStatics">
         INSERT INTO dyp_business.movie_statics
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -65,7 +65,7 @@
             </if>
         </trim>
     </insert>
-    <insert id="insertUpdate">
+    <insert id="insertUpdateStatics">
         INSERT INTO dyp_business.movie_statics
         <trim prefix="(" suffix=")" suffixOverrides=",">
             id,
@@ -136,7 +136,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateMovie">
+    <update id="updateMovieStatics">
         UPDATE dyp_business.movie_statics
         <trim prefix="SET" suffixOverrides=",">
             <if test="id != null">
@@ -165,17 +165,17 @@
             </if>
         </trim>
     </update>
-    <delete id="delMovie">
+    <delete id="delMovieStatics">
         UPDATE dyp_business.movie_statics
           SET deleted = 1 WHERE id = #{id}
     </delete>
-    <select id="queryMovieById" resultType="com.sise.ccj.pojo.common.MovieStaticsPO">
+    <select id="queryMovieStaticsById" resultType="com.sise.ccj.pojo.common.MovieStaticsPO">
         SELECT <include refid="Base_Column_List"/> FROM dyp_business.movie_statics
         WHERE id = #{id}
         AND deleted = 0
     </select>
 
-    <select id="queryMovie" resultType="com.sise.ccj.pojo.common.MovieStaticsPO">
+    <select id="queryMovieStatics" resultType="com.sise.ccj.pojo.common.MovieStaticsPO">
         SELECT <include refid="Base_Column_List"/> FROM dyp_business.movie_statics
         WHERE deleted = 0
     </select>

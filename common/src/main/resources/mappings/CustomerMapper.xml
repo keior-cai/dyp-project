@@ -60,6 +60,99 @@
             </if>
         </trim>
     </insert>
+    <insert id="insertUpdate">
+        INSERT INTO dyp_business.customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            <if test="name != null">
+                name,
+            </if>
+            <if test="openId != null">
+                open_id,
+            </if>
+            <if test="wechatName != null">
+                wechat_name,
+            </if>
+            <if test="img != null">
+                img,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            #{id},
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="openId != null">
+                #{openId},
+            </if>
+            <if test="wechatName != null">
+                #{wechatName},
+            </if>
+            <if test="img != null">
+                #{img},
+            </if>
+            <if test="sex != null">
+                #{sex},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="ip != null">
+                #{ip},
+            </if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="name != null">
+                name = values(name),
+            </if>
+            <if test="openId != null">
+                open_id = values(open_id),
+            </if>
+            <if test="wechatName != null">
+                wechat_name = values(wechat_name),
+            </if>
+            <if test="img != null">
+                img = values(img),
+            </if>
+            <if test="sex != null">
+                sex = values(sex),
+            </if>
+            <if test="status != null">
+                status = values(status),
+            </if>
+            <if test="createTime != null">
+                create_time = values(create_time),
+            </if>
+            <if test="updateTime != null">
+                update_time = values(update_time),
+            </if>
+            <if test="ip != null">
+                ip = values(ip),
+            </if>
+        </trim>
+    </insert>
     <update id="updateUser" parameterType="com.sise.ccj.pojo.admin.UserPO">
         UPDATE dyp_business.user
         SET

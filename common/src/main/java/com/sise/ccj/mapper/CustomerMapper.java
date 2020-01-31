@@ -8,5 +8,7 @@ public interface CustomerMapper {
 
     Page<CustomerPO> queryCustomer(CustomerRequest param);
 
-    CustomerPO queryUserById(Integer id);
+    CustomerPO queryUserById(String openId);
+
+    void insertUpdate(CustomerPO customerPO);
 }

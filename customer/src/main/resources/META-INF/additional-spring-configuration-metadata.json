@@ -23,5 +23,20 @@
       "type": "java.lang.String",
       "defaultValue": "8",
       "description": "Description for spring.datasource.maximumPoolSize."
+    },
+    {
+      "name": "customer.mpAppId",
+      "type": "java.lang.String",
+      "description": "wechat appId"
+    },
+    {
+      "name": "customer.mpAppSecret",
+      "type": "java.lang.String",
+      "description": "wechat appSecret"
+    },
+    {
+      "name": "customer.url",
+      "type": "java.lang.String",
+      "description": "wechat callback we url"
     }
   ] }

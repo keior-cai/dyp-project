@@ -1,10 +1,12 @@
 package com.sise.ccj.pojo.admin;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
 public class UserPO {
     private Integer id;
 
@@ -30,9 +32,15 @@ public class UserPO {
 
     private Date updateTime;
 
+    private String info;
+
 
     // ========================
     private String token;
 
     private String tableSpace;
+
+    public UserPO(String tableSpace){
+        this.tableSpace = tableSpace;
+    }
 }

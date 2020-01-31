@@ -16,4 +16,12 @@ import org.springframework.context.annotation.Configuration;
 public class CustomerConfig {
     private String loginPath;
     private String indexPath;
+
+    private String url;
+
+    private String mpAppId;
+
+    private String mpAppSecret;
+
+    private String redirectUrl;
 }
