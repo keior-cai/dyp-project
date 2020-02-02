@@ -13,6 +13,8 @@ import com.sise.ccj.vo.BaseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @ClassName MoveServiceImpl
  * @Description
@@ -58,5 +60,10 @@ public class MovieServiceImpl implements MovieService {
     public void insertUpdate(MoviePO param, UserPO logPo) {
         param.setDbPrefix(logPo.getTableSpace());
         movieMapper.insertUpdate(param);
+    }
+
+    @Override
+    public List<MoviePO> loadMovie(String dbPrefix) {
+        return movieMapper.loadMovie(dbPrefix);
     }
 }

@@ -5,6 +5,8 @@ import com.sise.ccj.pojo.admin.UserPO;
 import com.sise.ccj.request.admin.SpaceRequest;
 import com.sise.ccj.vo.BaseVO;
 
+import java.util.List;
+
 public interface SpaceService {
     SpacePO querySpaceById(Integer id,UserPO loginPo);
 
@@ -17,4 +19,6 @@ public interface SpaceService {
     void updateSpace(SpacePO spacePO, UserPO loginPo);
 
     void insertUpdate(SpacePO spacePO, UserPO loginPo);
+
+    List<SpacePO> loadSpace(String dbPrefix);
 }

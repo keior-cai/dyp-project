@@ -11,6 +11,8 @@ import com.sise.ccj.vo.BaseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SpaceServiceImpl implements SpaceService {
 
@@ -65,6 +67,11 @@ public class SpaceServiceImpl implements SpaceService {
             spacePO.setNum(spacePO.getTotal());
         }
         spaceMapper.insertUpdate(spacePO);
+    }
+
+    @Override
+    public List<SpacePO> loadSpace(String dbPrefix) {
+        return spaceMapper.loadSpace(dbPrefix);
     }
 
 }

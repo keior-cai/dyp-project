@@ -5,6 +5,8 @@ import com.github.pagehelper.Page;
 import com.sise.ccj.pojo.common.MoviePO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 
 public interface MovieMapper {
     MoviePO queryMovieById(@Param("dbPrefix") String dbPrefix, @Param("id") Integer id);
@@ -18,4 +20,6 @@ public interface MovieMapper {
     void updateMovie(MoviePO moviePO);
 
     void insertUpdate(MoviePO moviePO);
+
+    List<MoviePO> loadMovie(@Param("dbPrefix") String dbPrefix);
 }

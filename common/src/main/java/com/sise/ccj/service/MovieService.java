@@ -5,6 +5,8 @@ import com.sise.ccj.pojo.common.MoviePO;
 import com.sise.ccj.request.move.MovieRequest;
 import com.sise.ccj.vo.BaseVO;
 
+import java.util.List;
+
 public interface MovieService {
     void addMovie(MoviePO param, UserPO logPo);
 
@@ -17,5 +19,7 @@ public interface MovieService {
     void updateMovie(MoviePO param, UserPO logPo);
 
     void insertUpdate(MoviePO param, UserPO logPo);
+
+    List<MoviePO> loadMovie(String dbPrefix);
 
 }

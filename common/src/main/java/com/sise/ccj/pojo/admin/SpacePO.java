@@ -24,6 +24,8 @@ public class SpacePO {
 
     private Integer deleted;
 
+    private String info;
+
     //===================
 
     private String dbPrefix;

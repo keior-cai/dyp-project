@@ -51,4 +51,10 @@ public class MovieController {
         moveService.insertUpdate(param, SessionContextHolder.getAccountAndValid());
         return HttpBody.SUCCESS;
     }
+
+    @GetMapping("/loadMovie")
+    public HttpBody loadMovie(){
+        UserPO userPO = SessionContextHolder.getAccountAndValid();
+        return HttpBody.getSucInstance(moveService.loadMovie(userPO.getTableSpace()));
+    }
 }

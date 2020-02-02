@@ -6,6 +6,8 @@ import com.sise.ccj.pojo.admin.SpacePO;
 import com.sise.ccj.request.admin.SpaceRequest;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 
 public interface SpaceMapper {
     SpacePO querySpaceById(@Param("dbPrefix") String dbPrefix, @Param("id") Integer id);
@@ -19,4 +21,6 @@ public interface SpaceMapper {
     void updateSpace(SpacePO spacePO);
 
     void insertUpdate(SpacePO spacePO);
+
+    List<SpacePO> loadSpace(@Param("dbPrefix") String dbPrefix);
 }

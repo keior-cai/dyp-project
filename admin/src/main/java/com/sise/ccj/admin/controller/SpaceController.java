@@ -49,4 +49,9 @@ public class SpaceController {
         return HttpBody.SUCCESS;
     }
 
+    @GetMapping("/loadSpace")
+    public HttpBody loadMovie(){
+        UserPO userPO = SessionContextHolder.getAccountAndValid();
+        return HttpBody.getSucInstance(spaceService.loadSpace(userPO.getTableSpace()));
+    }
 }

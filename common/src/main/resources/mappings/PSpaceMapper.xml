@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.sise.ccj.mapper.SpaceMapper">
+<mapper namespace="com.sise.ccj.mapper.PSpaceMapper">
     <sql id="Base_Column_List">
-        id,name,address,total,num,create_time,update_time,status,deleted,info
+        id,m_id,s_id,up_time,down_time,date,create_time,update_time,deleted,info,num
     </sql>
     <insert id="addSpace">
         INSERT INTO ${dbPrefix}.space
@@ -66,125 +66,106 @@
         </trim>
     </insert>
     <insert id="insertUpdate">
-        INSERT INTO ${dbPrefix}.space
+        INSERT INTO ${dbPrefix}.m_space
         <trim prefix="(" suffix=")" suffixOverrides=",">
             id,
-            <if test="address != null">
-                address,
+            <if test="mId != null">
+                m_id,
             </if>
-            <if test="name != null">
-                name,
+            <if test="sId != null">
+                s_id,
             </if>
-            <if test="total != null">
-                total,
-            </if>
-            <if test="num != null">
-                num,
-            </if>
-            <if test="status != null">
-                status,
+            <if test="date != null">
+                date,
             </if>
             <if test="deleted != null">
                 deleted,
             </if>
+            <if test="upTime != null">
+                up_time,
+            </if>
+            <if test="downTime != null">
+                down_time,
+            </if>
             <if test="info != null">
                 info,
+            </if>
+            <if test="num != null">
+                num,
             </if>
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
             #{id},
-            <if test="name != null">
-                #{name},
+            <if test="mId != null">
+                #{mId},
             </if>
-            <if test="address != null">
-                #{address},
+            <if test="sId != null">
+                #{sId},
             </if>
-            <if test="total != null">
-                #{total},
-            </if>
-            <if test="num != null">
-                #{num},
-            </if>
-            <if test="status != null">
-                #{status},
+            <if test="date != null">
+                #{date},
             </if>
             <if test="deleted != null">
                 #{deleted},
             </if>
+            <if test="upTime != null">
+                #{upTime},
+            </if>
+            <if test="downTime != null">
+                #{downTime},
+            </if>
             <if test="info != null">
                 #{info},
+            </if>
+            <if test="num != null">
+                #{num},
             </if>
         </trim>
         ON DUPLICATE KEY UPDATE
         <trim suffixOverrides=",">
-            <if test="name != null">
-                name = values(name),
+            <if test="mId != null">
+                m_id = values(m_id),
             </if>
-            <if test="address != null">
-                address = values(address),
+            <if test="sId != null">
+                s_id = values(s_id),
             </if>
-            <if test="total != null">
-                total = values(total),
-            </if>
-            <if test="num != null">
-                num = values(num),
-            </if>
-            <if test="status != null">
-                status = values(status),
+            <if test="date != null">
+                date = values(date),
             </if>
             <if test="deleted != null">
                 deleted = values(deleted),
             </if>
+            <if test="upTime != null">
+                up_time = values(up_time),
+            </if>
+            <if test="downTime != null">
+                down_time = values(down_time),
+            </if>
             <if test="info != null">
                 info = values(info),
             </if>
+            <if test="num != null">
+                num = values(num),
+            </if>
         </trim>
     </insert>
-    <update id="updateSpace">
-        UPDATE ${dbPrefix}.space
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="id != null">
-                id = #{id},
-            </if>
-            <if test="name != null">
-                name = #{name},
-            </if>
-            <if test="address != null">
-                address = #{address},
-            </if>
-            <if test="total != null">
-                total = #{total},
-            </if>
-            <if test="num != null">
-                num = #{num},
-            </if>
-            <if test="status != null">
-                status = #{status},
-            </if>
-            <if test="createTime != null">
-                create_time = #{createTime},
-            </if>
-            <if test="updateTime != null">
-                update_time = #{updateTime},
-            </if>
-            <if test="deleted != null">
-                deleted = #{deleted},
-            </if>
-        </trim>
-    </update>
-    <delete id="delSpace">
-        UPDATE ${dbPrefix}.space
+
+    <delete id="delPSpace">
+        UPDATE ${dbPrefix}.m_space
           SET deleted = 1 WHERE id = #{id}
     </delete>
-    <select id="querySpaceById" resultType="com.sise.ccj.pojo.admin.SpacePO">
-        SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.space WHERE id = #{id}
+    <select id="queryPSpaceById" resultType="com.sise.ccj.pojo.common.PSpacePO">
+        SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.m_space WHERE id = #{id}
     </select>
-    <select id="querySpace" resultType="com.sise.ccj.pojo.admin.SpacePO">
+    <select id="queryPSpace" resultType="com.sise.ccj.pojo.common.PSpacePO">
         SELECT <include refid="Base_Column_List"/>
-        FROM ${dbPrefix}.space
+        FROM ${dbPrefix}.m_space
         WHERE deleted = 0
-        <if test="name != null and name != ''">
-            AND name LIKE concat('%',#{name},'%')
+        <if test="mId != null">
+            AND m_id = #{mId}
+        </if>
+        <if test="date != null">
+            AND date = #{date}
         </if>
         <if test="status != null">
             AND status = #{status}
@@ -193,8 +174,49 @@
             AND create_time &gt;= #{startTime} AND create_time &lt; ${endTime}
         </if>
     </select>
+    <select id="queryPSpaceAndName" resultType="com.sise.ccj.pojo.common.PSpacePO">
+        SELECT
+        a.id,
+        a.up_time,
+        a.down_time,
+        a.create_time,
+        a.update_time,
+        a.info,
+        a.num,
+        b.name,
+        b.address,
+        c.name as movie_name,
+        b.total,
+        c.price,
+        c.vip_price
+        FROM ${dbPrefix}.m_space a
+        JOIN ${dbPrefix}.space b ON a.s_id = b.id
+        JOIN ${dbPrefix}.movie c ON a.m_id = c.id
+        WHERE a.deleted = 0
+        <if test="sId != null">
+            AND a.s_id = #{sId}
+        </if>
+        <if test="date != null">
+            AND a.date = #{date}
+        </if>
+        <if test="status != null">
+            AND a.status = #{status}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            AND a.create_time &gt;= #{startTime} AND a.create_time &lt; ${endTime}
+        </if>
+    </select>
+
+    <select id="queryByDate" resultType="com.sise.ccj.pojo.common.PSpacePO">
+        SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.m_space
+        WHERE date = #{date} AND deleted = 0
+        AND s_id = #{sId}
+        AND ( (up_time &lt;= #{upTime}  OR down_time &gt; #{upTime})
+         OR (up_time &lt;= #{downTime}  OR down_time &gt; #{downTime})  )
+    </select>
+
     <select id="loadSpace" resultType="com.sise.ccj.pojo.admin.SpacePO">
-        SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.space
+        SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.m_space
     </select>
 
 </mapper>
