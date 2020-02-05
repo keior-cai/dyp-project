@@ -1,5 +1,6 @@
 package com.sise.ccj.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sise.ccj.exception.ServerException;
 import com.sise.ccj.mapper.PSpaceMapper;
@@ -34,10 +35,11 @@ public class PSpaceServiceImpl implements PSpaceService {
 
 
     @Override
-    public BaseVO queryPSpace(PSpaceRequest param,UserPO loginPO) {
+    public BaseVO queryPSpace(PSpaceRequest param,String prefix) {
         PageHelper.startPage(param.getPage(), param.getSize());
-        param.setDbPrefix(loginPO.getTableSpace());
-        return BaseVO.builder(pSpaceMapper.queryPSpaceAndName(param));
+        param.setDbPrefix(prefix);
+        Page<PSpacePO> pSpacePOS = pSpaceMapper.queryPSpaceAndName(param);
+        return BaseVO.builder(pSpacePOS);
     }
 
     @Override

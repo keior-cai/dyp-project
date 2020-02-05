@@ -12,6 +12,8 @@ public abstract class BaseRequest {
 
     private Integer size;
 
+    private String dbPrefix;
+
     private static final String PATTERN = ".*?${param}.*";
 
     public void check(){

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sise.ccj.mapper.OrderMapper">
+    <sql id="Base_Column_List">
+        id,order_sn,open_id,num,total,price,vip_price,is_vip,info,m_id,ps_id,y_id,status,create_time,update_time
+    </sql>
+    <insert id="addUser" parameterType="com.sise.ccj.pojo.admin.UserPO">
+        INSERT INTO dyp_business.user
+        <trim prefix="(" suffixOverrides="," suffix=")">
+            <if test="userName != null and useName != ''">
+                user_name,
+            </if>
+            <if test="name != null and name != ''">
+                name,
+            </if>
+            <if test="password != null and password != ''">
+                password,
+            </if>
+            <if test="ip != null and ip != ''">
+                ip,
+            </if>
+            <if test="deleted != null and deleted != ''">
+                deleted,
+            </if>
+            <if test="role != null and role != ''">
+                role,
+            </if>
+            <if test="avatar != null and avatar != ''">
+                avatar,
+            </if>
+            <if test="phone != null and phone != ''">
+                phone,
+            </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null and useName != ''">
+                #{userName},
+            </if>
+            <if test="name != null and name != ''">
+                #{name},
+            </if>
+            <if test="password != null and password != ''">
+                #{password},
+            </if>
+            <if test="ip != null and ip != ''">
+                #{ip},
+            </if>
+            <if test="deleted != null and deleted != ''">
+                #{deleted},
+            </if>
+            <if test="role != null and role != ''">
+                #{role},
+            </if>
+            <if test="avatar != null and avatar != ''">
+                #{avatar},
+            </if>
+            <if test="phone != null and phone != ''">
+                #{phone},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertUpdate">
+        INSERT INTO ${dbbPrefix}.order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            <if test="orderSn != null">
+                order_sn,
+            </if>
+            <if test="openId != null">
+                open_id,
+            </if>
+            <if test="num != null">
+                num,
+            </if>
+            <if test="total != null">
+                total,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="isVip != null">
+                is_vip,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="info != null">
+                info,
+            </if>
+            <if test="yId != null">
+                y_id,
+            </if>
+            <if test="mId != null">
+                m_id,
+            </if>
+            <if test="psId != null">
+                ps_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            #{id},
+            <if test="orderSn != null">
+                #{orderSn},
+            </if>
+            <if test="openId != null">
+                #{openId},
+            </if>
+            <if test="num != null">
+                #{num},
+            </if>
+            <if test="total != null">
+                #{total},
+            </if>
+            <if test="price != null">
+                #{price},
+            </if>
+            <if test="isVip != null">
+                #{isVip},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="info != null">
+                #{info},
+            </if>
+            <if test="yId != null">
+                #{yId},
+            </if>
+            <if test="mId != null">
+                #{mId},
+            </if>
+            <if test="psId != null">
+                #{psId},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="orderSn != null">
+                order_sn = values(order_sn),
+            </if>
+            <if test="openId != null">
+                open_id = values(open_id),
+            </if>
+            <if test="num != null">
+                num = values(num),
+            </if>
+            <if test="total != null">
+                total = values(total),
+            </if>
+            <if test="price != null">
+                price = values(price),
+            </if>
+            <if test="isVip != null">
+                is_vip = values(is_vip),
+            </if>
+            <if test="status != null">
+                status = values(status),
+            </if>
+            <if test="info != null">
+                info = values(info),
+            </if>
+            <if test="yId != null">
+                y_id = values(y_id),
+            </if>
+            <if test="mId != null">
+                m_id = values(m_id),
+            </if>
+            <if test="psId != null">
+                ps_id = values(ps_id),
+            </if>
+            <if test="createTime != null">
+                create_time = values(create_time),
+            </if>
+            <if test="updateTime != null">
+                update_time = values(update_time),
+            </if>
+        </trim>
+    </insert>
+    <select id="queryOrder" resultType="com.sise.ccj.pojo.common.OrderPO">
+        SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.order
+    </select>
+</mapper>

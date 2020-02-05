@@ -199,6 +199,28 @@ public class RedisUtil {
         return JSONObject.parseObject(objStr, clazz);
     }
 
+    public double hmIncrementAndGet(final String key,Object hashKey, long value) {
+        try {
+            HashOperations<String, Object, Object> operations = redisTemplate.opsForHash();
+            return operations.increment(key,hashKey, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public double hmIncrementAndGet(final String key, Object hashKey,double value,long expireTime) {
+        try {
+            HashOperations<String, Object, Object> operations = redisTemplate.opsForHash();
+            double incrementNum = operations.increment(key, hashKey,value);
+            redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
+            return incrementNum;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     /**
      * 哈希 添加
      * @param key

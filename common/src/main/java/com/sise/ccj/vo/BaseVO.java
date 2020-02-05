@@ -16,10 +16,10 @@ public class BaseVO<T> {
     private List<T> details;
 
 
-    public static BaseVO builder(Page data){
+    public static <T> BaseVO<T> builder(Page data){
         if (data.getTotal() == 0){
-            return new BaseVO(0, Collections.emptyList());
+            return new BaseVO<>(0, Collections.emptyList());
         }
-        return new BaseVO(data.getTotal(), data.getResult());
+        return new BaseVO<T>(data.getTotal(), data.getResult());
     }
 }

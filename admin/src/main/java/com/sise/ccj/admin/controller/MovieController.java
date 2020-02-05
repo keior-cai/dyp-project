@@ -57,4 +57,10 @@ public class MovieController {
         UserPO userPO = SessionContextHolder.getAccountAndValid();
         return HttpBody.getSucInstance(moveService.loadMovie(userPO.getTableSpace()));
     }
+
+    @GetMapping("/queryMovieById/{id}")
+    public HttpBody queryMovieById(@PathVariable Integer id){
+        UserPO userPO = SessionContextHolder.getAccountAndValid();
+        return HttpBody.getSucInstance(moveService.findMovieById(id, userPO.getTableSpace()));
+    }
 }

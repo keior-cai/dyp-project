@@ -25,4 +25,9 @@ public class CustomerServiceImpl implements CustomerService {
     public void insertUpdate(CustomerPO customerPO) {
         customerMapper.insertUpdate(customerPO);
     }
+
+    @Override
+    public CustomerPO queryByOpenId(String openId) {
+        return customerMapper.queryUserByOpenId(openId);
+    }
 }

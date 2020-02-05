@@ -35,4 +35,6 @@ public class CustomerPO {
     private String dbPrefix;
 
     private String tableSpace;
+
+    private Integer yId;
 }

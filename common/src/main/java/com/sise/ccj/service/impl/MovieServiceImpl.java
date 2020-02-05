@@ -46,8 +46,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MoviePO findMovieById(Integer id, UserPO logPo) {
-        return movieMapper.queryMovieById(logPo.getTableSpace(), id);
+    public MoviePO findMovieById(Integer id, String prefix) {
+        return movieMapper.queryMovieById(prefix, id);
     }
 
     @Override

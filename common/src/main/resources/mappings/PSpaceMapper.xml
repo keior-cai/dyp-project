@@ -180,6 +180,7 @@
         a.up_time,
         a.down_time,
         a.create_time,
+        a.date,
         a.update_time,
         a.info,
         a.num,
@@ -190,11 +191,14 @@
         c.price,
         c.vip_price
         FROM ${dbPrefix}.m_space a
-        JOIN ${dbPrefix}.space b ON a.s_id = b.id
-        JOIN ${dbPrefix}.movie c ON a.m_id = c.id
+        JOIN ${dbPrefix}.space b ON (a.s_id = b.id AND b.deleted = 0 AND b.status = 'ACTIVE')
+        JOIN ${dbPrefix}.movie c ON (a.m_id = c.id AND c.deleted = 0 AND c.status = 1)
         WHERE a.deleted = 0
         <if test="sId != null">
             AND a.s_id = #{sId}
+        </if>
+        <if test="mId != null">
+            AND a.m_id = #{mId}
         </if>
         <if test="date != null">
             AND a.date = #{date}

@@ -195,6 +195,7 @@
     </select>
     <select id="loadSpace" resultType="com.sise.ccj.pojo.admin.SpacePO">
         SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.space
+        WHERE deleted = 0 AND status = 'ACTIVE'
     </select>
 
 </mapper>

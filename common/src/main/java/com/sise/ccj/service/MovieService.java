@@ -14,7 +14,7 @@ public interface MovieService {
 
     BaseVO selectMovie(MovieRequest param, UserPO logPo);
 
-    MoviePO findMovieById(Integer id, UserPO logPo);
+    MoviePO findMovieById(Integer id, String prefix);
 
     void updateMovie(MoviePO param, UserPO logPo);
 

@@ -27,7 +27,7 @@ public class PSpaceController {
     @GetMapping("/queryPSpace")
     public HttpBody queryPSpace(PSpaceRequest param){
         UserPO loginPo = SessionContextHolder.getLoginAccountInfo();
-        return HttpBody.getSucInstance(pSpaceService.queryPSpace(param, loginPo));
+        return HttpBody.getSucInstance(pSpaceService.queryPSpace(param, loginPo.getTableSpace()));
     }
 
     @PostMapping("/insertUpdate")

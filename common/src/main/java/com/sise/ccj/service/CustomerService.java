@@ -8,4 +8,6 @@ public interface CustomerService {
     BaseVO queryCustomer(CustomerRequest param);
 
     void insertUpdate(CustomerPO customerPO);
+
+    CustomerPO queryByOpenId(String openId);
 }

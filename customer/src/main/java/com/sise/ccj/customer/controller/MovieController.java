@@ -13,6 +13,7 @@ import com.sise.ccj.vo.BaseVO;
 import com.sise.ccj.vo.HttpBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,5 +42,11 @@ public class MovieController {
                 JSON.toJSONString(logPo), TimeConstant.SERVEN_DAY_MILLIS);
         BaseVO baseVO = movieService.selectMovie(param, new UserPO(logPo.getTableSpace()));
         return HttpBody.getSucInstance(baseVO);
+    }
+
+    @GetMapping("/queryMovieById/{id}")
+    public HttpBody queryMovieById(@PathVariable Integer id){
+        CustomerPO logPo = SessionContextHolder.getAccountAndValid(null);
+        return HttpBody.getSucInstance(movieService.findMovieById(id, logPo.getTableSpace()));
     }
 }

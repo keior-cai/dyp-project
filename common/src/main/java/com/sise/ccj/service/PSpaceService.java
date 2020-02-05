@@ -8,7 +8,7 @@ import com.sise.ccj.vo.BaseVO;
 public interface PSpaceService {
 
 
-    BaseVO queryPSpace(PSpaceRequest param, UserPO loginPO);
+    BaseVO queryPSpace(PSpaceRequest param, String prefix);
 
 
     void insertUpdate(UserPO loginPO, PSpacePO param);

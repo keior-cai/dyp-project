@@ -213,4 +213,8 @@
           AND deleted = 0 AND role = 0
         </trim>
     </select>
+    <select id="queryUserByOpenId" resultType="com.sise.ccj.pojo.admin.CustomerPO">
+        SELECT <include refid="Base_Column_List"/> FROM dyp_business.customer
+        WHERE open_id = #{openId}
+    </select>
 </mapper>

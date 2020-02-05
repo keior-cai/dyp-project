@@ -8,11 +8,13 @@ import com.sise.ccj.constant.TimeConstant;
 import com.sise.ccj.customer.config.CustomerConfig;
 import com.sise.ccj.pojo.admin.CustomerPO;
 import com.sise.ccj.pojo.admin.UserPO;
+import com.sise.ccj.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +42,9 @@ public class WeChatLoginController {
 
     @Autowired
     private WxMpService wxMpService;
+
+    @Autowired
+    private CustomerService customerService;
 
     @Autowired
     private RedisUtil redisUtil;
@@ -73,17 +78,26 @@ public class WeChatLoginController {
         customerPO.setOpenId(wxMpOAuth2AccessToken.getOpenId());
         String token = UUID.randomUUID().toString();
         customerPO.setToken(token);
+        WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
+        customerPO.setImg(wxMpUser.getHeadImgUrl());
+        customerPO.setSex(wxMpUser.getSexId());
+        customerPO.setOpenId(wxMpUser.getOpenId());
+        customerPO.setWechatName(wxMpUser.getNickname());
         redisUtil.set(CommonConstant.KEY_LOGIN_TOKEN
-                .replace(CommonConstant.REPLACE_TOKEN, token), JSON.toJSONString(customerPO),
+                        .replace(CommonConstant.REPLACE_TOKEN, token), JSON.toJSONString(customerPO),
                 TimeConstant.SERVEN_DAY_MILLIS);
+        CustomerPO customerPO1 = customerService.queryByOpenId(wxMpUser.getOpenId());
+        if (customerPO1 != null) {
+            customerPO.setId(customerPO1.getId());
+        }
+        customerService.insertUpdate(customerPO);
         Cookie cookie = new Cookie(CommonConstant.COOKIE_TOKEN, token);
         cookie.setHttpOnly(false);
         cookie.setPath("/");
         response.addCookie(cookie);
         response.setContentType("application/json;charset=UTF-8");
-        response.sendRedirect(customerConfig.getRedirectUrl());
-
         //返回需要跳转的页面锚点
+        response.sendRedirect(customerConfig.getRedirectUrl());
     }
 
 }
