@@ -10,5 +10,7 @@ public interface OrderService {
 
     BaseVO queryOrder(OrderRequest param, String dbPrefix);
 
-    void insertUpdate(OrderPO orderPO, String dbPrefix);
+    String insertUpdate(OrderPO orderPO, String dbPrefix);
+
+    void updateOrder(OrderPO orderPO);
 }

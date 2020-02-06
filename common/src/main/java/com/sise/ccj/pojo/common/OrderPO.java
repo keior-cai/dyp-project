@@ -34,6 +34,8 @@ public class OrderPO {
 
     private Date updateTime;
 
+    private String movieName;
+
     //======================
     private String dbPrefix;
 

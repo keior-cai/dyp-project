@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sise.ccj.mapper.OpenOrderMapper">
+    <sql id="Base_Column_List">
+        id,info,type,model,url,status,create_time,update_time
+    </sql>
+    <insert id="insertUpdate">
+        INSERT INTO ${dbPrefix}.open_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            <if test="info != null">
+                info,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="model != null">
+                model,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            #{id},
+            <if test="info != null">
+                #{info},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="model != null">
+                #{model},
+            </if>
+            <if test="url != null">
+                #{url},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="name != null">
+                name = values(name),
+            </if>
+            <if test="openId != null">
+                open_id = values(open_id),
+            </if>
+            <if test="wechatName != null">
+                wechat_name = values(wechat_name),
+            </if>
+            <if test="img != null">
+                img = values(img),
+            </if>
+            <if test="sex != null">
+                sex = values(sex),
+            </if>
+            <if test="status != null">
+                status = values(status),
+            </if>
+            <if test="createTime != null">
+                create_time = values(create_time),
+            </if>
+            <if test="updateTime != null">
+                update_time = values(update_time),
+            </if>
+            <if test="ip != null">
+                ip = values(ip),
+            </if>
+            <if test="payPassword != null">
+                pay_password = values(pay_password),
+            </if>
+        </trim>
+    </insert>
+    
+</mapper>

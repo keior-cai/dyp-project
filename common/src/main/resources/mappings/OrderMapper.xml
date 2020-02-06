@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sise.ccj.mapper.OrderMapper">
     <sql id="Base_Column_List">
-        id,order_sn,open_id,num,total,price,vip_price,is_vip,info,m_id,ps_id,y_id,status,create_time,update_time
+        id,order_sn,open_id,num,total,price,is_vip,info,m_id,ps_id,y_id,status,create_time,update_time,omvie_name
     </sql>
     <insert id="addUser" parameterType="com.sise.ccj.pojo.admin.UserPO">
         INSERT INTO dyp_business.user
@@ -61,7 +61,7 @@
         </trim>
     </insert>
     <insert id="insertUpdate">
-        INSERT INTO ${dbbPrefix}.order
+        INSERT INTO ${dbPrefix}.order
         <trim prefix="(" suffix=")" suffixOverrides=",">
             id,
             <if test="orderSn != null">
@@ -69,6 +69,9 @@
             </if>
             <if test="openId != null">
                 open_id,
+            </if>
+            <if test="movieName != null">
+                movie_name,
             </if>
             <if test="num != null">
                 num,
@@ -112,6 +115,9 @@
             <if test="openId != null">
                 #{openId},
             </if>
+            <if test="movieName != null">
+                #{movieName},
+            </if>
             <if test="num != null">
                 #{num},
             </if>
@@ -154,6 +160,9 @@
             <if test="openId != null">
                 open_id = values(open_id),
             </if>
+            <if test="movieName != null">
+                movie_name = values(movie_name),
+            </if>
             <if test="num != null">
                 num = values(num),
             </if>
@@ -191,5 +200,15 @@
     </insert>
     <select id="queryOrder" resultType="com.sise.ccj.pojo.common.OrderPO">
         SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.order
+        WHERE 1 = 1
+        <if test="openId != null">
+            AND open_id = #{openId}
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        <if test="orderSn != null">
+            AND order_sn = #{orderSn}
+        </if>
     </select>
 </mapper>

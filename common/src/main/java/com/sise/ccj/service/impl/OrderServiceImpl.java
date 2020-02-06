@@ -3,6 +3,7 @@ package com.sise.ccj.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
 import com.sise.ccj.config.redis.RedisUtil;
 import com.sise.ccj.constant.RedisConstant;
@@ -13,6 +14,7 @@ import com.sise.ccj.pojo.common.OrderPO;
 import com.sise.ccj.pojo.common.PSpacePO;
 import com.sise.ccj.request.OrderRequest;
 import com.sise.ccj.service.OrderService;
+import com.sise.ccj.service.PSpaceService;
 import com.sise.ccj.utils.DateHelper;
 import com.sise.ccj.utils.OrderSnUtils;
 import com.sise.ccj.vo.BaseVO;
@@ -40,6 +42,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private RedisUtil redisUtil;
 
+
     @Override
     public void addOrder() {
 
@@ -48,16 +51,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public BaseVO queryOrder(OrderRequest param, String dbPrefix) {
         param.setDbPrefix(dbPrefix);
+        PageHelper.startPage(param.getPage(), param.getSize());
         return BaseVO.builder(orderMapper.queryOrder(param));
     }
 
     @Override
-    public void insertUpdate(OrderPO orderPO, String dbPrefix) {
+    public String insertUpdate(OrderPO orderPO, String dbPrefix) {
         orderPO.setDbPrefix(dbPrefix);
+        String orderSn = OrderSnUtils.createOrderSn();
         if (StringUtil.isEmpty(orderPO.getOrderSn())) {
             PSpacePO pSpacePO = pSpaceMapper.queryPSpaceById(dbPrefix, orderPO.getPsId());
             JSONArray oldInfo = JSON.parseArray(pSpacePO.getInfo());
-            JSONArray newInfo = JSON.parseArray(orderPO.getInfo());
+            JSONArray newInfo = JSON.parseArray(orderPO.getLocation());
             for (int i = 0; i < newInfo.size(); i++) {
                 JSONObject json = newInfo.getJSONObject(i);
                 int x = json.getIntValue("x");
@@ -65,8 +70,14 @@ public class OrderServiceImpl implements OrderService {
                 if (oldInfo.getJSONArray(x).getIntValue(y) == 1) {
                     throw new ServerException((x + 1) + "排" + (y + 1) + "位已被抢走");
                 }
+                oldInfo.getJSONArray(x).set(y, 1);
             }
-            orderPO.setOrderSn(OrderSnUtils.createOrderSn());
+            orderPO.setOrderSn(orderSn);
+            // 修改排场
+            pSpacePO.setInfo(JSON.toJSONString(oldInfo));
+            pSpacePO.setDbPrefix(dbPrefix);
+            pSpacePO.setNum(pSpacePO.getNum() - orderPO.getNum());
+            pSpaceMapper.insertUpdate(pSpacePO);
         }
         Date date = DateHelper.parseYYYY_MM_DD_HH_MM_SS(DateHelper.getTodayEndTime());
         long times = (date.getTime()-System.currentTimeMillis()) /1000;
@@ -77,6 +88,12 @@ public class OrderServiceImpl implements OrderService {
         redisUtil.hmIncrementAndGet(RedisConstant.ORDER_TOTAL,
                 orderPO.getYId()+"",
                 orderPO.getTotal(), times);
+        orderMapper.insertUpdate(orderPO);
+        return orderSn;
+    }
+
+    @Override
+    public void updateOrder(OrderPO orderPO) {
         orderMapper.insertUpdate(orderPO);
     }
 }

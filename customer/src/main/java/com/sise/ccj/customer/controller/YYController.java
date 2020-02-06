@@ -44,6 +44,7 @@ public class YYController {
                 .replace(CommonConstant.TABLE_SPACE_ID, id+""));
         logPo.setDbPrefix(logPo.getTableSpace());
         logPo.setYId(id);
+        System.out.println(logPo);
         redisUtil.set(CommonConstant.KEY_LOGIN_TOKEN
                 .replace(CommonConstant.REPLACE_TOKEN, logPo.getToken()),
                 JSON.toJSONString(logPo),

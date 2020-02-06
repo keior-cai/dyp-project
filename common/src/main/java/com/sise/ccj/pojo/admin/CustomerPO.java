@@ -26,6 +26,8 @@ public class CustomerPO {
 
     private String ip;
 
+    private String payPassword;
+
 
 
     //======================

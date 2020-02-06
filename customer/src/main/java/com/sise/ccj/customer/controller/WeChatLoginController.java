@@ -83,14 +83,15 @@ public class WeChatLoginController {
         customerPO.setSex(wxMpUser.getSexId());
         customerPO.setOpenId(wxMpUser.getOpenId());
         customerPO.setWechatName(wxMpUser.getNickname());
-        redisUtil.set(CommonConstant.KEY_LOGIN_TOKEN
-                        .replace(CommonConstant.REPLACE_TOKEN, token), JSON.toJSONString(customerPO),
-                TimeConstant.SERVEN_DAY_MILLIS);
         CustomerPO customerPO1 = customerService.queryByOpenId(wxMpUser.getOpenId());
         if (customerPO1 != null) {
             customerPO.setId(customerPO1.getId());
+            customerService.insertUpdate(customerPO);
+            customerPO.setPayPassword(customerPO1.getPayPassword());
         }
-        customerService.insertUpdate(customerPO);
+        redisUtil.set(CommonConstant.KEY_LOGIN_TOKEN
+                        .replace(CommonConstant.REPLACE_TOKEN, token), JSON.toJSONString(customerPO),
+                TimeConstant.SERVEN_DAY_MILLIS);
         Cookie cookie = new Cookie(CommonConstant.COOKIE_TOKEN, token);
         cookie.setHttpOnly(false);
         cookie.setPath("/");
