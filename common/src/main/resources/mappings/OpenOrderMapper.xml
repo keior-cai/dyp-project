@@ -56,20 +56,17 @@
         </trim>
         ON DUPLICATE KEY UPDATE
         <trim suffixOverrides=",">
-            <if test="name != null">
-                name = values(name),
+            <if test="info != null">
+                info = values(info),
             </if>
-            <if test="openId != null">
-                open_id = values(open_id),
+            <if test="type != null">
+                type = values(type),
             </if>
-            <if test="wechatName != null">
-                wechat_name = values(wechat_name),
+            <if test="model != null">
+                model = values(model),
             </if>
-            <if test="img != null">
-                img = values(img),
-            </if>
-            <if test="sex != null">
-                sex = values(sex),
+            <if test="url != null">
+                url = values(url),
             </if>
             <if test="status != null">
                 status = values(status),
@@ -80,13 +77,7 @@
             <if test="updateTime != null">
                 update_time = values(update_time),
             </if>
-            <if test="ip != null">
-                ip = values(ip),
-            </if>
-            <if test="payPassword != null">
-                pay_password = values(pay_password),
-            </if>
         </trim>
     </insert>
-    
+
 </mapper>

@@ -8,13 +8,14 @@ import com.github.pagehelper.StringUtil;
 import com.sise.ccj.config.redis.RedisUtil;
 import com.sise.ccj.constant.RedisConstant;
 import com.sise.ccj.exception.ServerException;
+import com.sise.ccj.mapper.OpenOrderMapper;
 import com.sise.ccj.mapper.OrderMapper;
 import com.sise.ccj.mapper.PSpaceMapper;
+import com.sise.ccj.pojo.common.OpenOrderPO;
 import com.sise.ccj.pojo.common.OrderPO;
 import com.sise.ccj.pojo.common.PSpacePO;
 import com.sise.ccj.request.OrderRequest;
 import com.sise.ccj.service.OrderService;
-import com.sise.ccj.service.PSpaceService;
 import com.sise.ccj.utils.DateHelper;
 import com.sise.ccj.utils.OrderSnUtils;
 import com.sise.ccj.vo.BaseVO;
@@ -41,6 +42,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private RedisUtil redisUtil;
+
+    @Autowired
+    private OpenOrderMapper openOrderMapper;
 
 
     @Override
@@ -89,6 +93,12 @@ public class OrderServiceImpl implements OrderService {
                 orderPO.getYId()+"",
                 orderPO.getTotal(), times);
         orderMapper.insertUpdate(orderPO);
+        // 写入回调
+        OpenOrderPO openOrderPO = new OpenOrderPO();
+        openOrderPO.setInfo(JSON.toJSONString(orderPO));
+        openOrderPO.setStatus(0);
+        openOrderPO.setType(0);
+        openOrderMapper.insertUpdate(openOrderPO);
         return orderSn;
     }
 
