@@ -54,16 +54,9 @@ public class SpaceServiceImpl implements SpaceService {
         spacePO.setDbPrefix(loginPo.getTableSpace());
         SpacePO spacePO1 = null;
         if (spacePO.getId() != null) {
-            spacePO1 = spaceMapper.querySpaceById(loginPo.getTableSpace(), spacePO.getId());
-            if (spacePO1 != null) {
-                if (spacePO1.getTotal().byteValue() != spacePO1.getNum()) {
-                    spacePO.setNum(null);
-                }else {
-                    // 初始化容量c
-                    spacePO.setNum(spacePO.getTotal());
-                }
-            }
-        }else {
+            spacePO.setNum(spacePO.getTotal());
+            spacePO.setTotal(spacePO.getTotal());
+        } else {
             spacePO.setNum(spacePO.getTotal());
         }
         spaceMapper.insertUpdate(spacePO);

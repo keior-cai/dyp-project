@@ -3,7 +3,8 @@
 <mapper namespace="com.sise.ccj.mapper.OrderMapper">
     <sql id="Base_Column_List">
         id,order_sn,open_id,num,total,price,is_vip,
-        info,m_id,ps_id,y_id,status,create_time,update_time,movie_name,movie_url
+        info,m_id,ps_id,y_id,status,create_time,
+        update_time,movie_name,movie_url,location,title,content
     </sql>
     <insert id="insertUpdate" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO ${dbPrefix}.order
@@ -54,6 +55,15 @@
             <if test="movieUrl != null">
                 movie_url,
             </if>
+            <if test="location != null">
+                location,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
         </trim>
         <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
             #{id},
@@ -101,6 +111,15 @@
             </if>
             <if test="movieUrl != null">
                 #{movieUrl},
+            </if>
+            <if test="location != null">
+                #{location},
+            </if>
+            <if test="title != null">
+                #{title},
+            </if>
+            <if test="content != null">
+                #{content},
             </if>
         </trim>
         ON DUPLICATE KEY UPDATE
@@ -150,6 +169,15 @@
             <if test="movieUrl != null">
                 movie_url = values(movie_url),
             </if>
+            <if test="location != null">
+                location = values(location),
+            </if>
+            <if test="title != null">
+                title = values(title),
+            </if>
+            <if test="content != null">
+                cntent = values(content),
+            </if>
         </trim>
     </insert>
     <select id="queryOrder" resultType="com.sise.ccj.pojo.common.OrderPO">
@@ -164,5 +192,12 @@
         <if test="orderSn != null and orderSn != ''">
             AND order_sn = #{orderSn}
         </if>
+        <if test="startTime != null">
+            AND create_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND create_time &lt; #{endTime}
+        </if>
+        ORDER BY create_time DESC
     </select>
 </mapper>

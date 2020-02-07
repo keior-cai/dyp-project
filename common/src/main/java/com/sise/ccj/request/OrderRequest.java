@@ -17,7 +17,7 @@ public class OrderRequest extends BaseRequest {
 
     private String openId;
 
-    private String createTime;
+    private String startTime;
 
-    private String updateTime;
+    private String endTime;
 }

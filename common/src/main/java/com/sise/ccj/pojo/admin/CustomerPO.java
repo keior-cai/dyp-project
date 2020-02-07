@@ -22,6 +22,8 @@ public class CustomerPO {
 
     private Date createTime;
 
+    private Integer isVip;
+
     private Date updateTime;
 
     private String ip;

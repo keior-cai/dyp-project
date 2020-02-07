@@ -8,7 +8,7 @@ public interface OrderService {
 
     void addOrder();
 
-    BaseVO queryOrder(OrderRequest param, String dbPrefix);
+    BaseVO<OrderPO> queryOrder(OrderRequest param, String dbPrefix);
 
     String insertUpdate(OrderPO orderPO, String dbPrefix);
 

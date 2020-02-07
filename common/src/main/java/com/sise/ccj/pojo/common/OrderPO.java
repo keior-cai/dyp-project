@@ -38,6 +38,10 @@ public class OrderPO {
 
     private String movieUrl;
 
+    private String title;
+
+    private String content;
+
     //======================
     private String dbPrefix;
 

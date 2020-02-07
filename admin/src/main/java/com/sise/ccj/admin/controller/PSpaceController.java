@@ -27,6 +27,7 @@ public class PSpaceController {
     @GetMapping("/queryPSpace")
     public HttpBody queryPSpace(PSpaceRequest param){
         UserPO loginPo = SessionContextHolder.getLoginAccountInfo();
+        param.setStatus(0);
         return HttpBody.getSucInstance(pSpaceService.queryPSpace(param, loginPo.getTableSpace()));
     }
 

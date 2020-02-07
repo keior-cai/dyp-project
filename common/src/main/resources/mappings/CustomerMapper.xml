@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sise.ccj.mapper.CustomerMapper">
     <sql id="Base_Column_List">
-        id,wechat_name,name,open_id,ip,create_time,update_time,status,pay_password
+        id,wechat_name,name,open_id,ip,create_time,update_time,status,pay_password,is_vip
     </sql>
     <insert id="addUser" parameterType="com.sise.ccj.pojo.admin.UserPO">
         INSERT INTO dyp_business.user
@@ -94,6 +94,9 @@
             <if test="payPassword != null">
                 pay_password,
             </if>
+            <if test="isVip != null">
+                is_vip,
+            </if>
         </trim>
         <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
             #{id},
@@ -127,6 +130,9 @@
             <if test="payPassword != null">
                 #{payPassword},
             </if>
+            <if test="isVip != null">
+                #{isVip},
+            </if>
         </trim>
         ON DUPLICATE KEY UPDATE
         <trim suffixOverrides=",">
@@ -159,6 +165,9 @@
             </if>
             <if test="payPassword != null">
                 pay_password = values(pay_password),
+            </if>
+            <if test="isVip != null">
+                is_vip = values(is_vip),
             </if>
         </trim>
     </insert>

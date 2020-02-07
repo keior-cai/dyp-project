@@ -87,11 +87,12 @@ public class WeChatLoginController {
         if (customerPO1 != null) {
             customerPO.setId(customerPO1.getId());
             customerService.insertUpdate(customerPO);
+            customerPO.setIsVip(customerPO1.getIsVip());
             customerPO.setPayPassword(customerPO1.getPayPassword());
         }
         redisUtil.set(CommonConstant.KEY_LOGIN_TOKEN
                         .replace(CommonConstant.REPLACE_TOKEN, token), JSON.toJSONString(customerPO),
-                TimeConstant.SERVEN_DAY_MILLIS);
+                TimeConstant.TOW_SECOND_MILLIS);
         Cookie cookie = new Cookie(CommonConstant.COOKIE_TOKEN, token);
         cookie.setHttpOnly(false);
         cookie.setPath("/");

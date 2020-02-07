@@ -25,18 +25,14 @@ spring:
   resources:
     static-locations: classpath:/META-INF/resources/,classpath:/static,classpath:/resources/,file:C:/Users/Administrator/Desktop/dy/dyp/dist
 server:
-  port: 9902
+  port: 9903
   servlet:
-    context-path: /customer
+    context-path: /task
   compression:
     enabled: true
     min-response-size: 1024
     mime-types: application/javascript,text/css,application/json,application/xml,text/html,text/xml,text/plain
-customer:
-  loginPath: http://localhost:9902/admin/index.html#/login
-  indexPath: http://localhost:9902/admin/index.html#/index
-  ## 微信登录
-  mpAppId: wx36338169bc4d3166
-  mpAppSecret: 5bbe7a2235b6629eaf2b6292cc5663df
-  url: http://47.106.78.139/customer/api/client/login
-  redirectUrl: http://47.106.78.139/customer/index.html#/main/yyList
+time:
+  sec: 300000
+  out: 2000
+  down: 86400000

@@ -1,7 +1,12 @@
 package com.sise.ccj.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sise.ccj.config.SessionContextHolder;
+import com.sise.ccj.config.redis.RedisUtil;
+import com.sise.ccj.constant.CommonConstant;
+import com.sise.ccj.constant.TimeConstant;
 import com.sise.ccj.enums.DeletedEnum;
 import com.sise.ccj.enums.admin.AdminRoleEnums;
 import com.sise.ccj.enums.admin.AdminStatus;
@@ -26,6 +31,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Override
     public BaseVO
@@ -66,6 +74,13 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void insertUpdate(UserPO userPO) {
+        UserPO logpPo = SessionContextHolder.getAccountAndValid();
+        if (userPO.getId() == logpPo.getId()){
+            redisUtil.set(CommonConstant.KEY_LOGIN_TOKEN
+            .replace(CommonConstant.REPLACE_TOKEN, logpPo.getToken()),
+                    JSON.toJSONString(userPO),
+                    TimeConstant.SERVEN_DAY_SECOND);
+        }
         userMapper.insertUpdate(userPO);
     }
 }

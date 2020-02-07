@@ -27,4 +27,7 @@ public class OpenOrderPO {
     private Date createTime;
 
     private Date updateTime;
+
+    //=================
+    private String dbPrefix;
 }

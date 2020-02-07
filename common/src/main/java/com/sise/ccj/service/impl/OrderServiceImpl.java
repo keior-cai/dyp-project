@@ -3,6 +3,7 @@ package com.sise.ccj.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
 import com.sise.ccj.config.redis.RedisUtil;
@@ -21,6 +22,7 @@ import com.sise.ccj.utils.OrderSnUtils;
 import com.sise.ccj.vo.BaseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -56,10 +58,12 @@ public class OrderServiceImpl implements OrderService {
     public BaseVO queryOrder(OrderRequest param, String dbPrefix) {
         param.setDbPrefix(dbPrefix);
         PageHelper.startPage(param.getPage(), param.getSize());
-        return BaseVO.builder(orderMapper.queryOrder(param));
+        Page<OrderPO> page = orderMapper.queryOrder(param);
+        return BaseVO.builder(page);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public String insertUpdate(OrderPO orderPO, String dbPrefix) {
         orderPO.setDbPrefix(dbPrefix);
         String orderSn = OrderSnUtils.createOrderSn();
@@ -97,6 +101,7 @@ public class OrderServiceImpl implements OrderService {
         OpenOrderPO openOrderPO = new OpenOrderPO();
         openOrderPO.setInfo(JSON.toJSONString(orderPO));
         openOrderPO.setStatus(0);
+        openOrderPO.setDbPrefix(dbPrefix);
         openOrderPO.setType(0);
         openOrderMapper.insertUpdate(openOrderPO);
         return orderSn;

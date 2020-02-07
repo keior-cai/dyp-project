@@ -44,7 +44,6 @@ public class YYController {
                 .replace(CommonConstant.TABLE_SPACE_ID, id+""));
         logPo.setDbPrefix(logPo.getTableSpace());
         logPo.setYId(id);
-        System.out.println(logPo);
         redisUtil.set(CommonConstant.KEY_LOGIN_TOKEN
                 .replace(CommonConstant.REPLACE_TOKEN, logPo.getToken()),
                 JSON.toJSONString(logPo),
@@ -55,6 +54,7 @@ public class YYController {
 
     @GetMapping("/queryYY")
     public HttpBody queryYY(AdminRequest param){
+        param.setStatus("ACTIVE");
         BaseVO baseVO = adminService.queryAdmin(param);
         Object object = baseVO.getDetails().stream()
                 .filter(e->{

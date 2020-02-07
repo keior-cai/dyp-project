@@ -10,6 +10,7 @@ import com.sise.ccj.constant.CommonConstant;
 import com.sise.ccj.enums.admin.AdminRoleEnums;
 import com.sise.ccj.exception.ServerException;
 import com.sise.ccj.pojo.admin.UserPO;
+import com.sise.ccj.utils.Maps;
 import com.sise.ccj.vo.HttpBody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             String token = getToken(request);
             UserPO admin = getUserInfo(token);
             if (admin == null) {
-                HttpBody body = HttpBody.getInstance(HttpBody.NOTE_CODE, "无效凭证");
+                HttpBody body = HttpBody.getInstance(HttpBody.ERROR_CODE, "无效凭证", Maps.of("data", adminConfig.getLoginPath()));
                 response.setContentType("application/json;charset=UTF-8");
                 response.getWriter().println(JSON.toJSONString(body));
                 return false;

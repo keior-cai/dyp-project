@@ -1,5 +1,6 @@
 package com.sise.ccj.admin.controller;
 
+import com.github.pagehelper.StringUtil;
 import com.sise.ccj.annotation.AccessRolePermission;
 import com.sise.ccj.config.SessionContextHolder;
 import com.sise.ccj.config.redis.RedisUtil;
@@ -84,13 +85,34 @@ public class AdminController {
     public HttpBody getCount(){
         UserPO userPO = SessionContextHolder.getAccountAndValid();
         int count = 0;
+        double total = 0;
         if (userPO.getRole() == AdminRoleEnums.SUPER_ADMIN.getRole()) {
+            Map<Object, Object> countMap  = redisUtil.entries(RedisConstant.ORDER_COUNT);
             Map<Object, Object> map  = redisUtil.entries(RedisConstant.STATICS_CUSTOMER_COUNT);
-            count = map.values().stream().mapToInt(e -> Integer.parseInt(e + "")).sum();
+            Map<Object, Object> totalMap  = redisUtil.entries(RedisConstant.ORDER_TOTAL);
+            count = countMap.values().stream().mapToInt(e -> {
+                if (!StringUtil.isEmpty(e+"") && !(e+"").equals("null")){
+                    return Integer.parseInt(e + "");
+                }
+                return 0;
+            }).sum();
+            total += totalMap.values().stream().mapToDouble(e ->{
+                if (!StringUtil.isEmpty(e+"") && !(e+"").equals("null")){
+                    return Double.parseDouble(e + "");
+                }
+                return 0.00d;
+            }).sum();
         }else {
-            count  = Integer.parseInt(redisUtil.hmGet(RedisConstant.STATICS_CUSTOMER_COUNT, userPO.getId()+"")+"");
+            String countStr = redisUtil.hmGet(RedisConstant.STATICS_CUSTOMER_COUNT, userPO.getId()+"")+"";
+            if (!StringUtil.isEmpty(countStr) && !countStr.equals("null")){
+                count  = Integer.parseInt(countStr);
+            }
+            String totalStr = redisUtil.hmGet(RedisConstant.ORDER_TOTAL, userPO.getId()+"")+"";
+            if (!StringUtil.isEmpty(totalStr ) && !totalStr.equals("null")){
+                total = Double.parseDouble(totalStr);
+            }
         }
-        return HttpBody.getSucInstance(Maps.of("customerCount", count, "systemCount", 0, "userCount",0));
+        return HttpBody.getSucInstance(Maps.of("total", total, "fail", 0, "count",count));
     }
 
     @GetMapping("/getStatics")

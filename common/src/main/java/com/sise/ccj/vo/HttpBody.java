@@ -15,6 +15,8 @@ public class HttpBody<T> {
 
     public static final int NOTE_CODE = 1;
 
+    public static final int ERROR_CODE = -999;
+
     /**
      * code 为0 时为成功
      * code 为1 时为有提示语 常量参见 CommonConstant.NOTE_CODE

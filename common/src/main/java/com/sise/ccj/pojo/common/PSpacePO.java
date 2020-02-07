@@ -44,6 +44,10 @@ public class PSpacePO {
 
     private String movieName;
 
+    private String title;
+
+    private String content;
+
     private String address;
 
     private Integer total;

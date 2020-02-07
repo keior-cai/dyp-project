@@ -4,13 +4,19 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.StringUtil;
 import com.sise.ccj.config.SessionContextHolder;
 import com.sise.ccj.exception.ServerException;
+import com.sise.ccj.mapper.DypDbMapper;
 import com.sise.ccj.pojo.admin.CustomerPO;
 import com.sise.ccj.pojo.common.OrderPO;
 import com.sise.ccj.request.OrderRequest;
 import com.sise.ccj.service.OrderService;
+import com.sise.ccj.utils.Maps;
+import com.sise.ccj.vo.BaseVO;
 import com.sise.ccj.vo.HttpBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @ClassName OrderController
@@ -24,6 +30,9 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private DypDbMapper dypDbMapper;
 
     @PostMapping("/insertUpdate")
     public HttpBody insertUpdate(@RequestBody OrderPO param){
@@ -39,7 +48,18 @@ public class OrderController {
     public HttpBody queryOrder(OrderRequest param){
         CustomerPO logPo = SessionContextHolder.getAccountAndValid(null);
         param.setOpenId(logPo.getOpenId());
-        return HttpBody.getSucInstance(orderService.queryOrder(param, logPo.getTableSpace()));
+        List<String> dbs = dypDbMapper.queryDb();
+        List<OrderPO> orderPOS = new LinkedList<>();
+        long size = 0;
+        for (String str : dbs){
+            if (str.equals("dyp_business")) continue;
+            BaseVO<OrderPO> baseVO = orderService.queryOrder(param, str);
+            if (baseVO.getTotal() >= 0 ){
+                orderPOS.addAll(baseVO.getDetails());
+                size += baseVO.getTotal();
+            }
+        }
+        return HttpBody.getSucInstance(Maps.of("details", orderPOS, "total", size));
     }
 
 
