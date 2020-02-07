@@ -1,9 +1,4 @@
 spring:
-  data:
-    mongodb:
-      database: dyp
-      host: 192.168.220.146
-      port: 27017
   redis:
     database: 10
     host: 192.168.220.146
