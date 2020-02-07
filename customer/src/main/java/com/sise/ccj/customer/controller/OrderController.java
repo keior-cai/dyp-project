@@ -3,6 +3,7 @@ package com.sise.ccj.customer.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.StringUtil;
 import com.sise.ccj.config.SessionContextHolder;
+import com.sise.ccj.customer.config.CustomerConfig;
 import com.sise.ccj.exception.ServerException;
 import com.sise.ccj.mapper.DypDbMapper;
 import com.sise.ccj.pojo.admin.CustomerPO;
@@ -12,6 +13,7 @@ import com.sise.ccj.service.OrderService;
 import com.sise.ccj.utils.Maps;
 import com.sise.ccj.vo.BaseVO;
 import com.sise.ccj.vo.HttpBody;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +36,9 @@ public class OrderController {
     @Autowired
     private DypDbMapper dypDbMapper;
 
+    @Autowired
+    private CustomerConfig customerConfig;
+
     @PostMapping("/insertUpdate")
     public HttpBody insertUpdate(@RequestBody OrderPO param){
         CustomerPO logPo = SessionContextHolder.getAccountAndValid(null);
@@ -55,7 +60,9 @@ public class OrderController {
             if (str.equals("dyp_business")) continue;
             BaseVO<OrderPO> baseVO = orderService.queryOrder(param, str);
             if (baseVO.getTotal() >= 0 ){
-                orderPOS.addAll(baseVO.getDetails());
+                List<OrderPO> poList =  baseVO.getDetails();
+                poList.forEach(e -> e.setOutTime(DateUtils.addMinutes(e.getCreateTime(), customerConfig.getTimeout())));
+                orderPOS.addAll(poList);
                 size += baseVO.getTotal();
             }
         }

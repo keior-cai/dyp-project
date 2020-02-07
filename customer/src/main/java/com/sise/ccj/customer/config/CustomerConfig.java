@@ -24,4 +24,6 @@ public class CustomerConfig {
     private String mpAppSecret;
 
     private String redirectUrl;
+
+    private Integer timeout;
 }

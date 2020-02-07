@@ -176,7 +176,7 @@
                 title = values(title),
             </if>
             <if test="content != null">
-                cntent = values(content),
+                content = values(content),
             </if>
         </trim>
     </insert>

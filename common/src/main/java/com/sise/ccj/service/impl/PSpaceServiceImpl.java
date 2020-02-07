@@ -47,10 +47,10 @@ public class PSpaceServiceImpl implements PSpaceService {
         SpacePO spacePO = spaceMapper.querySpaceById(loginPO.getTableSpace(), param.getSId());
         param.setDbPrefix(loginPO.getTableSpace());
 
-        List<PSpacePO> spacePOList = pSpaceMapper.queryByDate(param);
-        if (!CollectionUtils.isEmpty(spacePOList)){
-            throw new ServerException("时间段冲突");
-        }
+//        List<PSpacePO> spacePOList = pSpaceMapper.queryByDate(param);
+//        if (!CollectionUtils.isEmpty(spacePOList)){
+//            throw new ServerException("时间段冲突");
+//        }
         param.setInfo(spacePO.getInfo());
         param.setNum(spacePO.getTotal());
         pSpaceMapper.insertUpdate(param);

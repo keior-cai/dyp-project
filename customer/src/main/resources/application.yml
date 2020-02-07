@@ -40,3 +40,4 @@ customer:
   mpAppSecret: 5bbe7a2235b6629eaf2b6292cc5663df
   url: http://47.106.78.139/customer/api/client/login
   redirectUrl: http://47.106.78.139/customer/index.html#/main/yyList
+  timeout: 5

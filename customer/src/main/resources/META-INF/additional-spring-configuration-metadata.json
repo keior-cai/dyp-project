@@ -38,5 +38,11 @@
       "name": "customer.url",
       "type": "java.lang.String",
       "description": "wechat callback we url"
+    },
+    {
+      "name": "customer.timeout",
+      "defaultValue": "5",
+      "type": "java.lang.Integer",
+      "description": "order.timeout."
     }
   ] }

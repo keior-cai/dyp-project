@@ -46,4 +46,6 @@ public class OrderPO {
     private String dbPrefix;
 
     private String location;
+
+    private Date outTime;
 }
