@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sise.ccj.mapper.OrderStaticsMapper">
+    <sql id="Base_Column_List">
+        id,count,total,y_id,create_time,update_time
+    </sql>
+    <update id="inserUpdate">
+        INSERT INTO ${dbPrefix}.order_statics
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+            <if test="total != null">
+                total,
+            </if>
+            <if test="yId != null">
+                y_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="count != null">
+                #{count},
+            </if>
+            <if test="total != null">
+                #{total},
+            </if>
+            <if test="yId != null">
+                #{yId},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                now(),
+            </if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        count = count+#{count},
+        total = total+#{total},
+        update_time = now()
+    </update>
+    <select id="queryPage" resultType="com.sise.ccj.pojo.common.OrderStaticsPO">
+        SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.order_statics
+        <trim prefixOverrides="WHERE" prefix="WHERE" suffixOverrides="AND">
+            <if test="yId != null">
+                y_id = #{yId} AND
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime} AND
+            </if>
+        </trim>
+    </select>
+    <select id="queryPageGroup" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT sum(total) as total,sum(count) as count  FROM ${dbPrefix}.order_statics
+        <trim prefixOverrides="WHERE" prefix="WHERE" suffixOverrides="AND">
+            <if test="yId != null">
+                y_id = #{yId} AND
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime} AND
+            </if>
+        </trim>
+        GROUP BY create_time,y_id
+    </select>
+
+</mapper>

@@ -10,4 +10,6 @@ import org.springframework.context.annotation.Configuration;
 public class AdminConfig {
     private String loginPath;
     private String indexPath;
+    private String adminPath;
+    private String supperAdminPath;
 }

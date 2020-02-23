@@ -6,7 +6,10 @@ import com.sise.ccj.config.SessionContextHolder;
 import com.sise.ccj.config.redis.RedisUtil;
 import com.sise.ccj.constant.RedisConstant;
 import com.sise.ccj.enums.admin.AdminRoleEnums;
+import com.sise.ccj.mapper.LogMapper;
+import com.sise.ccj.mapper.OrderStaticsMapper;
 import com.sise.ccj.pojo.admin.UserPO;
+import com.sise.ccj.pojo.common.OrderStaticsPO;
 import com.sise.ccj.request.admin.AdminRequest;
 import com.sise.ccj.service.AdminService;
 import com.sise.ccj.service.StaticsCustomerService;
@@ -35,6 +38,12 @@ public class AdminController {
 
     @Autowired
     private StaticsCustomerService staticsCustomerService;
+
+    @Autowired
+    private OrderStaticsMapper orderStaticsMapper;
+
+    @Autowired
+    private LogMapper logMapper;
 
     @PostMapping("/addAdmin")
     public HttpBody addAdmin(@RequestBody AdminRequest param){
@@ -125,6 +134,21 @@ public class AdminController {
     public HttpBody activeAdmin(@PathVariable Integer id){
         adminService.activeAdmin(id);
         return HttpBody.SUCCESS;
+    }
+
+    @GetMapping("/queryLog")
+    public HttpBody queryLog(){
+        UserPO userPO = SessionContextHolder.getAccountAndValid();
+        return HttpBody.getSucInstance(logMapper.selectLogByUserId(userPO.getTableSpace(), userPO.getId()));
+    }
+
+    @GetMapping("/getCharts")
+    public HttpBody getCharts(){
+        UserPO userPO = SessionContextHolder.getAccountAndValid();
+        OrderStaticsPO orderStaticsPO = new OrderStaticsPO();
+        orderStaticsPO.setDbPrefix(userPO.getTableSpace());
+        orderStaticsPO.setYId(userPO.getId());
+        return HttpBody.getSucInstance(orderStaticsMapper.queryPageGroup(orderStaticsPO));
     }
 
 }

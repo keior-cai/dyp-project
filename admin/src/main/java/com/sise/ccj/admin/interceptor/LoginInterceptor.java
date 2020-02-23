@@ -58,7 +58,15 @@ public class LoginInterceptor implements HandlerInterceptor {
                     return true;
                 }
             }
-            String token = getToken(request);
+            String token = null;
+            try {
+                token = getToken(request);
+            }catch (Exception e){
+                HttpBody body = HttpBody.getInstance(HttpBody.ERROR_CODE, e.getMessage(), Maps.of("data", adminConfig.getLoginPath()));
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().println(JSON.toJSONString(body));
+                return false;
+            }
             UserPO admin = getUserInfo(token);
             if (admin == null) {
                 HttpBody body = HttpBody.getInstance(HttpBody.ERROR_CODE, "无效凭证", Maps.of("data", adminConfig.getLoginPath()));
