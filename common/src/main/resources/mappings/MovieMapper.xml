@@ -283,7 +283,7 @@
 
     <select id="queryMovie" resultType="com.sise.ccj.pojo.common.MoviePO">
         SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.movie
-        WHERE deleted = 0
+        WHERE deleted = 0 AND status != 2
     </select>
     <select id="loadMovie" resultType="com.sise.ccj.pojo.common.MoviePO">
         SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.movie
