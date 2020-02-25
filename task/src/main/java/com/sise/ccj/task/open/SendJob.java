@@ -1,4 +1,4 @@
-package com.sise.ccj.task;
+package com.sise.ccj.task.open;
 
 import com.sise.ccj.mapper.OpenOrderMapper;
 import com.sise.ccj.task.job.Job;
@@ -17,12 +17,5 @@ public class SendJob implements Job {
 
     @Override
     public void execute(String db) {
-    }
-
-    public static void main(String[] args) {
-        Long l = 7688836000L;
-        String str = Long.toBinaryString(l);
-        System.out.println(Integer.valueOf(str, 2));
-
     }
 }
