@@ -13,6 +13,8 @@ public interface MovieMapper {
 
     Page<MoviePO> queryMovie(@Param("dbPrefix") String dbPrefix);
 
+    Page<MoviePO> queryMovie2(@Param("dbPrefix") String dbPrefix);
+
     void addMovie(MoviePO moviePO);
 
     void delMovie(@Param("dbPrefix") String dbPrefix, @Param("id") Integer id);

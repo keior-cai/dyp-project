@@ -42,7 +42,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public BaseVO selectMovie(MovieRequest param, UserPO logPo) {
         PageHelper.startPage(param.getPage(), param.getSize());
-        return BaseVO.builder(movieMapper.queryMovie(logPo.getTableSpace()));
+        return BaseVO.builder(movieMapper.queryMovie2(logPo.getTableSpace()));
     }
 
     @Override
