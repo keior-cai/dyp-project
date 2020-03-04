@@ -186,6 +186,7 @@
         a.num,
         b.name,
         b.address,
+        c.status AS movieStatus,
         c.name as movie_name,
         c.title as title,
         c.content as content,
@@ -194,7 +195,7 @@
         c.vip_price
         FROM ${dbPrefix}.m_space a
         JOIN ${dbPrefix}.space b ON (a.s_id = b.id AND b.deleted = 0 AND b.status = 'ACTIVE')
-        JOIN ${dbPrefix}.movie c ON (a.m_id = c.id AND c.deleted = 0 AND c.status = 1)
+        JOIN ${dbPrefix}.movie c ON (a.m_id = c.id AND c.deleted = 0)
         WHERE a.deleted = 0
         <if test="id != null">
             AND a.id = #{id}

@@ -55,4 +55,6 @@ public class PSpacePO {
     private Double price;
 
     private Double vipPrice;
+
+    private Integer movieStatus;
 }
