@@ -1,6 +1,7 @@
-CREATE DATABASE dyp_${id};
-USE dyp_${id};
-CREATE TABLE IF NOT EXISTS `log`  (
+
+use dyp_${id};
+
+CREATE TABLE IF NOT EXISTS `log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `user_id` int(11) NULL DEFAULT NULL,
@@ -9,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `log`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
 
-CREATE TABLE IF NOT EXISTS `m_space`  (
+CREATE TABLE IF NOT EXISTS `m_space` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `m_id` int(11) NULL DEFAULT NULL COMMENT '电影ID',
   `up_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '播放时间',

@@ -10,12 +10,14 @@ import com.sise.ccj.constant.TimeConstant;
 import com.sise.ccj.enums.DeletedEnum;
 import com.sise.ccj.enums.admin.AdminRoleEnums;
 import com.sise.ccj.enums.admin.AdminStatus;
+import com.sise.ccj.exception.ServerException;
 import com.sise.ccj.mapper.DypDbMapper;
 import com.sise.ccj.mapper.UserMapper;
 import com.sise.ccj.pojo.admin.UserPO;
 import com.sise.ccj.request.admin.AdminRequest;
 import com.sise.ccj.service.AdminService;
 import com.sise.ccj.vo.BaseVO;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -24,6 +26,7 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.StringWriter;
 
@@ -33,6 +36,7 @@ import java.io.StringWriter;
  * @Author CCJ
  * @Date 2020/1/14 0:27
  **/
+@Slf4j
 @Service
 public class AdminServiceImpl implements AdminService {
 
@@ -84,6 +88,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @Transactional
     public void insertUpdate(UserPO userPO) {
         UserPO logpPo = SessionContextHolder.getAccountAndValid();
         if (userPO.getId() == logpPo.getId()){
@@ -93,8 +98,14 @@ public class AdminServiceImpl implements AdminService {
                     TimeConstant.SERVEN_DAY_SECOND);
         }
         if (userPO.getId() == null) {
+            UserPO userPO1 = userMapper.queryUserByUserName(userPO.getUserName());
+            if (userPO1 != null){
+                throw new ServerException("用户已存在");
+            }
             userMapper.insertUpdate(userPO);
+            dypDbMapper.executeSql("CREATE DATABASE dyp_${id};".replace("${id}", userPO.getId().toString()));
             String sql = getBusinessDDL("sql/table.vm",userPO.getId());
+            log.info("{}", sql);
             dypDbMapper.executeSql(sql);
         }else {
             userMapper.insertUpdate(userPO);
@@ -107,7 +118,7 @@ public class AdminServiceImpl implements AdminService {
         ve.init();
         Template template = ve.getTemplate(ddlFilePath,"utf-8");
         VelocityContext context = new VelocityContext();
-        context.put("dbPrefix", id);
+        context.put("id", id);
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
         return writer.toString();

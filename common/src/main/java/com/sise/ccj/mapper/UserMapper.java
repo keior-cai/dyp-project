@@ -21,4 +21,6 @@ public interface UserMapper {
     Page<UserPO> queryGeneralUser(@Param("userName") String userName, @Param("startTime") String startTime, @Param("endTime") String endTime, @Param("status") String status);
 
     void insertUpdate(UserPO userPO);
+
+    UserPO queryUserByUserName(@Param("userName") String userName);
 }

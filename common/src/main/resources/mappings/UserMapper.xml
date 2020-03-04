@@ -223,4 +223,7 @@
           AND role = 0
         </trim>
     </select>
+    <select id="queryUserByUserName" resultType="com.sise.ccj.pojo.admin.UserPO">
+        SELECT <include refid="Base_Column_List"/> FROM dyp_business.user WHERE user_name = #{userName} AND deleted = 0
+    </select>
 </mapper>
