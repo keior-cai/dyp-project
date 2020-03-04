@@ -12,6 +12,8 @@ import com.sise.ccj.exception.ServerException;
 import com.sise.ccj.mapper.OpenOrderMapper;
 import com.sise.ccj.mapper.OrderMapper;
 import com.sise.ccj.mapper.PSpaceMapper;
+import com.sise.ccj.mapper.UserMapper;
+import com.sise.ccj.pojo.admin.UserPO;
 import com.sise.ccj.pojo.common.OpenOrderPO;
 import com.sise.ccj.pojo.common.OrderPO;
 import com.sise.ccj.pojo.common.PSpacePO;
@@ -47,6 +49,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OpenOrderMapper openOrderMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
 
     @Override
@@ -97,12 +102,14 @@ public class OrderServiceImpl implements OrderService {
                 orderPO.getYId()+"",
                 orderPO.getTotal(), times);
         orderMapper.insertUpdate(orderPO);
+        UserPO userPO = userMapper.queryUserById(orderPO.getYId());
         // 写入回调
         OpenOrderPO openOrderPO = new OpenOrderPO();
         openOrderPO.setInfo(JSON.toJSONString(orderPO));
         openOrderPO.setStatus(0);
         openOrderPO.setDbPrefix(dbPrefix);
         openOrderPO.setType(0);
+        openOrderPO.setUrl(userPO.getOpenUrl());
         openOrderMapper.insertUpdate(openOrderPO);
         return orderSn;
     }

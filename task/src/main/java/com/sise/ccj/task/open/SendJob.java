@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -28,11 +29,20 @@ public class SendJob implements Job2 {
             return;
         }
         for (OpenOrderPO openOrderPO: openOrderPOList){
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-            HttpEntity<String> entity = new HttpEntity<>(openOrderPO.getInfo(), headers);
-            ResponseEntity<String> response =  client.exchange(openOrderPO.getUrl(), HttpMethod.POST,entity , String.class);
-            log.info("{}", response.getBody());
+            if (StringUtils.isEmpty(openOrderPO.getUrl())){
+                continue;
+            }
+            try {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+                HttpEntity<String> entity = new HttpEntity<>(openOrderPO.getInfo(), headers);
+                ResponseEntity<String> response = client.exchange(openOrderPO.getUrl(), HttpMethod.POST, entity, String.class);
+                log.info("{}", response.getBody());
+            }catch (Exception e){
+                log.error("{}, 回调失败",openOrderPO);
+            }
+            openOrderPO.setStatus(1);
+            openOrderMapper.insertUpdate(openOrderPO);
         }
     }
 }

@@ -44,9 +44,7 @@ public class OrderController {
         CustomerPO logPo = SessionContextHolder.getAccountAndValid(null);
         param.setOpenId(logPo.getOpenId());
         param.setYId(logPo.getYId());
-        return HttpBody.getSucInstance(orderService
-                .insertUpdate(param, logPo.getTableSpace())
-        );
+        return HttpBody.getSucInstance(orderService.insertUpdate(param, logPo.getTableSpace()));
     }
 
     @GetMapping("/queryOrder")
