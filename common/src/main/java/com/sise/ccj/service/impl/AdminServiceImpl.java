@@ -10,14 +10,22 @@ import com.sise.ccj.constant.TimeConstant;
 import com.sise.ccj.enums.DeletedEnum;
 import com.sise.ccj.enums.admin.AdminRoleEnums;
 import com.sise.ccj.enums.admin.AdminStatus;
+import com.sise.ccj.mapper.DypDbMapper;
 import com.sise.ccj.mapper.UserMapper;
 import com.sise.ccj.pojo.admin.UserPO;
 import com.sise.ccj.request.admin.AdminRequest;
 import com.sise.ccj.service.AdminService;
 import com.sise.ccj.vo.BaseVO;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.StringWriter;
 
 /**
  * @ClassName AdminServiceImpl
@@ -34,6 +42,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private RedisUtil redisUtil;
+
+    @Autowired
+    private DypDbMapper dypDbMapper;
 
     @Override
     public BaseVO
@@ -81,6 +92,24 @@ public class AdminServiceImpl implements AdminService {
                     JSON.toJSONString(userPO),
                     TimeConstant.SERVEN_DAY_SECOND);
         }
-        userMapper.insertUpdate(userPO);
+        if (userPO.getId() == null) {
+            userMapper.insertUpdate(userPO);
+            String sql = getBusinessDDL("sql/table.vm",userPO.getId());
+            dypDbMapper.executeSql(sql);
+        }else {
+            userMapper.insertUpdate(userPO);
+        }
+    }
+    private String getBusinessDDL(String ddlFilePath, Integer id) {
+        VelocityEngine ve = new VelocityEngine();
+        ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+        ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+        ve.init();
+        Template template = ve.getTemplate(ddlFilePath,"utf-8");
+        VelocityContext context = new VelocityContext();
+        context.put("dbPrefix", id);
+        StringWriter writer = new StringWriter();
+        template.merge(context, writer);
+        return writer.toString();
     }
 }
