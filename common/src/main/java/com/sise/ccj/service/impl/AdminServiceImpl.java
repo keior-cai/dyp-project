@@ -27,6 +27,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.io.StringWriter;
 
@@ -103,10 +104,13 @@ public class AdminServiceImpl implements AdminService {
                 throw new ServerException("用户已存在");
             }
             userMapper.insertUpdate(userPO);
-            dypDbMapper.executeSql("CREATE DATABASE dyp_${id};".replace("${id}", userPO.getId().toString()));
-            String sql = getBusinessDDL("sql/table.vm",userPO.getId());
-            log.info("{}", sql);
-            dypDbMapper.executeSql(sql);
+            String tableSql = getBusinessDDL("sql/table.vm",userPO.getId());
+            log.info("{}", tableSql);
+            for (String sql : tableSql.split(";")){
+                if (!StringUtils.isEmpty(sql)){
+                    dypDbMapper.executeSql(sql);
+                }
+            }
         }else {
             userMapper.insertUpdate(userPO);
         }

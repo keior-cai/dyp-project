@@ -40,7 +40,7 @@ public class MovieController {
         redisUtil.set(CommonConstant.KEY_LOGIN_TOKEN
                 .replace(CommonConstant.REPLACE_TOKEN, logPo.getToken()),
                 JSON.toJSONString(logPo), TimeConstant.SERVEN_DAY_MILLIS);
-        BaseVO baseVO = movieService.selectMovie(param, new UserPO(logPo.getTableSpace()));
+        BaseVO baseVO = movieService.selectMovie(param, new UserPO(logPo.getTableSpace()), 2);
         return HttpBody.getSucInstance(baseVO);
     }
 

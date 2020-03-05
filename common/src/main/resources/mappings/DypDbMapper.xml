@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sise.ccj.mapper.DypDbMapper">
-    <update id="executeSql" parameterType="java.lang.String">
+    <update id="executeSql">
         ${sql}
+    </update>
+    <update id="createDatabase">
+        CREATE DATABASE dyp_${id};
     </update>
     <select id="queryDb" resultType="java.lang.String">
         SHOW DATABASES LIKE 'dyp_%'

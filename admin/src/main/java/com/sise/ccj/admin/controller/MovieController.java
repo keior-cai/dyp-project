@@ -38,7 +38,7 @@ public class MovieController {
     @GetMapping("/queryMovie")
     public HttpBody selectMove(MovieRequest param) {
         UserPO userPO = SessionContextHolder.getAccountAndValid();
-        return HttpBody.getSucInstance(moveService.selectMovie(param, userPO));
+        return HttpBody.getSucInstance(moveService.selectMovie(param, userPO, 1));
     }
 
     @PostMapping("/updateMovie")

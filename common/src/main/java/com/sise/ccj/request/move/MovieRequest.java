@@ -13,7 +13,7 @@ import java.util.Date;
  **/
 
 @Data
-public class MovieRequest  extends BaseRequest {
+public class MovieRequest extends BaseRequest {
 
     private String id;
 
@@ -23,13 +23,19 @@ public class MovieRequest  extends BaseRequest {
 
     private String name;
 
+    private Integer status;
+
     private Date createTime;
 
     private Date updateTime;
 
+    private String startTime;
+
+    private String endTime;
+
     private Integer dyy;
 
-    public void addCreateTimeAndUpdateTime(){
+    public void addCreateTimeAndUpdateTime() {
         Date date = new Date();
         setUpdateTime(date);
         setCreateTime(date);

@@ -18,6 +18,7 @@ import com.sise.ccj.vo.HttpBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -139,6 +140,9 @@ public class AdminController {
     @GetMapping("/queryLog")
     public HttpBody queryLog(){
         UserPO userPO = SessionContextHolder.getAccountAndValid();
+        if (userPO.getRole() == AdminRoleEnums.SUPER_ADMIN.getRole()){
+            return HttpBody.getSucInstance(Collections.emptyList());
+        }
         return HttpBody.getSucInstance(logMapper.selectLogByUserId(userPO.getTableSpace(), userPO.getId()));
     }
 

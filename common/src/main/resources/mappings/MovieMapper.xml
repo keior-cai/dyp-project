@@ -289,11 +289,24 @@
     <select id="queryMovie2" resultType="com.sise.ccj.pojo.common.MoviePO">
         SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.movie
         WHERE deleted = 0
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        <if test="startTime != null and endTime != ''">
+            AND create_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            AND create_time &lt;= #{endTime}
+        </if>
+        <if test="name != null">
+            AND name LIKE CONCAT('%', #{name},'%')
+        </if>
+        ORDER BY create_time DESC
     </select>
 
     <select id="loadMovie" resultType="com.sise.ccj.pojo.common.MoviePO">
         SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.movie
-        WHERE deleted = 0 AND status = 1
+        WHERE deleted = 0 AND status = 1 ORDER BY create_time DESC
     </select>
 
 </mapper>

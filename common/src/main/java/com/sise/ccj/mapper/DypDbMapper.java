@@ -9,4 +9,6 @@ public interface DypDbMapper {
     List<String> queryDb();
 
     void executeSql(@Param("sql") String sql);
+
+    void createDatabase(@Param("id") Integer id);
 }

@@ -12,7 +12,7 @@ public interface MovieService {
 
     void delMovie(Integer id, UserPO logPo);
 
-    BaseVO selectMovie(MovieRequest param, UserPO logPo);
+    BaseVO selectMovie(MovieRequest param, UserPO logPo, int type);
 
     MoviePO findMovieById(Integer id, String prefix);
 
