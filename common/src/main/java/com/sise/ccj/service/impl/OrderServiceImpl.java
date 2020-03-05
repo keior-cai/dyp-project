@@ -103,14 +103,16 @@ public class OrderServiceImpl implements OrderService {
                 orderPO.getTotal(), times);
         orderMapper.insertUpdate(orderPO);
         UserPO userPO = userMapper.queryUserById(orderPO.getYId());
-        // 写入回调
-        OpenOrderPO openOrderPO = new OpenOrderPO();
-        openOrderPO.setInfo(JSON.toJSONString(orderPO));
-        openOrderPO.setStatus(0);
-        openOrderPO.setDbPrefix(dbPrefix);
-        openOrderPO.setType(0);
-        openOrderPO.setUrl(userPO.getOpenUrl());
-        openOrderMapper.insertUpdate(openOrderPO);
+        if (userPO.getIsOpen() != 0){
+            // 开启回调的，写入回调
+            OpenOrderPO openOrderPO = new OpenOrderPO();
+            openOrderPO.setInfo(JSON.toJSONString(orderPO));
+            openOrderPO.setStatus(0);
+            openOrderPO.setDbPrefix(dbPrefix);
+            openOrderPO.setType(0);
+            openOrderPO.setUrl(userPO.getOpenUrl());
+            openOrderMapper.insertUpdate(openOrderPO);
+        }
         return orderSn;
     }
 

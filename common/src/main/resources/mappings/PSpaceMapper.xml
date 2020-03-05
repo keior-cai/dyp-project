@@ -194,7 +194,7 @@
         c.price,
         c.vip_price
         FROM ${dbPrefix}.m_space a
-        JOIN ${dbPrefix}.space b ON (a.s_id = b.id AND b.deleted = 0 AND b.status = 'ACTIVE')
+        JOIN ${dbPrefix}.space b ON a.s_id = b.id
         JOIN ${dbPrefix}.movie c ON (a.m_id = c.id AND c.deleted = 0)
         WHERE a.deleted = 0
         <if test="id != null">
@@ -215,6 +215,7 @@
         <if test="startTime != null and startTime != ''">
             AND a.create_time &gt;= #{startTime} AND a.create_time &lt; ${endTime}
         </if>
+        ORDER BY create_time desc,a.status asc
     </select>
 
     <select id="queryByDate" resultType="com.sise.ccj.pojo.common.PSpacePO">

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @ClassName AdminController
@@ -153,6 +154,12 @@ public class AdminController {
         orderStaticsPO.setDbPrefix(userPO.getTableSpace());
         orderStaticsPO.setYId(userPO.getId());
         return HttpBody.getSucInstance(orderStaticsMapper.queryPageGroup(orderStaticsPO));
+    }
+
+    @GetMapping("/createToken")
+    public HttpBody createToken(){
+        String token = UUID.randomUUID().toString();
+        return HttpBody.getSucInstance(token);
     }
 
 }

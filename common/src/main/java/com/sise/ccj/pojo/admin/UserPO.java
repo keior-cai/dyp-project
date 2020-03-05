@@ -36,6 +36,8 @@ public class UserPO {
 
     private String openUrl;
 
+    private Integer isOpen;
+
 
     // ========================
     private String token;

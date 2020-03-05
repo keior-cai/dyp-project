@@ -3,6 +3,7 @@ package com.sise.ccj.task.down;
 import com.github.pagehelper.Page;
 import com.sise.ccj.mapper.MovieMapper;
 import com.sise.ccj.pojo.common.MoviePO;
+import com.sise.ccj.request.move.MovieRequest;
 import com.sise.ccj.task.job.Job;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,9 @@ public class MovieDownJob implements Job {
 
     @Override
     public void execute(String db) {
-        Page<MoviePO> moviePOS = movieMapper.queryMovie(db);
+        MovieRequest param = new MovieRequest();
+        param.setDbPrefix(db);
+        Page<MoviePO> moviePOS = movieMapper.queryMovie(param);
         for (MoviePO moviePO : moviePOS.getResult()){
             moviePO.setDbPrefix(db);
             if (moviePO.getDownTime().getTime() <= System.currentTimeMillis()){
