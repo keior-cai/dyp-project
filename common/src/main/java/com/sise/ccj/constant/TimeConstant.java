@@ -14,6 +14,8 @@ public interface TimeConstant {
 	
 	long THIRTY_MINUTE_SECOND = 30 * 60L;
 
+	long FIVE_MINUTE_SECOND = 5*60L;
+
 	long TEN_MINUTE_SECOND = 10 * 60L;
 
 	long ONE_HUNDRED_MILLIS = 100L;

@@ -8,6 +8,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
 import com.sise.ccj.config.redis.RedisUtil;
 import com.sise.ccj.constant.RedisConstant;
+import com.sise.ccj.constant.TimeConstant;
 import com.sise.ccj.exception.ServerException;
 import com.sise.ccj.mapper.OpenOrderMapper;
 import com.sise.ccj.mapper.OrderMapper;
@@ -92,15 +93,13 @@ public class OrderServiceImpl implements OrderService {
             pSpacePO.setNum(pSpacePO.getNum() - orderPO.getNum());
             pSpaceMapper.insertUpdate(pSpacePO);
         }
-        Date date = DateHelper.parseYYYY_MM_DD_HH_MM_SS(DateHelper.getTodayEndTime());
-        long times = (date.getTime()-System.currentTimeMillis()) /1000;
         // 订单统计
         redisUtil.hmIncrementAndGet(RedisConstant.ORDER_COUNT,
                 orderPO.getYId()+"",
-                orderPO.getNum(), times);
+                orderPO.getNum(), TimeConstant.FIVE_MINUTE_SECOND);
         redisUtil.hmIncrementAndGet(RedisConstant.ORDER_TOTAL,
                 orderPO.getYId()+"",
-                orderPO.getTotal(), times);
+                orderPO.getTotal(), TimeConstant.FIVE_MINUTE_SECOND);
         orderMapper.insertUpdate(orderPO);
         UserPO userPO = userMapper.queryUserById(orderPO.getYId());
         if (userPO.getIsOpen() != 0){

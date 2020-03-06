@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sise.ccj.mapper.UserMapper">
     <sql id="Base_Column_List">
-        id,user_name,name,password,ip,create_time,update_time,deleted,role,avatar,phone,status,info,is_open
+        id,user_name,name,password,ip,create_time,update_time,deleted,role,avatar,phone,status,info,is_open,token
     </sql>
     <insert id="addUser" parameterType="com.sise.ccj.pojo.admin.UserPO">
         INSERT INTO dyp_business.user
@@ -97,6 +97,9 @@
             <if test="isOpen != null">
                 is_open,
             </if>
+            <if test="token != null">
+                token,
+            </if>
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
             #{id},
@@ -133,6 +136,9 @@
             <if test="isOpen != null">
                 #{isOpen},
             </if>
+            <if test="token != null">
+                #{token},
+            </if>
         </trim>
         ON DUPLICATE KEY UPDATE
         <trim suffixOverrides=",">
@@ -168,6 +174,9 @@
             </if>
             <if test="isOpen != null">
                 is_open = values(is_open),
+            </if>
+            <if test="token != null">
+                token = values(token),
             </if>
         </trim>
     </insert>
