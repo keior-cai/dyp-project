@@ -10,6 +10,6 @@ public interface OrderStaticsMapper {
     Page<OrderStaticsPO> queryPage(OrderStaticsPO orderStaticsPO);
 
 
-    Page<JSONObject> queryPageGroup(OrderStaticsPO orderStaticsPO);
+    JSONObject queryPageGroup(OrderStaticsPO orderStaticsPO);
 
 }

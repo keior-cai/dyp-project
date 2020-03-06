@@ -1,11 +1,14 @@
 package com.sise.ccj.admin.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.StringUtil;
 import com.sise.ccj.annotation.AccessRolePermission;
 import com.sise.ccj.config.SessionContextHolder;
 import com.sise.ccj.config.redis.RedisUtil;
 import com.sise.ccj.constant.RedisConstant;
 import com.sise.ccj.enums.admin.AdminRoleEnums;
+import com.sise.ccj.mapper.DypDbMapper;
 import com.sise.ccj.mapper.LogMapper;
 import com.sise.ccj.mapper.OrderStaticsMapper;
 import com.sise.ccj.pojo.admin.UserPO;
@@ -18,9 +21,7 @@ import com.sise.ccj.vo.HttpBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @ClassName AdminController
@@ -46,6 +47,12 @@ public class AdminController {
 
     @Autowired
     private LogMapper logMapper;
+
+    @Autowired
+    private OrderStaticsMapper staticsMapper;
+
+    @Autowired
+    private DypDbMapper dbMapper;
 
     @PostMapping("/addAdmin")
     public HttpBody addAdmin(@RequestBody AdminRequest param){
@@ -97,31 +104,21 @@ public class AdminController {
         UserPO userPO = SessionContextHolder.getAccountAndValid();
         int count = 0;
         double total = 0;
+        OrderStaticsPO staticsPO = new OrderStaticsPO();
         if (userPO.getRole() == AdminRoleEnums.SUPER_ADMIN.getRole()) {
-            Map<Object, Object> countMap  = redisUtil.entries(RedisConstant.ORDER_COUNT);
-            Map<Object, Object> map  = redisUtil.entries(RedisConstant.STATICS_CUSTOMER_COUNT);
-            Map<Object, Object> totalMap  = redisUtil.entries(RedisConstant.ORDER_TOTAL);
-            count = countMap.values().stream().mapToInt(e -> {
-                if (!StringUtil.isEmpty(e+"") && !(e+"").equals("null")){
-                    return Integer.parseInt(e + "");
-                }
-                return 0;
-            }).sum();
-            total += totalMap.values().stream().mapToDouble(e ->{
-                if (!StringUtil.isEmpty(e+"") && !(e+"").equals("null")){
-                    return Double.parseDouble(e + "");
-                }
-                return 0.00d;
-            }).sum();
+            List<String> dbs = dbMapper.queryDb();
+            for (String db : dbs){
+                staticsPO.setDbPrefix(db);
+                staticsPO.setCreateTime(new Date());
+                JSONObject json = staticsMapper.queryPageGroup(staticsPO);
+                total += json.getDoubleValue("total");
+                count += json.getIntValue("count");
+            }
         }else {
-            String countStr = redisUtil.hmGet(RedisConstant.STATICS_CUSTOMER_COUNT, userPO.getId()+"")+"";
-            if (!StringUtil.isEmpty(countStr) && !countStr.equals("null")){
-                count  = Integer.parseInt(countStr);
-            }
-            String totalStr = redisUtil.hmGet(RedisConstant.ORDER_TOTAL, userPO.getId()+"")+"";
-            if (!StringUtil.isEmpty(totalStr ) && !totalStr.equals("null")){
-                total = Double.parseDouble(totalStr);
-            }
+            staticsPO.setDbPrefix(userPO.getTableSpace());
+            JSONObject json = staticsMapper.queryPageGroup(staticsPO);
+            count = json.getIntValue("count");
+            total = json.getDoubleValue("total");
         }
         return HttpBody.getSucInstance(Maps.of("total", total, "fail", 0, "count",count));
     }
