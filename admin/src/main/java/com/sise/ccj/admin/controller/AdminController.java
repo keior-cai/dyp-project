@@ -111,14 +111,19 @@ public class AdminController {
                 staticsPO.setDbPrefix(db);
                 staticsPO.setCreateTime(new Date());
                 JSONObject json = staticsMapper.queryPageGroup(staticsPO);
+                if (json == null){
+                    continue;
+                }
                 total += json.getDoubleValue("total");
                 count += json.getIntValue("count");
             }
         }else {
             staticsPO.setDbPrefix(userPO.getTableSpace());
             JSONObject json = staticsMapper.queryPageGroup(staticsPO);
-            count = json.getIntValue("count");
-            total = json.getDoubleValue("total");
+            if (json != null){
+                count = json.getIntValue("count");
+                total = json.getDoubleValue("total");
+            }
         }
         return HttpBody.getSucInstance(Maps.of("total", total, "fail", 0, "count",count));
     }

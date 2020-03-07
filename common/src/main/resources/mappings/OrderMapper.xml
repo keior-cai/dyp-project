@@ -200,4 +200,7 @@
         </if>
         ORDER BY create_time DESC
     </select>
+    <select id="queryOrderByOrderSn" resultType="com.sise.ccj.pojo.common.OrderPO">
+        SELECT * FROM ${dbPrefix}.order WHERE order_sn = #{orderSn}
+    </select>
 </mapper>

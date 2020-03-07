@@ -47,5 +47,5 @@ public class OrderPO {
 
     private String location;
 
-    private Date outTime;
+    private long outTime;
 }

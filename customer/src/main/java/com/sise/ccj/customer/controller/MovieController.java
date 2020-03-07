@@ -32,6 +32,7 @@ public class MovieController {
     @Autowired
     private RedisUtil redisUtil;
 
+
     @GetMapping("/queryMovie")
     public HttpBody queryMovie(MovieRequest param){
         CustomerPO logPo = SessionContextHolder.getAccountAndValid(null);
@@ -49,4 +50,6 @@ public class MovieController {
         CustomerPO logPo = SessionContextHolder.getAccountAndValid(null);
         return HttpBody.getSucInstance(movieService.findMovieById(id, logPo.getTableSpace()));
     }
+
+
 }

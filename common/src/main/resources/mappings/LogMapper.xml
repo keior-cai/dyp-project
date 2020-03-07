@@ -8,10 +8,10 @@
         INSERT INTO ${dbPrefix}.log(ip, text,user_id) VALUES(#{ip}, #{text},#{userId})
     </insert>
     <select id="queryLogByUserId" resultType="com.sise.ccj.pojo.admin.LogPO">
-        SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.log WHERE user_id = #{userId}
+        SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.log WHERE user_id = #{userId}ORDER BY create_time DESC LIMIT 8
     </select>
     <select id="selectLogByUserId" resultType="com.sise.ccj.pojo.admin.LogPO">
-        SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.log WHERE user_id = #{userId}
+        SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.log WHERE user_id = #{userId} ORDER BY create_time DESC LIMIT 8
     </select>
 
 </mapper>
