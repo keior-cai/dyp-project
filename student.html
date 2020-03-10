@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<p id="p"></p>
+<video src="" id="video"></video>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+	// Prefer camera resolution nearest to 1280x720.
+	var i = 0
+    var constraints = { audio: true, video : true }
+    var audio = navigator.mediaDevices.getUserMedia(constraints)
+        .then(function(mediaStream) {
+			var ws = new WebSocket("wss://192.168.10.108:9903/zx/pcm")
+			ws.onopen=function(so){
+			    alert('success')
+			    console.log('socket connect success')
+			    ws.send(JSON.stringify({'command': 'info', 'studentId': 'studentId'}))
+			    ws.send(JSON.stringify({'command': 'onCall', 'studentId': 'studentId', 'teacherId': 'teacherId'}))
+			}
+			ws.onerror = function(res){
+			    alert('error')
+			}
+
+			ws.onmessage = function (msg){
+				console.log(msg)
+				// var video = document.querySelector('video')
+		  //       video.srcObject = mediaStream
+				// video.onloadedmetadata = function(e) {
+		  //       	video.play()
+		  //       }
+			}
+    		var mediaRecorder = new MediaRecorder(mediaStream)
+    		var myAudio = document.querySelector('p')
+		    myAudio.innerHtml = 'ddddd'
+			mediaRecorder.ondataavailable = function(blob) {
+		    	myAudio.innerHtml = i
+    			ws.send(blob.data)
+    			i++
+		    }
+      		mediaRecorder.start(1000)
+        }).catch(function(err) { alert(err.name + ": " + err.message); }); // always check for errors at the end.
+</script>
+</body>
+</html>

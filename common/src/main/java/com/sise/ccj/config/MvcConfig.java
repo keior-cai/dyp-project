@@ -46,11 +46,13 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatter(new Formatter<Date>() {
             private String format = "yyyy-MM-dd HH:mm:ss";
+
             @Override
             public Date parse(String text, Locale locale) throws ParseException {
                 DateFormat dateFormat = new SimpleDateFormat(format, locale);
                 return dateFormat.parse(text);
             }
+
             @Override
             public String print(Date object, Locale locale) {
                 DateFormat dateFormat = new SimpleDateFormat(format, locale);
@@ -58,6 +60,7 @@ public class MvcConfig implements WebMvcConfigurer {
             }
         });
     }
+
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         // 标注着@Restful 和 @RequestBody都会默认使用MappingJackson2HttpMessageConverter构造器
@@ -141,5 +144,4 @@ public class MvcConfig implements WebMvcConfigurer {
                 .maxAge(3600)
                 .allowedHeaders("*");
     }
-
 }

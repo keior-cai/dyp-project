@@ -18,7 +18,7 @@ spring:
     autoCommit: true
     maximumPoolSize: 8
   resources:
-    static-locations: classpath:/META-INF/resources/,classpath:/static,classpath:/resources/,file:D:\my\bs\dyp-project-fe\dist
+    static-locations: classpath:/META-INF/resources/,classpath:/static,classpath:/resources/,file:C:\Users\Administrator\Desktop
 server:
   port: 9901
   servlet:
@@ -27,6 +27,10 @@ server:
     enabled: true
     min-response-size: 1024
     mime-types: application/javascript,text/css,application/json,application/xml,text/html,text/xml,text/plain
+  ssl:
+    key-password: 123456
+    key-store: file:D:/data/tomcat.keystore
+    key-store-type: JKS
 admin:
   loginPath: http://localhost:9901/admin/index.html#/login
   indexPath: http://localhost:9901/admin/index.html#/index

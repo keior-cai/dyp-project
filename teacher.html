@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<video src="" id="video"></video>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+	// Prefer camera resolution nearest to 1280x720.
+	var mediaSource = new MediaSource()
+	var ws = new WebSocket("wss://localhost:9903/zx/pcm");
+	ws.onopen=function(so){
+	    console.log('socket connect success')
+	    ws.send(JSON.stringify({'command': 'info', 'teacherId': 'teacherId'}))
+	}
+
+	ws.onerror = function(){
+	    console.log("error");
+	};
+
+	ws.onmessage = function (msg){
+		if (msg.data instanceof Blob) {
+			var blob = new Blob([msg.data], { 'type' : 'audio/webm;codecs=opus' })
+		    //获取audio节点
+		    var myAudio = document.querySelector('video')
+			myAudio.src = URL.createObjectURL(blob)
+		 //    //创建音频源
+		 //    source = audioCtx.createMediaElementSource(myAudio)
+		    // source = audioCtx.createBufferSource();
+		 //    //将音频源直接连接到输出设备
+		 //    source.connect(audioCtx.destination)
+
+			// msg.data.arrayBuffer().then(res => {
+				
+			// })
+			
+		}
+		
+	}
+    // var constraints = { audio: true }
+   //  var audio = navigator.mediaDevices.getUserMedia(constraints)
+   //      .then(function(mediaStream) {
+   //  		var mediaRecorder = new MediaRecorder(mediaStream)
+			// mediaRecorder.ondataavailable = function(blob) {
+   //  			ws.send(blob.data)
+		 //    }
+   //    		mediaRecorder.start(1000)
+            
+   //      }).catch(function(err) { alert(err.name + ": " + err.message); }); // always check for errors at the end.
+</script>
+</body>
+</html>
