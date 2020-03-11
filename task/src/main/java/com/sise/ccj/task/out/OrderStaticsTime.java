@@ -7,6 +7,7 @@ import com.sise.ccj.constant.RedisConstant;
 import com.sise.ccj.mapper.OrderStaticsMapper;
 import com.sise.ccj.pojo.common.OrderStaticsPO;
 import com.sise.ccj.task.job.Job;
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ import java.util.Map;
  * @Date 2020/2/7 0:21
  **/
 @Component("OrderStaticsJob")
+@DisallowConcurrentExecution
 public class OrderStaticsTime implements Job {
 
     @Autowired

@@ -9,6 +9,8 @@ public class MasterCache {
 
     public volatile static Boolean isMaster = false;
 
+    public volatile static Boolean isFirst = true;
+
     public static final Set<String> dbList = new HashSet<>();
 
     public volatile static int tryCount = 10;

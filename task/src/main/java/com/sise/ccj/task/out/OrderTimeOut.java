@@ -20,6 +20,7 @@ import com.sise.ccj.utils.DateHelper;
 import com.sise.ccj.utils.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateUtils;
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,6 +42,7 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 @Slf4j
 @Service("TimeOutJob")
+@DisallowConcurrentExecution
 public class OrderTimeOut implements Job {
 
     private static final Map<String, List<String>> timeOutMap = new ConcurrentHashMap<>();
@@ -67,6 +69,7 @@ public class OrderTimeOut implements Job {
         if (!timeOutMap.isEmpty()){
             return;
         }
+        log.info("orderTimeOut load db = {}", MasterCache.dbList);
         for (String db : MasterCache.dbList){
             OrderRequest request = new OrderRequest();
             request.setDbPrefix(db);

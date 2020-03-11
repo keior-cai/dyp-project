@@ -7,6 +7,7 @@ import com.sise.ccj.task.cluster.master.MasterCache;
 import com.sise.ccj.task.job.Job;
 import com.sise.ccj.utils.Maps;
 import lombok.extern.slf4j.Slf4j;
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -22,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Service("SendJob")
+@DisallowConcurrentExecution
 public class SendJob implements Job {
 
     @Autowired

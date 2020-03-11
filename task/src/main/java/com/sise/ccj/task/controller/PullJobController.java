@@ -17,47 +17,53 @@ public class PullJobController {
 
 
     @GetMapping("/getTimeOutJob")
-    public HttpBody getTimeJob(){
+    public HttpBody getTimeJob() {
         return HttpBody.getSucInstance(jobMap.get("TimeOutJob").getJob());
     }
 
     @PostMapping("/finishTimeOutJob")
-    public HttpBody finishTimeOutJob(@RequestBody JSONObject json){
+    public HttpBody finishTimeOutJob(@RequestBody JSONObject json) {
         jobMap.get("TimeOutJob").finishJob(json);
         return HttpBody.SUCCESS;
     }
 
     @GetMapping("/getSendJob")
-    public HttpBody getSendJob(){
+    public HttpBody getSendJob() {
         return HttpBody.getSucInstance(jobMap.get("SendJob").getJob());
     }
 
     @PostMapping("/finishSendJob")
-    public HttpBody finishSendJob(@RequestBody JSONObject json){
+    public HttpBody finishSendJob(@RequestBody JSONObject json) {
         jobMap.get("SendJob").finishJob(json);
         return HttpBody.SUCCESS;
     }
 
     @GetMapping("/getMovieDownJob")
-    public HttpBody getMovieDownJob(){
+    public HttpBody getMovieDownJob() {
         return HttpBody.getSucInstance(jobMap.get("MovieDownJob").getJob());
     }
 
     @PostMapping("/finishMovieDownJob")
-    public HttpBody finishMovieDownJob(@RequestBody JSONObject json){
+    public HttpBody finishMovieDownJob(@RequestBody JSONObject json) {
         jobMap.get("MovieDownJob").finishJob(json);
         return HttpBody.SUCCESS;
     }
+
     @GetMapping("/getPSpaceDownJob")
-    public HttpBody getPSpaceDownJob(){
+    public HttpBody getPSpaceDownJob() {
         return HttpBody.getSucInstance(jobMap.get("PSpaceDownJob").getJob());
     }
 
     @PostMapping("/finishPSpaceDownJob")
-    public HttpBody finishPSpaceDownJob(@RequestBody JSONObject json){
+    public HttpBody finishPSpaceDownJob(@RequestBody JSONObject json) {
         jobMap.get("PSpaceDownJob").finishJob(json);
         return HttpBody.SUCCESS;
     }
 
+
+    @GetMapping("/ping")
+    public HttpBody ping() {
+        return HttpBody.SUCCESS;
+    }
 
 }

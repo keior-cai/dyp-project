@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RemoteApiController {
 
     @PostMapping("/{token}/createOrder")
-    public HttpBody createOrder(@PathVariable String token){
+    public HttpBody createOrder(@PathVariable String token) {
         return HttpBody.SUCCESS;
     }
 }
