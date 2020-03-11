@@ -10,4 +10,6 @@ public interface OpenOrderMapper {
     void insertUpdate(OpenOrderPO openOrderPO);
 
     List<OpenOrderPO> queryList(@Param("dbPrefix") String dbPrefix, @Param("status") Integer status);
+
+    OpenOrderPO queryById(@Param("dbPrefix") String dbPrefix, @Param("id") Integer id);
 }

@@ -1,19 +1,18 @@
 package com.sise.ccj.task.out;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sise.ccj.config.redis.RedisUtil;
 import com.sise.ccj.constant.CommonConstant;
 import com.sise.ccj.constant.RedisConstant;
 import com.sise.ccj.mapper.OrderStaticsMapper;
 import com.sise.ccj.pojo.common.OrderStaticsPO;
-import com.sise.ccj.service.OrderService;
-import com.sise.ccj.task.job.Job2;
+import com.sise.ccj.task.job.Job;
+import org.quartz.JobExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,8 +21,8 @@ import java.util.Map;
  * @Author CCJ
  * @Date 2020/2/7 0:21
  **/
-@Component
-public class OrderStaticsTime implements Job2 {
+@Component("OrderStaticsJob")
+public class OrderStaticsTime implements Job {
 
     @Autowired
     private RedisUtil redisUtil;
@@ -32,13 +31,14 @@ public class OrderStaticsTime implements Job2 {
     private OrderStaticsMapper orderStaticsMapper;
 
     @Override
-    public void execute(String db) {
+    public void execute(JobExecutionContext jobExecutionContext) {
+        // master 执行，不分配任务
         Map<Object, Object> countMap = redisUtil.entries(RedisConstant.ORDER_COUNT);
         Map<Object, Object> totalMap = redisUtil.entries(RedisConstant.ORDER_TOTAL);
         if (CollectionUtils.isEmpty(countMap)){
             return;
         }
-        OrderStaticsPO staticsPO = null;
+        OrderStaticsPO staticsPO;
         for (Map.Entry<Object, Object> entry : countMap.entrySet()){
             staticsPO = new OrderStaticsPO();
             staticsPO.setDbPrefix(CommonConstant.TABLE_SPACE.replace(CommonConstant.TABLE_SPACE_ID, entry.getKey()+""));
@@ -51,4 +51,20 @@ public class OrderStaticsTime implements Job2 {
             redisUtil.hremove(RedisConstant.ORDER_TOTAL, entry.getKey());
         }
     }
+
+    @Override
+    public Object getJob() {
+        return null;
+    }
+
+    @Override
+    public void finishJob(JSONObject jobInfo) {
+
+    }
+
+    @Override
+    public Object executeJob(JSONObject json) {
+        return null;
+    }
+
 }

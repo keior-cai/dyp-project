@@ -27,7 +27,13 @@ server:
     enabled: true
     min-response-size: 1024
     mime-types: application/javascript,text/css,application/json,application/xml,text/html,text/xml,text/plain
-time:
-  sec: 300000
-  out: 2000
-  down: 86400000
+task:
+  orderTimeOutCron: 0/2 * * * * ?
+  pullTaskCron: * * * * * ?
+  movieDownCron: 0/13 * * * * ?
+  pSpaceDownCron: 0/13 * * * * ?
+  orderStaticsCron: * 0/5 * * * ?
+  sendJobCron: 0/13 * * * * ?
+  env: http://localhost:9903
+  orderTomeOut: 5000    # 订单超时时间
+

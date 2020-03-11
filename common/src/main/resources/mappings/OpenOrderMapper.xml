@@ -82,5 +82,8 @@
     <select id="queryList" resultType="com.sise.ccj.pojo.common.OpenOrderPO">
         SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.open_order WHERE status = #{status}
     </select>
+    <select id="queryById" resultType="com.sise.ccj.pojo.common.OpenOrderPO">
+        SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.open_order WHERE id = #{id}
+    </select>
 
 </mapper>
