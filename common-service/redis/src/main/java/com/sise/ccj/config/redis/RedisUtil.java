@@ -4,14 +4,18 @@ import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +38,9 @@ public class RedisUtil {
     public RedisConnection getRedisConnection() {
     	return redisTemplate.getConnectionFactory().getConnection();
     }
-    
+
+    private static StringRedisSerializer stringRedisSerializer = new StringRedisSerializer(Charset.forName("UTF-8"));
+    private static FastjsonSerializer<Object> fastjsonSerializer = new FastjsonSerializer<>(Object.class);
     /**
      * 不建议的方法，会导致redis卡顿。
      * 尽量少用，不用，替代方法用一个key来保存
@@ -86,7 +92,25 @@ public class RedisUtil {
         }
         return result;
     }
-    
+    public boolean setIfAbsent(String key, String value, long second) {
+        boolean lockResult = false;
+        RedisConnection conn = null;
+        try {
+            conn = getRedisConnection();
+            Expiration expiration = Expiration.seconds(second);
+            byte[] keyArr = stringRedisSerializer.serialize(key);
+            byte[] valArr = fastjsonSerializer.serialize(value);
+            lockResult = conn.set(keyArr, valArr, expiration, RedisStringCommands.SetOption.SET_IF_ABSENT);
+            return lockResult;
+        } catch (Exception e) {
+            log.error("", e);
+        } finally {
+            if (null != conn) {
+                conn.close();
+            }
+        }
+        return lockResult;
+    }
     public boolean setnx(final String key, Object value, Date expireDate) {
     	boolean result = false;
     	try {

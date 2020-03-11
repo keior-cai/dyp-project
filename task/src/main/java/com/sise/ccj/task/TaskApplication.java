@@ -15,7 +15,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableConfigurationProperties(value = {MyBatisConfig.class})
 public class TaskApplication {
 
-
     public static void main(String[] args) {
         SpringApplication.run(TaskApplication.class, args);
     }
