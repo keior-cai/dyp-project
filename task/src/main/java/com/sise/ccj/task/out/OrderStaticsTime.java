@@ -1,6 +1,7 @@
 package com.sise.ccj.task.out;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sise.ccj.compant.SpringContext;
 import com.sise.ccj.config.redis.RedisUtil;
 import com.sise.ccj.constant.CommonConstant;
 import com.sise.ccj.constant.RedisConstant;
@@ -26,14 +27,10 @@ import java.util.Map;
 @DisallowConcurrentExecution
 public class OrderStaticsTime implements Job {
 
-    @Autowired
-    private RedisUtil redisUtil;
-
-    @Autowired
-    private OrderStaticsMapper orderStaticsMapper;
-
     @Override
     public void execute(JobExecutionContext jobExecutionContext) {
+        RedisUtil redisUtil = SpringContext.getBeanByType(RedisUtil.class);
+        OrderStaticsMapper orderStaticsMapper = SpringContext.getBeanByType(OrderStaticsMapper.class);
         // master 执行，不分配任务
         Map<Object, Object> countMap = redisUtil.entries(RedisConstant.ORDER_COUNT);
         Map<Object, Object> totalMap = redisUtil.entries(RedisConstant.ORDER_TOTAL);

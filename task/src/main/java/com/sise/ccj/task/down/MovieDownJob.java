@@ -2,6 +2,7 @@ package com.sise.ccj.task.down;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
+import com.sise.ccj.compant.SpringContext;
 import com.sise.ccj.mapper.MovieMapper;
 import com.sise.ccj.pojo.common.MoviePO;
 import com.sise.ccj.request.move.MovieRequest;
@@ -37,13 +38,15 @@ public class MovieDownJob implements Job {
 
     @Override
     public void execute(JobExecutionContext var1) {
-        if (downMap.isEmpty()) {
+        log.info("MovieDownJob load db = {}", finishMap);
+        if (!downMap.isEmpty()) {
             return;
         }
+        MovieMapper movieMapperd = SpringContext.getBeanByType(MovieMapper.class);
         for (String db : MasterCache.dbList) {
             MovieRequest param = new MovieRequest();
             param.setDbPrefix(db);
-            Page<MoviePO> moviePOS = movieMapper.queryMovie(param);
+            Page<MoviePO> moviePOS = movieMapperd.queryMovie(param);
             moviePOS.forEach(e -> {
                 if (!downMap.containsKey(db)) {
                     downMap.put(db, new ArrayList<>());

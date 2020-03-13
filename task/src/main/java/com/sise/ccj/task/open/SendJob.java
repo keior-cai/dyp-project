@@ -1,6 +1,7 @@
 package com.sise.ccj.task.open;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sise.ccj.compant.SpringContext;
 import com.sise.ccj.mapper.OpenOrderMapper;
 import com.sise.ccj.pojo.common.OpenOrderPO;
 import com.sise.ccj.task.cluster.master.MasterCache;
@@ -37,6 +38,7 @@ public class SendJob implements Job {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) {
+        OpenOrderMapper openOrderMapper = SpringContext.getBeanByType(OpenOrderMapper.class);
         for (String db : MasterCache.dbList) {
             if (!sendMap.containsKey(db)) {
                 sendMap.put(db, new ArrayList<>());

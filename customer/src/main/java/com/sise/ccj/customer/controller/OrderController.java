@@ -90,7 +90,7 @@ public class OrderController {
     public HttpBody payOrder(@RequestBody JSONObject json){
         CustomerPO logPo = SessionContextHolder.getAccountAndValid(null);
         String dbPrefix;
-        if (StringUtils.isEmpty(json.getString("yId"))){
+        if (!StringUtils.isEmpty(json.getString("yId"))){
             dbPrefix = CommonConstant.TABLE_SPACE.replace(CommonConstant.TABLE_SPACE_ID, json.getString("yId"));
         }else {
             dbPrefix = logPo.getDbPrefix();

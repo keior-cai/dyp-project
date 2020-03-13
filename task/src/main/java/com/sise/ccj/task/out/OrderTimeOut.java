@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.StringUtil;
+import com.sise.ccj.compant.SpringContext;
 import com.sise.ccj.mapper.OpenOrderMapper;
 import com.sise.ccj.mapper.OrderMapper;
 import com.sise.ccj.mapper.PSpaceMapper;
@@ -60,15 +61,13 @@ public class OrderTimeOut implements Job {
 
     private static Object object = new Object();
 
-    @Autowired
-    private TaskConfig taskConfig;
-
-
     @Override
     public void execute(JobExecutionContext var1) {
         if (!timeOutMap.isEmpty()){
             return;
         }
+        OrderMapper orderMapper = SpringContext.getBeanByType(OrderMapper.class);
+        TaskConfig taskConfig = (TaskConfig) SpringContext.getBeanById("taskConfig");
         log.info("orderTimeOut load db = {}", MasterCache.dbList);
         for (String db : MasterCache.dbList){
             OrderRequest request = new OrderRequest();

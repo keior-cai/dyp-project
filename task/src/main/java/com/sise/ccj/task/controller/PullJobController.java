@@ -66,4 +66,9 @@ public class PullJobController {
         return HttpBody.SUCCESS;
     }
 
+    @PostMapping("/upSlave")
+    public HttpBody upSlave(@RequestBody JSONObject json){
+        return HttpBody.SUCCESS;
+    }
+
 }

@@ -31,4 +31,8 @@ public interface CommonConstant {
 	String KEY_ACCOUNT_TOKEN = "dy:wt:tmp:account:token:private";
 
 	String TABLE_SPACE = "dyp_${id}";
+
+	Integer ON = 0;
+
+	Integer OFF = 1;
 }

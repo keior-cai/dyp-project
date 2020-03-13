@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 
 @Slf4j
 @Data
-@Configuration
+@Configuration("taskConfig")
 @ConfigurationProperties(prefix = "dyp.task")
 public class TaskConfig {
     private String orderTimeOutCron;

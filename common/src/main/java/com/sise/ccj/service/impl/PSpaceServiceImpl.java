@@ -14,6 +14,7 @@ import com.sise.ccj.vo.BaseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -44,15 +45,19 @@ public class PSpaceServiceImpl implements PSpaceService {
 
     @Override
     public void insertUpdate(UserPO loginPO, PSpacePO param) {
-        SpacePO spacePO = spaceMapper.querySpaceById(loginPO.getTableSpace(), param.getSId());
         param.setDbPrefix(loginPO.getTableSpace());
-
+        if (StringUtils.isEmpty(param.getInfo())) {
+            SpacePO spacePO = spaceMapper.querySpaceById(loginPO.getTableSpace(), param.getSId());
+            param.setInfo(spacePO.getInfo());
+            param.setNum(spacePO.getTotal());
+            pSpaceMapper.insertUpdate(param);
+        }else {
+            pSpaceMapper.insertUpdate(param);
+        }
 //        List<PSpacePO> spacePOList = pSpaceMapper.queryByDate(param);
 //        if (!CollectionUtils.isEmpty(spacePOList)){
 //            throw new ServerException("时间段冲突");
 //        }
-        param.setInfo(spacePO.getInfo());
-        param.setNum(spacePO.getTotal());
-        pSpaceMapper.insertUpdate(param);
+
     }
 }

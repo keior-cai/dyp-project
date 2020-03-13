@@ -30,6 +30,8 @@ public class PSpacePO {
 
     private Date updateTime;
 
+    private Date stroeTime;
+
     private String info;
 
     private Integer num;

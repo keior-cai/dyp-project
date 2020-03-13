@@ -4,7 +4,7 @@ import com.sise.ccj.config.redis.RedisUtil;
 import com.sise.ccj.constant.TimeConstant;
 import com.sise.ccj.task.TaskQuartzManager;
 import com.sise.ccj.task.cluster.master.MasterCache;
-import com.sise.ccj.task.cluster.slave.PullOrderTimeOutJob;
+import com.sise.ccj.task.cluster.slave.*;
 import com.sise.ccj.task.config.TaskConfig;
 import com.sise.ccj.task.constant.TaskConstant;
 import com.sise.ccj.task.down.MovieDownJob;
@@ -55,12 +55,14 @@ public class InitTask {
             TaskQuartzManager.addJob("PSpaceDownJob", "PSpaceDownJobTrigger", PSpaceDown.class, taskConfig.getPSpaceDownCron());
             TaskQuartzManager.addJob("OrderStaticsJob", "OrderStaticsJobTrigger", OrderStaticsTime.class, taskConfig.getOrderStaticsCron());
             TaskQuartzManager.addJob("SendJob", "SendJobTrigger", SendJob.class, taskConfig.getSendJobCron());
-            MasterCache.isFirst = false;
         }
         if (MasterCache.isFirst){
             TaskQuartzManager.addJob("PullOrderTimeOutJob", "PullOrderTimeOutJobTrigger", PullOrderTimeOutJob.class, taskConfig.getPullTaskCron());
+            TaskQuartzManager.addJob("PullSendJob", "PullSendJobTrigger", PullSendJob.class, taskConfig.getPullTaskCron());
+            TaskQuartzManager.addJob("PullPSpaceDownJob", "PullPSpaceDownJobTrigger", PullPSpaceDownJob.class, taskConfig.getPullTaskCron());
+            TaskQuartzManager.addJob("PullMovieDownJob", "PullMovieDownJobTrigger", PullMovieDownJob.class, taskConfig.getPullTaskCron());
             MasterCache.isFirst = false;
+            redisUtil.hmSet(PullHelp.key,taskConfig.getEnv(), "1");
         }
-        // 调起slave
     }
 }

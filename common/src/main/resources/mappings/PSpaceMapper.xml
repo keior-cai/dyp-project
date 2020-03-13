@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sise.ccj.mapper.PSpaceMapper">
     <sql id="Base_Column_List">
-        id,m_id,s_id,up_time,down_time,date,create_time,update_time,deleted,info,num
+        id,m_id,s_id,up_time,down_time,date,create_time,update_time,deleted,info,num,price,vip_price,stroe_time
     </sql>
     <insert id="addSpace">
         INSERT INTO ${dbPrefix}.space
@@ -93,6 +93,15 @@
             <if test="num != null">
                 num,
             </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="vipPrice != null">
+                vip_price,
+            </if>
+            <if test="stroeTime != null">
+                stroe_time,
+            </if>
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
             #{id},
@@ -120,6 +129,15 @@
             <if test="num != null">
                 #{num},
             </if>
+            <if test="price != null">
+                #{price},
+            </if>
+            <if test="vipPrice != null">
+                #{vipPrice},
+            </if>
+            <if test="stroeTime != null">
+                #{stroeTime},
+            </if>
         </trim>
         ON DUPLICATE KEY UPDATE
         <trim suffixOverrides=",">
@@ -146,6 +164,15 @@
             </if>
             <if test="num != null">
                 num = values(num),
+            </if>
+            <if test="price != null">
+                price = values(price),
+            </if>
+            <if test="vipPrice != null">
+                vip_price = values(vip_price),
+            </if>
+            <if test="stroeTime != null">
+                stroe_time = values(stroe_time),
             </if>
         </trim>
     </insert>
@@ -178,6 +205,8 @@
         SELECT
         a.id,
         a.up_time,
+        a.s_id AS sId,
+        a.m_id AS mId,
         a.down_time,
         a.create_time,
         a.date,
@@ -185,14 +214,15 @@
         a.info,
         a.num,
         b.name,
+        a.status,
         b.address,
         c.status AS movieStatus,
         c.name as movie_name,
         c.title as title,
         c.content as content,
         b.total,
-        c.price,
-        c.vip_price
+        a.price,
+        a.vip_price
         FROM ${dbPrefix}.m_space a
         JOIN ${dbPrefix}.space b ON a.s_id = b.id
         JOIN ${dbPrefix}.movie c ON (a.m_id = c.id AND c.deleted = 0)

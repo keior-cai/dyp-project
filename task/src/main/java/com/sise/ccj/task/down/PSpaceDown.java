@@ -2,6 +2,7 @@ package com.sise.ccj.task.down;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
+import com.sise.ccj.compant.SpringContext;
 import com.sise.ccj.mapper.PSpaceMapper;
 import com.sise.ccj.pojo.common.PSpacePO;
 import com.sise.ccj.request.admin.PSpaceRequest;
@@ -28,12 +29,9 @@ import java.util.Date;
 @DisallowConcurrentExecution
 public class PSpaceDown implements Job {
 
-
-    @Autowired
-    private PSpaceMapper pSpaceMapper;
-
     @Override
     public void execute(JobExecutionContext var1) {
+        PSpaceMapper pSpaceMapper = SpringContext.getBeanByType(PSpaceMapper.class);
         for (String db : MasterCache.dbList) {
             PSpaceRequest pSpaceRequest = new PSpaceRequest();
             pSpaceRequest.setStatus(0);

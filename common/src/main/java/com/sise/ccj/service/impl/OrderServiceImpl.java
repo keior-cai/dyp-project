@@ -87,6 +87,7 @@ public class OrderServiceImpl implements OrderService {
                 oldInfo.getJSONArray(x).set(y, 1);
             }
             orderPO.setOrderSn(orderSn);
+            orderPO.setStatus(0);
             // 修改排场
             pSpacePO.setInfo(JSON.toJSONString(oldInfo));
             pSpacePO.setDbPrefix(dbPrefix);
