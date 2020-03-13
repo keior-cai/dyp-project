@@ -35,6 +35,9 @@ public class MovieRequest extends BaseRequest {
 
     private Integer dyy;
 
+    private String downTime;
+
+
     public void addCreateTimeAndUpdateTime() {
         Date date = new Date();
         setUpdateTime(date);

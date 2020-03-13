@@ -42,7 +42,6 @@ public class LoginController {
         JSONObject json = loginService.handleLogin(param, ip);
         Cookie cookie = new Cookie(CommonConstant.COOKIE_TOKEN, json.getString(CommonConstant.COOKIE_TOKEN));
         cookie.setPath("/");
-        cookie.setDomain("wezhuiyi.com");
         response.addCookie(cookie);
         UserPO userPO = SessionContextHolder.getAccountAndValid();
         if (userPO.getRole() == AdminRoleEnums.SUPER_ADMIN.getRole()){

@@ -100,6 +100,9 @@
             <if test="token != null">
                 token,
             </if>
+            <if test="openUrl != null">
+                open_url,
+            </if>
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
             #{id},
@@ -139,6 +142,9 @@
             <if test="token != null">
                 #{token},
             </if>
+            <if test="openUrl != null">
+                #{openUrl},
+            </if>
         </trim>
         ON DUPLICATE KEY UPDATE
         <trim suffixOverrides=",">
@@ -177,6 +183,9 @@
             </if>
             <if test="token != null">
                 token = values(token),
+            </if>
+            <if test="openUrl != null">
+                open_url = values(open_url),
             </if>
         </trim>
     </insert>

@@ -284,6 +284,9 @@
     <select id="queryMovie" resultType="com.sise.ccj.pojo.common.MoviePO">
         SELECT <include refid="Base_Column_List"/> FROM ${dbPrefix}.movie
         WHERE deleted = 0 AND status != 2
+        <if test="downTime != null">
+            AND down_time $lt;= #{downTime}
+        </if>
     </select>
 
     <select id="queryMovie2" resultType="com.sise.ccj.pojo.common.MoviePO">
