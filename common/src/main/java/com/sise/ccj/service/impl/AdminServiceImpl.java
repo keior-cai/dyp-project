@@ -113,6 +113,10 @@ public class AdminServiceImpl implements AdminService {
             }
         }else {
             userMapper.insertUpdate(userPO);
+            redisUtil.set(CommonConstant.KEY_LOGIN_TOKEN
+                            .replace(CommonConstant.REPLACE_TOKEN, logpPo.getToken()),
+                    JSON.toJSONString(userPO),
+                    TimeConstant.SERVEN_DAY_SECOND);
         }
     }
     private String getBusinessDDL(String ddlFilePath, Integer id) {

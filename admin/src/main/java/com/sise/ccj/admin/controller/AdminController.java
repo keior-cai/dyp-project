@@ -108,6 +108,7 @@ public class AdminController {
         if (userPO.getRole() == AdminRoleEnums.SUPER_ADMIN.getRole()) {
             List<String> dbs = dbMapper.queryDb();
             for (String db : dbs){
+                if ("dyp_business".equals(db)) continue;
                 staticsPO.setDbPrefix(db);
                 staticsPO.setCreateTime(new Date());
                 JSONObject json = staticsMapper.queryPageGroup(staticsPO);

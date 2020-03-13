@@ -1,6 +1,7 @@
 package com.sise.ccj.service.impl;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sise.ccj.mapper.CustomerMapper;
 import com.sise.ccj.pojo.admin.CustomerPO;
 import com.sise.ccj.request.admin.CustomerRequest;
@@ -17,6 +18,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public BaseVO queryCustomer(CustomerRequest param) {
+        PageHelper.startPage(param.getPage(), param.getSize());
         Page<CustomerPO> customerPOS = customerMapper.queryCustomer(param);
         return BaseVO.builder(customerPOS);
     }
