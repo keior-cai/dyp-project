@@ -2,7 +2,7 @@ package com.sise.common;
 
 public class SiseLoginUrlConstant {
 
-    public final static  String defaultIpPort = "class.sise.com.cn:7001";
+    public static final  String defaultIpPort = "class.sise.com.cn:7001";
     // 登录接口URL
     public static String loginUrl = "http://${ipPort}/sise/login_check_login.jsp";
 
