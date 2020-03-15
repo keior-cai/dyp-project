@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Slf4j
@@ -34,67 +35,41 @@ public class StudentHandle extends TextWebSocketHandler {
     @Autowired(required = false)
     private Map<String, MessageHandle> msgHandleMap;
 
+    private static Map<String, WebSocketSession> map = new ConcurrentHashMap<>();
+
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        JSONObject loginInfo = getLoginInfo(session);
-        HandleCache.addStudent(loginInfo.getString("studentId"), loginInfo, session);
+        map.put(session.getId(), session);
     }
 
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
-        try {
-            JSONObject msg = JSON.parseObject(message.getPayload());
-            String type = msg.getString(WebSocketConstant.COMMAND);
-            msgHandleMap.get(type).handle(session, msg);
-        }catch (Exception e){
-            session.sendMessage(message);
-        }
+
     }
 
     @Override
     protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) {
-        ByteBuffer byteBuffer = message.getPayload();
-        byte[] bytes = byteBuffer.array();
-        JSONObject studentInfo = getLoginInfo(session);
-        if (studentInfo == null) {
-            return;
-        }
-        try {
-
-            String studentToken = studentInfo.getString("studentId");
-            if (HandleCache.isCall(studentToken)) {
-                JSONObject msg = new JSONObject();
-                msg.put("msg", "不在通话状态");
-                TextMessage text = new TextMessage(msg.toJSONString());
-                session.sendMessage(text);
+//        ByteBuffer byteBuffer = message.getPayload();
+        System.out.println(message.getPayloadLength());
+        for (Map.Entry<String, WebSocketSession> entry : map.entrySet()){
+            try {
+                entry.getValue().sendMessage(message);
+            } catch (IOException e) {
+                log.info("", e);
             }
-            String teacherToken = HandleCache.getCallToken(studentToken);
-            Pair<JSONObject, WebSocketSession> pair = HandleCache.getTeacher(teacherToken);
-            pair.getSecond().sendMessage(message);
-            File file = new File("a.pcm");
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(bytes);
-        } catch (Exception e) {
-            log.error("", e);
         }
     }
 
     @Override
     public void handleTransportError(WebSocketSession webSocketSession, Throwable throwable) throws Exception {
-        String token = getLoginInfoId(webSocketSession);
-        if (!StringUtils.isEmpty(token)){
-            HandleCache.delStudent(token);
-        }
+        map.remove(webSocketSession.getId());
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession webSocketSession, CloseStatus closeStatus) throws Exception {
-        String token = getLoginInfoId(webSocketSession);
-        if (!StringUtils.isEmpty(token)){
-            HandleCache.delStudent(token);
-        }
+        map.remove(webSocketSession.getId());
     }
 
     private JSONObject getLoginInfo(WebSocketSession session) {

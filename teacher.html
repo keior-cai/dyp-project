@@ -4,40 +4,70 @@
 	<title></title>
 </head>
 <body>
-<video src="" id="video"></video>
+<audio src="" id="video" controls></audio>
 <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript">
-	// Prefer camera resolution nearest to 1280x720.
-	var mediaSource = new MediaSource()
-	var ws = new WebSocket("wss://localhost:9903/zx/pcm");
-	ws.onopen=function(so){
-	    console.log('socket connect success')
-	    ws.send(JSON.stringify({'command': 'info', 'teacherId': 'teacherId'}))
-	}
+    	// 播放资源
+    var mediaSource = new MediaSource()
+    var video = document.querySelector('audio')
+    video.src = URL.createObjectURL(mediaSource)
+    var a;
+	mediaSource.addEventListener('sourceopen', function(e) {
+	console.log(e)
+		// 这个奇怪的字符串后面再解释
+		var mime = 'audio/webm;codecs=opus'
+		// 新建一个 sourceBuffer
+		var mediaSource = this
+		var sourceBuffer = mediaSource.addSourceBuffer(mime)
+		a = sourceBuffer
+		// 加载一段 chunk，然后 append 到 sourceBuffer 中
+		fetchBuffer('ws://localhost:8884/student', buffer => {
+			sourceBuffer.addEventListener('updateend', function(){
+				mediaSource.endOfStream()
+				video.play()
+			})
+			sourceBuffer.appendBuffer(buffer)
+		})
+	})
 
-	ws.onerror = function(){
-	    console.log("error");
-	};
-
-	ws.onmessage = function (msg){
-		if (msg.data instanceof Blob) {
-			var blob = new Blob([msg.data], { 'type' : 'audio/webm;codecs=opus' })
-		    //获取audio节点
-		    var myAudio = document.querySelector('video')
-			myAudio.src = URL.createObjectURL(blob)
-		 //    //创建音频源
-		 //    source = audioCtx.createMediaElementSource(myAudio)
-		    // source = audioCtx.createBufferSource();
-		 //    //将音频源直接连接到输出设备
-		 //    source.connect(audioCtx.destination)
-
-			// msg.data.arrayBuffer().then(res => {
-				
-			// })
-			
+	function fetchBuffer(a, cb){
+		var ws = new WebSocket("ws://localhost:8884/student")
+		ws.binaryType = "arraybuffer"
+	    ws.onmessage = function(res){
+	    	cb(res.data)
 		}
-		
 	}
+	// Prefer camera resolution nearest to 1280x720.
+//	var mediaSource = new MediaSource()
+//	var ws = new WebSocket("wss://localhost:9903/zx/pcm");
+//	ws.onopen=function(so){
+//	    console.log('socket connect success')
+//	    ws.send(JSON.stringify({'command': 'info', 'teacherId': 'teacherId'}))
+//	}
+//arraybuffer
+//	ws.onerror = function(){
+//	    console.log("error");
+//	};
+//
+//	ws.onmessage = function (msg){
+//		if (msg.data instanceof Blob) {
+//			var blob = new Blob([msg.data], { 'type' : 'video/webm;codecs=opus' })
+//		    //获取audio节点
+//		    var myAudio = document.querySelector('video')
+//			myAudio.src = URL.createObjectURL(blob)
+//		 //    //创建音频源
+//		 //    source = audioCtx.createMediaElementSource(myAudio)
+//		    // source = audioCtx.createBufferSource();
+//		 //    //将音频源直接连接到输出设备
+//		 //    source.connect(audioCtx.destination)
+//
+//			// msg.data.arrayBuffer().then(res => {
+//
+//			// })
+//
+//		}
+//
+//	}
     // var constraints = { audio: true }
    //  var audio = navigator.mediaDevices.getUserMedia(constraints)
    //      .then(function(mediaStream) {

@@ -1,9 +1,9 @@
 spring:
   redis:
     database: 10
-    host: localhost #192.168.220.141
+    host: 47.106.78.139 #192.168.220.141
     port: 6379
-    password:
+    password: 123456
     timeout: 5000 #连接超时时间（毫秒）
     pool:
       max-idle: 4 #连接池中的最大空闲连接
