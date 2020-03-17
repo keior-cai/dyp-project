@@ -1,17 +1,12 @@
 package com.sise.ccj.customer.interceptor;
 
-import com.alibaba.fastjson.JSON;
 import com.sise.ccj.annotation.AccessAuthority;
-import com.sise.ccj.annotation.AccessRolePermission;
 import com.sise.ccj.config.SessionContextHolder;
 import com.sise.ccj.config.redis.RedisUtil;
 import com.sise.ccj.constant.CommonConstant;
 import com.sise.ccj.customer.config.CustomerConfig;
-import com.sise.ccj.enums.admin.AdminRoleEnums;
 import com.sise.ccj.exception.ServerException;
 import com.sise.ccj.pojo.admin.CustomerPO;
-import com.sise.ccj.pojo.admin.UserPO;
-import com.sise.ccj.utils.Maps;
 import com.sise.ccj.vo.HttpBody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +41,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             writeHtmlRedirect(response, customerConfig.getIndexPath());
             return true;
         }
-        if (handler instanceof  HandlerMethod) {
+        if (handler instanceof HandlerMethod) {
             HandlerMethod method = (HandlerMethod) handler;
             if (method.hasMethodAnnotation(AccessAuthority.class) ||
                     method.getBeanType().isAnnotationPresent(AccessAuthority.class)) {
@@ -61,12 +56,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             String token = getToken(request);
             CustomerPO admin = getUserInfo(token);
             if (admin == null) {
-                HttpBody body = HttpBody.getInstance(HttpBody.ERROR_CODE,
-                        "无效凭证",
-                        Maps.of("data", customerConfig.getLoginPath()));
-                response.setContentType("application/json;charset=UTF-8");
-                response.getWriter().println(JSON.toJSONString(body));
-                return false;
+                throw new ServerException(HttpBody.ERROR_CODE, "无效凭证", customerConfig.getLoginPath());
             }
             admin.setIp(ip);
             SessionContextHolder.setToken(token);
@@ -78,7 +68,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     private String getToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies == null || cookies.length <= 0) {
-            throw new ServerException("请求不合法");
+            return null;
         }
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(CommonConstant.COOKIE_TOKEN)) {
@@ -97,6 +87,9 @@ public class LoginInterceptor implements HandlerInterceptor {
     }
 
     private CustomerPO getUserInfo(String token) {
+        if (StringUtils.isEmpty(token)) {
+            return null;
+        }
         String loginKey = CommonConstant.KEY_LOGIN_TOKEN
                 .replace(CommonConstant.REPLACE_TOKEN, token);
         return redisUtil.get(loginKey, CustomerPO.class);

@@ -16,8 +16,10 @@ import com.sise.ccj.pojo.common.OrderStaticsPO;
 import com.sise.ccj.request.admin.AdminRequest;
 import com.sise.ccj.service.AdminService;
 import com.sise.ccj.service.StaticsCustomerService;
+import com.sise.ccj.utils.DateHelper;
 import com.sise.ccj.utils.Maps;
 import com.sise.ccj.vo.HttpBody;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,7 +57,7 @@ public class AdminController {
     private DypDbMapper dbMapper;
 
     @PostMapping("/addAdmin")
-    public HttpBody addAdmin(@RequestBody AdminRequest param){
+    public HttpBody addAdmin(@RequestBody AdminRequest param) {
         adminService.addAdmin(param);
         return HttpBody.SUCCESS;
     }
@@ -63,13 +65,13 @@ public class AdminController {
 
     @GetMapping("/queryAdmin")
     @AccessRolePermission
-    public HttpBody queryAdmin(AdminRequest param){
+    public HttpBody queryAdmin(AdminRequest param) {
         param.check();
         return HttpBody.getSucInstance(adminService.queryAdmin(param));
     }
 
     @PostMapping("/insertUpdate")
-    public HttpBody insertUpdate(@RequestBody UserPO userPO){
+    public HttpBody insertUpdate(@RequestBody UserPO userPO) {
         adminService.insertUpdate(userPO);
         return HttpBody.SUCCESS;
     }
@@ -77,81 +79,81 @@ public class AdminController {
 
     @PostMapping("/deleteAdmin/{adminId}")
     @AccessRolePermission
-    public HttpBody deleteAdmin(@PathVariable Integer adminId){
+    public HttpBody deleteAdmin(@PathVariable Integer adminId) {
         adminService.deleteAdmin(adminId);
         return HttpBody.SUCCESS;
     }
 
     @PostMapping("/updateAdmin")
-    public HttpBody updateAdmin(@RequestBody AdminRequest param){
+    public HttpBody updateAdmin(@RequestBody AdminRequest param) {
         adminService.updateAdmin(param);
         return HttpBody.SUCCESS;
     }
 
     @PostMapping("/updateInfo")
-    public HttpBody updateInfo(){
+    public HttpBody updateInfo() {
         return HttpBody.SUCCESS;
     }
 
     @GetMapping("/getAdminInfo")
-    public HttpBody getAdminInfo(){
+    public HttpBody getAdminInfo() {
         UserPO userPO = SessionContextHolder.getAccountAndValid();
         return HttpBody.getSucInstance(userPO);
     }
 
     @GetMapping("/getCount")
-    public HttpBody getCount(){
+    public HttpBody getCount() {
         UserPO userPO = SessionContextHolder.getAccountAndValid();
         int count = 0;
         double total = 0;
         OrderStaticsPO staticsPO = new OrderStaticsPO();
         if (userPO.getRole() == AdminRoleEnums.SUPER_ADMIN.getRole()) {
             List<String> dbs = dbMapper.queryDb();
-            for (String db : dbs){
+            for (String db : dbs) {
                 if ("dyp_business".equals(db)) continue;
                 staticsPO.setDbPrefix(db);
                 staticsPO.setCreateTime(new Date());
                 JSONObject json = staticsMapper.queryPageGroup(staticsPO);
-                if (json == null){
+                if (json == null) {
                     continue;
                 }
                 total += json.getDoubleValue("total");
                 count += json.getIntValue("count");
             }
-        }else {
+        } else {
             staticsPO.setDbPrefix(userPO.getTableSpace());
             JSONObject json = staticsMapper.queryPageGroup(staticsPO);
-            if (json != null){
+            if (json != null) {
                 count = json.getIntValue("count");
                 total = json.getDoubleValue("total");
             }
         }
-        return HttpBody.getSucInstance(Maps.of("total", total, "fail", 0, "count",count));
+        return HttpBody.getSucInstance(Maps.of("total", total, "fail", 0, "count", count));
     }
 
     @GetMapping("/getStatics")
-    public HttpBody getStatics(){
+    public HttpBody getStatics() {
         return HttpBody.getSucInstance(staticsCustomerService.queryStatics());
     }
 
 
     @PostMapping("/activeAdmin/{id}")
-    public HttpBody activeAdmin(@PathVariable Integer id){
+    public HttpBody activeAdmin(@PathVariable Integer id) {
         adminService.activeAdmin(id);
         return HttpBody.SUCCESS;
     }
 
     @GetMapping("/queryLog")
-    public HttpBody queryLog(){
+    public HttpBody queryLog() {
         UserPO userPO = SessionContextHolder.getAccountAndValid();
-        if (userPO.getRole() == AdminRoleEnums.SUPER_ADMIN.getRole()){
+        if (userPO.getRole() == AdminRoleEnums.SUPER_ADMIN.getRole()) {
             return HttpBody.getSucInstance(Collections.emptyList());
         }
         return HttpBody.getSucInstance(logMapper.selectLogByUserId(userPO.getTableSpace(), userPO.getId()));
     }
 
     @GetMapping("/getCharts")
-    public HttpBody getCharts(){
+    public HttpBody getCharts() {
         UserPO userPO = SessionContextHolder.getAccountAndValid();
         OrderStaticsPO orderStaticsPO = new OrderStaticsPO();
         orderStaticsPO.setDbPrefix(userPO.getTableSpace());
@@ -159,8 +161,31 @@ public class AdminController {
         return HttpBody.getSucInstance(orderStaticsMapper.queryPageGroup(orderStaticsPO));
     }
 
+    @GetMapping("/getIndexCharts")
+    public HttpBody getIndexCharts() {
+        UserPO userPO = SessionContextHolder.getAccountAndValid();
+        OrderStaticsPO orderStaticsPO = new OrderStaticsPO();
+        orderStaticsPO.setDbPrefix(userPO.getTableSpace());
+        orderStaticsPO.setYId(userPO.getId());
+        Date date = DateHelper.parseYYYY_MM_DD_HH_MM_SS(DateHelper.getTodayStartTime());
+        List<JSONObject> list = new ArrayList<>();
+        for (int i = 7; i >= 0; i--){
+            Date tmp = DateUtils.addDays(date, -i);
+            orderStaticsPO.setCreateTime(tmp);
+            JSONObject json = orderStaticsMapper.queryPageGroup(orderStaticsPO);
+            if (json == null){
+                json = new JSONObject();
+                json.put("total", 0);
+                json.put("count", 0);
+            }
+            json.put("time", DateHelper.toYYYY_MM_DD(tmp));
+            list.add(json);
+        }
+        return HttpBody.getSucInstance(list);
+    }
+
     @GetMapping("/createToken")
-    public HttpBody createToken(){
+    public HttpBody createToken() {
         String token = UUID.randomUUID().toString();
         return HttpBody.getSucInstance(token);
     }

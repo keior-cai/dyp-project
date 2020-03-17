@@ -17,7 +17,7 @@ public class ServerExceptionHandler {
         if (e instanceof  ServerException) {
             ServerException exception = (ServerException) e;
             log.error("", e);
-            return HttpBody.getInstance(exception.getCode(), exception.getMessage());
+            return HttpBody.getInstance(exception.getCode(), exception.getMessage(), exception.getData());
         }else {
             log.error("", e);
             return HttpBody.getInstance(HttpBody.NOTE_CODE, HttpBody.ERROR);

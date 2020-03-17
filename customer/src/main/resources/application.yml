@@ -28,7 +28,7 @@ server:
     min-response-size: 1024
     mime-types: application/javascript,text/css,application/json,application/xml,text/html,text/xml,text/plain
 customer:
-  loginPath: http://localhost:9902/admin/index.html#/login
+  loginPath: http://localhost:9902/customer/api/client/weChatlogin
   indexPath: http://localhost:9902/admin/index.html#/index
   ## 微信登录
   mpAppId: wx36338169bc4d3166

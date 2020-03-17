@@ -26,10 +26,17 @@ public class ServerException extends RuntimeException {
 	private int code;
 
     private String message;
+
+    private String data;
     
     public ServerException(int code, String message) {
     	this.code = code;
     	this.message = message;
+    }
+    public ServerException(int code, String message, String data) {
+    	this.code = code;
+    	this.message = message;
+    	this.data = data;
     }
 
     public ServerException(String message) {

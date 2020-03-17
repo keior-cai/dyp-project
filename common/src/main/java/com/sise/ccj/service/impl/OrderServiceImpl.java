@@ -97,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
         // 订单统计
         redisUtil.hmIncrementAndGet(RedisConstant.ORDER_COUNT,
                 orderPO.getYId()+"",
-                orderPO.getNum(), TimeConstant.FIVE_MINUTE_SECOND);
+                1, TimeConstant.FIVE_MINUTE_SECOND);
         redisUtil.hmIncrementAndGet(RedisConstant.ORDER_TOTAL,
                 orderPO.getYId()+"",
                 orderPO.getTotal(), TimeConstant.FIVE_MINUTE_SECOND);
