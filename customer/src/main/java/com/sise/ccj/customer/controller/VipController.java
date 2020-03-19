@@ -8,7 +8,6 @@ import com.sise.ccj.constant.CommonConstant;
 import com.sise.ccj.constant.TimeConstant;
 import com.sise.ccj.exception.ServerException;
 import com.sise.ccj.mapper.CustomerMapper;
-import com.sise.ccj.mapper.UserMapper;
 import com.sise.ccj.pojo.admin.CustomerPO;
 import com.sise.ccj.vo.HttpBody;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +28,10 @@ public class VipController {
     private RedisUtil redisUtil;
 
     @PostMapping("/open")
-    public HttpBody open(@RequestBody JSONObject json){
+    public HttpBody open(@RequestBody JSONObject json) {
         CustomerPO customerPO = SessionContextHolder.getAccountAndValid(null);
         String password = json.getString("password");
-        if (StringUtils.isEmpty(password) || password.equals(customerPO.getPayPassword())){
+        if (StringUtils.isEmpty(password) || password.equals(customerPO.getPayPassword())) {
             throw new ServerException("支付密码错误");
         }
         customerPO.setIsVip(1);
