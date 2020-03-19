@@ -23,4 +23,6 @@ public interface UserMapper {
     void insertUpdate(UserPO userPO);
 
     UserPO queryUserByUserName(@Param("userName") String userName);
+
+    UserPO queryUserPoByToken(@Param("token") String token);
 }

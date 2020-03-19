@@ -26,4 +26,8 @@ public class CustomerConfig {
     private String redirectUrl;
 
     private Integer timeout;
+
+    private String rsaPublic;
+
+    private String rsaPrivate;
 }

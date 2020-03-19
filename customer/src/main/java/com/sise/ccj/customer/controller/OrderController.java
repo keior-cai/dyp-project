@@ -17,6 +17,7 @@ import com.sise.ccj.request.OrderRequest;
 import com.sise.ccj.service.OrderService;
 import com.sise.ccj.utils.Maps;
 import com.sise.ccj.utils.QrCodeUtil;
+import com.sise.ccj.utils.RSAEncrypt;
 import com.sise.ccj.vo.BaseVO;
 import com.sise.ccj.vo.HttpBody;
 import org.apache.commons.lang3.time.DateUtils;
@@ -121,11 +122,11 @@ public class OrderController {
 
     @GetMapping("/qrCode/{yId}/{orderSn}")
     @AccessAuthority
-    public void qrCode(@PathVariable(value = "yId") String yId, @PathVariable(value = "orderSn") String orderSn, HttpServletResponse response) throws IOException, WriterException {
-        String dbPrefix = CommonConstant.TABLE_SPACE.replace(CommonConstant.TABLE_SPACE_ID, yId);
-        OrderPO orderPO = orderMapper.queryOrderByOrderSn(dbPrefix, orderSn);
+    public void qrCode(@PathVariable(value = "yId") String yId, @PathVariable(value = "orderSn") String orderSn, HttpServletResponse response) throws Exception {
+//        String dbPrefix = CommonConstant.TABLE_SPACE.replace(CommonConstant.TABLE_SPACE_ID, yId);
+//        OrderPO orderPO = orderMapper.queryOrderByOrderSn(dbPrefix, orderSn);
         response.setContentType(MediaType.IMAGE_PNG_VALUE);
-        QrCodeUtil.createQrCode(JSON.toJSONString(orderPO.getInfo()), 300,300, response);
+        QrCodeUtil.createQrCode(RSAEncrypt.encrypt(yId+"-"+orderSn, customerConfig.getRsaPublic()), 300,300, response);
     }
 
     @PostMapping("/cancelOrder/{orderSn}/{yId}")
