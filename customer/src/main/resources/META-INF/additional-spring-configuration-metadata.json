@@ -44,5 +44,15 @@
       "defaultValue": "5",
       "type": "java.lang.Integer",
       "description": "order.timeout."
+    },
+    {
+      "name": "customer.rsaPublic",
+      "type": "java.lang.String",
+      "description": "Description for customer.rsaPublic."
+    },
+    {
+      "name": "customer.rsaPrivate",
+      "type": "java.lang.String",
+      "description": "Description for customer.rsaPrivate."
     }
   ] }
