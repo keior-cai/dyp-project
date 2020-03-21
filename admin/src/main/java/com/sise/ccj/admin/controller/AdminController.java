@@ -10,9 +10,12 @@ import com.sise.ccj.constant.RedisConstant;
 import com.sise.ccj.enums.admin.AdminRoleEnums;
 import com.sise.ccj.mapper.DypDbMapper;
 import com.sise.ccj.mapper.LogMapper;
+import com.sise.ccj.mapper.OrderMapper;
 import com.sise.ccj.mapper.OrderStaticsMapper;
 import com.sise.ccj.pojo.admin.UserPO;
+import com.sise.ccj.pojo.common.OrderPO;
 import com.sise.ccj.pojo.common.OrderStaticsPO;
+import com.sise.ccj.request.OrderRequest;
 import com.sise.ccj.request.admin.AdminRequest;
 import com.sise.ccj.service.AdminService;
 import com.sise.ccj.service.StaticsCustomerService;
@@ -43,6 +46,9 @@ public class AdminController {
 
     @Autowired
     private StaticsCustomerService staticsCustomerService;
+
+    @Autowired
+    private OrderMapper orderMapper;
 
     @Autowired
     private OrderStaticsMapper orderStaticsMapper;
@@ -107,12 +113,12 @@ public class AdminController {
         int count = 0;
         double total = 0;
         OrderStaticsPO staticsPO = new OrderStaticsPO();
+        staticsPO.setCreateTime(DateHelper.parseYYYY_MM_DD_HH_MM_SS(DateHelper.getTodayStartTime()));
         if (userPO.getRole() == AdminRoleEnums.SUPER_ADMIN.getRole()) {
             List<String> dbs = dbMapper.queryDb();
             for (String db : dbs) {
                 if ("dyp_business".equals(db)) continue;
                 staticsPO.setDbPrefix(db);
-                staticsPO.setCreateTime(new Date());
                 JSONObject json = staticsMapper.queryPageGroup(staticsPO);
                 if (json == null) {
                     continue;
