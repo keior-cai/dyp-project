@@ -69,22 +69,24 @@ public class OrderTimeOut implements Job {
         OrderMapper orderMapper = SpringContext.getBeanByType(OrderMapper.class);
         TaskConfig taskConfig = (TaskConfig) SpringContext.getBeanById("taskConfig");
         log.info("orderTimeOut load db = {}", MasterCache.dbList);
+        Date date = new Date();
         for (String db : MasterCache.dbList){
             OrderRequest request = new OrderRequest();
             request.setDbPrefix(db);
             request.setStatus(0);
-            Date date = new Date();
-            request.setEndTime(DateHelper.toYYYY_MM_DD_HH_MM_SS(DateUtils.addMilliseconds(date, taskConfig.getOrderTomeOut())));
+            request.setEndTime(DateHelper.toYYYY_MM_DD_HH_MM_SS(date));
             Page<OrderPO> baseVOList = orderMapper.queryOrder(request);
             if (CollectionUtils.isEmpty(baseVOList.getResult())) {
-                return;
+                continue;
             }
             baseVOList.getResult().forEach(e-> {
                 if (!timeOutMap.containsKey(db)){
                     timeOutMap.put(db, new ArrayList<>());
                     finishMap.put(db, new ArrayList<>());
                 }
-                timeOutMap.get(db).add(e.getOrderSn());
+                if ((System.currentTimeMillis() - e.getCreateTime().getTime()) >=  taskConfig.getOrderTomeOut()){
+                    timeOutMap.get(db).add(e.getOrderSn());
+                }
             });
         }
     }
