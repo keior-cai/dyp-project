@@ -61,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public BaseVO queryOrder(OrderRequest param, String dbPrefix) {
+    public BaseVO<OrderPO> queryOrder(OrderRequest param, String dbPrefix) {
         param.setDbPrefix(dbPrefix);
         PageHelper.startPage(param.getPage(), param.getSize());
         Page<OrderPO> page = orderMapper.queryOrder(param);
