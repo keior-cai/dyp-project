@@ -17,16 +17,13 @@ public class Tool {
     private static int[] number = {1, 2, 3, 4, 5, 7, 6, 8, 9, 10};
 
 
-    private static ThreadPoolExecutor thread = (ThreadPoolExecutor) Executors.newFixedThreadPool(200);
+    private static ThreadPoolExecutor thread = (ThreadPoolExecutor) Executors.newFixedThreadPool(2000);
 
     public static void main(String[] args) throws InterruptedException {
         SiseLoginImpl siseLogin = new SiseLoginImpl();
         siseLogin.init();
         Random random = new Random();
         while (true) {
-            if (thread.getActiveCount() <= 0) {
-                Thread.sleep(2000);
-            }
             thread.execute(() -> {
                 String pwd = getPassword();
                 System.out.println(pwd);

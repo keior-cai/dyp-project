@@ -18,6 +18,7 @@
         <module>common-sise</module>
         <module>web-socket</module>
         <module>tool</module>
+        <module>call</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
