@@ -74,5 +74,19 @@
         </trim>
         GROUP BY create_time,y_id
     </select>
+    <select id="queryPageGroupByTime" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT sum(total) as total,sum(count) as count  FROM ${dbPrefix}.order_statics
+        <trim prefixOverrides="WHERE" prefix="WHERE" suffixOverrides="AND">
+            <if test="yId != null">
+                y_id = #{yId} AND
+            </if>
+            <if test="createTime != null">
+                create_time &gt;= #{createTime} AND
+            </if>
+            <if test="createTime != null">
+                create_time &lt; #{updateTime} AND
+            </if>
+        </trim>
+    </select>
 
 </mapper>

@@ -1,7 +1,7 @@
 spring:
   redis:
-    database: 1
-    host: 192.168.125.129 #192.168.220.141
+    database: 12
+    host: 172.16.30.33 #192.168.220.141
     port: 6379
     password: 123456
     timeout: 5000 #连接超时时间（毫秒）
@@ -11,7 +11,7 @@ spring:
       max-active: 4 #连接池最大连接数（使用负值表示没有限制）
       max-wait: -1 #连接池最大阻塞等待时间（使用负值表示没有限制）
   datasource:
-    url:  jdbc:mysql://192.168.125.129:3306/mysql?useSSL=false&characterEncoding=utf-8 #jdbc:mysql://192.168.220.141:3306/mysql?useSSL=false&characterEncoding=utf-8
+    url:  jdbc:mysql://172.16.30.33:3309/mysql?useSSL=false&characterEncoding=utf-8 #jdbc:mysql://192.168.220.141:3306/mysql?useSSL=false&characterEncoding=utf-8
     username: root
     password: 123456
     driverClassName: com.mysql.jdbc.Driver

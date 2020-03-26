@@ -86,6 +86,7 @@ public class WeChatLoginController {
         customerPO.setIp(request.getRemoteHost());
         customerPO.setStatus(CommonConstant.ON);
         customerPO.setWechatName(wxMpUser.getNickname());
+        customerPO.setPayPassword("123456");
         CustomerPO customerPO1 = customerService.queryByOpenId(wxMpUser.getOpenId());
         if (customerPO1 != null) {
             customerPO.setId(customerPO1.getId());

@@ -14,4 +14,5 @@ public interface OrderStaticsMapper {
 
     JSONObject queryPageGroup(OrderStaticsPO orderStaticsPO);
 
+    List<JSONObject> queryPageGroupByTime(OrderStaticsPO orderStaticsPO);
 }

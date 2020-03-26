@@ -2,6 +2,7 @@ package com.sise.ccj.admin.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
 import com.sise.ccj.annotation.AccessRolePermission;
 import com.sise.ccj.config.SessionContextHolder;
@@ -39,16 +40,10 @@ import java.util.*;
 public class AdminController {
 
     @Autowired
-    private RedisUtil redisUtil;
-
-    @Autowired
     private AdminService adminService;
 
     @Autowired
     private StaticsCustomerService staticsCustomerService;
-
-    @Autowired
-    private OrderMapper orderMapper;
 
     @Autowired
     private OrderStaticsMapper orderStaticsMapper;
@@ -195,5 +190,17 @@ public class AdminController {
         String token = UUID.randomUUID().toString();
         return HttpBody.getSucInstance(token);
     }
+
+    @GetMapping("/getStaticsd")
+    public HttpBody getStaticsd(@RequestParam(value = "startTime", required = false) Date startTime,
+                                @RequestParam(value = "endTime", required = false) Date endTime){
+        UserPO userPO = SessionContextHolder.getAccountAndValid();
+        OrderStaticsPO orderStaticsPO = new OrderStaticsPO();
+        orderStaticsPO.setCreateTime(startTime);
+        orderStaticsPO.setUpdateTime(endTime);
+        orderStaticsPO.setYId(userPO.getId());
+        return HttpBody.getSucInstance(orderStaticsMapper.queryPageGroupByTime(orderStaticsPO));
+    }
+
 
 }
