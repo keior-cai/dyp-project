@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/vip")
 public class VipController {
@@ -31,10 +33,14 @@ public class VipController {
     public HttpBody open(@RequestBody JSONObject json) {
         CustomerPO customerPO = SessionContextHolder.getAccountAndValid(null);
         String password = json.getString("password");
-        if (StringUtils.isEmpty(password) || password.equals(customerPO.getPayPassword())) {
+        if (StringUtils.isEmpty(password) || !password.equals(customerPO.getPayPassword())) {
             throw new ServerException("支付密码错误");
         }
         customerPO.setIsVip(1);
+        customerPO.setVipMouth(customerPO.getVipMouth() == null ? 0 :  customerPO.getVipMouth()+1);
+        if (customerPO.getVipMouth() == null){
+            customerPO.setVipCreateTime(new Date());
+        }
         userMapper.insertUpdate(customerPO);
         redisUtil.set(CommonConstant.KEY_LOGIN_TOKEN
                         .replace(CommonConstant.REPLACE_TOKEN, customerPO.getToken()), JSON.toJSONString(customerPO),

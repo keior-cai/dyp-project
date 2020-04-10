@@ -18,6 +18,8 @@ public class TaskConfig {
 
     private String pSpaceDownCron;
 
+    private String vipDownCron;
+
     private String orderStaticsCron;
 
     private String sendJobCron;

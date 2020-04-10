@@ -60,6 +60,17 @@ public class PullJobController {
         return HttpBody.SUCCESS;
     }
 
+    @GetMapping("/getVipDownJob")
+    public HttpBody getVipDownJob() {
+        return HttpBody.getSucInstance(jobMap.get("VipDownJob").getJob());
+    }
+
+    @PostMapping("/finishVipJob")
+    public HttpBody finishVipJob(@RequestBody JSONObject json) {
+        jobMap.get("VipDownJob").finishJob(json);
+        return HttpBody.SUCCESS;
+    }
+
 
     @GetMapping("/ping")
     public HttpBody ping() {

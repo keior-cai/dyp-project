@@ -103,7 +103,7 @@ public class OrderServiceImpl implements OrderService {
                 orderPO.getTotal(), TimeConstant.FIVE_MINUTE_SECOND);
         orderMapper.insertUpdate(orderPO);
         UserPO userPO = userMapper.queryUserById(orderPO.getYId());
-        if (userPO.getIsOpen() != 0){
+        if (userPO.getIsOpen() != null && userPO.getIsOpen() != 0){
             // 开启回调的，写入回调
             OpenOrderPO openOrderPO = new OpenOrderPO();
             openOrderPO.setInfo(JSON.toJSONString(orderPO));

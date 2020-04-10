@@ -1,110 +1,112 @@
-
 CREATE DATABASE dyp_${id};
 
 USE dyp_${id};
 
 CREATE TABLE IF NOT EXISTS `dyp_${id}`.`log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ip` varchar(255) NULL DEFAULT NULL,
-  `user_id` int(11) NULL DEFAULT NULL,
-  `text` text NULL,
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
-  PRIMARY KEY (`id`) USING BTREE
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `user_id` int(11) NULL DEFAULT NULL,
+    `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+    `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
+    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `dyp_${id}`.`m_space` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `m_id` int(11) NULL DEFAULT NULL COMMENT '电影ID',
-  `up_time` varchar(255) NULL DEFAULT NULL COMMENT '播放时间',
-  `s_id` int(11) NULL DEFAULT NULL COMMENT '场地ID',
-  `date` varchar(255) NULL DEFAULT NULL,
-  `status` int(11) NULL DEFAULT 0 COMMENT '0-可购买，1-不可购买',
-  `down_time` varchar(255) NULL DEFAULT NULL COMMENT '结束时间',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
-  `num` int(11) NULL DEFAULT NULL,
-  `info` text NULL,
-  `deleted` int(255) NULL DEFAULT 0,
-  PRIMARY KEY (`id`) USING BTREE
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `m_id` int(11) NULL DEFAULT NULL COMMENT '电影ID',
+    `up_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '播放时间',
+    `s_id` int(11) NULL DEFAULT NULL COMMENT '场地ID',
+    `date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `status` int(11) NULL DEFAULT 0 COMMENT '0-可购买，1-不可购买',
+    `down_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '结束时间',
+    `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `num` int(11) NULL DEFAULT NULL,
+    `stroe_time` date NULL DEFAULT NULL COMMENT '开始售卖时间',
+    `price` double(10, 2) NULL DEFAULT NULL,
+    `vip_price` double(10, 2) NULL DEFAULT NULL,
+    `info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+    `deleted` int(255) NULL DEFAULT 0,
+    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `dyp_${id}`.`movie`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NULL DEFAULT NULL,
-  `title` varchar(255) NULL DEFAULT NULL,
-  `content` varchar(255) NULL DEFAULT NULL,
-  `price` double(10, 2) NULL DEFAULT NULL,
-  `vip_price` double(10, 2) NULL DEFAULT NULL,
-  `status` int(11) NULL DEFAULT NULL,
-  `deleted` int(11) NULL DEFAULT NULL,
-  `director` varchar(255) NULL DEFAULT NULL,
-  `actor` varchar(255) NULL DEFAULT NULL,
-  `up_time` datetime(0) NULL DEFAULT NULL,
-  `down_time` datetime(0) NULL DEFAULT NULL,
-  `labels` text NULL,
-  `img_url` varchar(255) NULL DEFAULT NULL,
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
-  PRIMARY KEY (`id`) USING BTREE
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `price` double(10, 2) NULL DEFAULT NULL,
+    `vip_price` double(10, 2) NULL DEFAULT NULL,
+    `status` int(11) NULL DEFAULT NULL,
+    `deleted` int(11) NULL DEFAULT NULL,
+    `director` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `actor` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `up_time` datetime(0) NULL DEFAULT NULL,
+    `down_time` datetime(0) NULL DEFAULT NULL,
+    `labels` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+    `img_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `dyp_${id}`.`open_order`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `info` text NULL,
-  `type` int(11) NULL DEFAULT NULL COMMENT '0-下单，1-退单，2-取票，3-支付,4-超时',
-  `model` varchar(255) NULL DEFAULT NULL,
-  `url` varchar(255) NULL DEFAULT NULL,
-  `status` int(11) NULL DEFAULT NULL COMMENT '0-待发送，1-已发送',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
-  PRIMARY KEY (`id`) USING BTREE
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+    `type` int(11) NULL DEFAULT NULL COMMENT '0-下单，1-退单，2-取票，3-支付,4-超时',
+    `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `status` int(11) NULL DEFAULT NULL COMMENT '0-待发送，1-已发送',
+    `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
+    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `dyp_${id}`.`order`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `order_sn` varchar(100) NULL DEFAULT NULL,
-  `open_id` varchar(255) NULL DEFAULT NULL,
-  `movie_name` varchar(255) NULL DEFAULT NULL,
-  `movie_url` varchar(255) NULL DEFAULT NULL,
-  `num` int(11) NULL DEFAULT NULL,
-  `title` varchar(255) NULL DEFAULT NULL,
-  `total` double(8, 2) NULL DEFAULT NULL,
-  `price` double(8, 2) NULL DEFAULT NULL,
-  `is_vip` int(11) NULL DEFAULT NULL,
-  `status` int(11) NULL DEFAULT NULL COMMENT '0-下单，1-已支付，2-已出票，3-已过期，4-已完成,5-订单取消',
-  `info` text NULL,
-  `y_id` int(11) NULL DEFAULT NULL COMMENT '影院ID',
-  `m_id` int(11) NULL DEFAULT NULL COMMENT '电影ID',
-  `ps_id` int(11) NULL DEFAULT NULL COMMENT '排场ID',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
-  `location` text NULL,
-  `content` varchar(255) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `order_sn`(`order_sn`) USING BTREE
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `order_sn` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `open_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `movie_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `movie_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `num` int(11) NULL DEFAULT NULL,
+    `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `total` double(8, 2) NULL DEFAULT NULL,
+    `price` double(8, 2) NULL DEFAULT NULL,
+    `is_vip` int(11) NULL DEFAULT NULL,
+    `status` int(11) NULL DEFAULT NULL COMMENT '0-下单，1-已支付，2-已出票，3-已过期，4-已完成,5-订单取消',
+    `info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+    `y_id` int(11) NULL DEFAULT NULL COMMENT '影院ID',
+    `m_id` int(11) NULL DEFAULT NULL COMMENT '电影ID',
+    `ps_id` int(11) NULL DEFAULT NULL COMMENT '排场ID',
+    `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `location` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+    `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE INDEX `order_sn`(`order_sn`) USING BTREE
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `dyp_${id}`.`order_statics`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `count` int(11) NULL DEFAULT NULL,
-  `total` double(10, 2) NULL DEFAULT NULL,
-  `y_id` int(11) NULL DEFAULT NULL,
-  `create_time` date NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `y_id`(`y_id`, `create_time`) USING BTREE
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `count` int(11) NULL DEFAULT NULL,
+    `total` double(10, 2) NULL DEFAULT NULL,
+    `y_id` int(11) NULL DEFAULT NULL,
+    `create_time` date NULL DEFAULT NULL,
+    `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE INDEX `y_id`(`y_id`, `create_time`) USING BTREE
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `dyp_${id}`.`space`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NULL DEFAULT NULL,
-  `address` varchar(255) NULL DEFAULT NULL,
-  `total` int(11) NULL DEFAULT NULL,
-  `num` int(11) NULL DEFAULT NULL,
-  `status` varchar(11) NULL DEFAULT NULL,
-  `deleted` int(11) NULL DEFAULT 0,
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
-  `info` text NULL,
-  PRIMARY KEY (`id`) USING BTREE
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `total` int(11) NULL DEFAULT NULL,
+    `num` int(11) NULL DEFAULT NULL,
+    `status` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+    `deleted` int(11) NULL DEFAULT 0,
+    `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+    `info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;

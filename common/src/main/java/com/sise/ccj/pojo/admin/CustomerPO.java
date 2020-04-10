@@ -24,6 +24,10 @@ public class CustomerPO {
 
     private Integer isVip;
 
+    private Integer vipMouth;
+
+    private Date vipCreateTime;
+
     private Date updateTime;
 
     private String ip;

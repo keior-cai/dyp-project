@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.sise.ccj.compant.SpringContext;
 import com.sise.ccj.config.redis.RedisUtil;
 import com.sise.ccj.task.cluster.master.MasterCache;
+import com.sise.ccj.task.config.TaskConfig;
+import com.sise.ccj.task.constant.TaskConstant;
 import com.sise.ccj.task.init.InitTask;
 import com.sise.ccj.task.job.Job;
 import lombok.extern.slf4j.Slf4j;
@@ -18,15 +20,19 @@ import java.util.Map;
 public class PullHelp {
     private PullHelp(){}
     private static RedisUtil redisUtil;
+    private static TaskConfig taskConfig;
     public static final String key = "task:slave:key";
     public static void Pull(String jobUri, String finishJobUri, Job job){
-        if (redisUtil == null){
+        if (redisUtil == null || taskConfig == null){
             redisUtil = SpringContext.getBeanByType(RedisUtil.class);
+            taskConfig = (TaskConfig) SpringContext.getBeanById("taskConfig");
         }
-        Map<Object,Object> entry = redisUtil.entries(key);
-        if (MasterCache.isMaster && entry.size() > 1){
-            // master 节点不干活
-            return;
+        String masterEnv = redisUtil.get(TaskConstant.MASTER_ENV)+"";
+        if (MasterCache.isMaster && taskConfig.getEnv().equals(masterEnv)){
+            if (redisUtil.entries(key).size() > 1) {
+                // master 节点不干活
+                return;
+            }
         }
         RestTemplate client = new RestTemplate();
         boolean hasExecption = true;

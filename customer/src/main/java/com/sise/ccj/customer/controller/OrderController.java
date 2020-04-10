@@ -1,9 +1,7 @@
 package com.sise.ccj.customer.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.StringUtil;
-import com.google.zxing.WriterException;
 import com.sise.ccj.annotation.AccessAuthority;
 import com.sise.ccj.config.SessionContextHolder;
 import com.sise.ccj.constant.CommonConstant;
@@ -27,7 +25,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,7 +51,7 @@ public class OrderController {
     private OrderMapper orderMapper;
 
     @PostMapping("/insertUpdate")
-    public HttpBody insertUpdate(@RequestBody OrderPO param){
+    public HttpBody insertUpdate(@RequestBody OrderPO param) {
         CustomerPO logPo = SessionContextHolder.getAccountAndValid(null);
         param.setOpenId(logPo.getOpenId());
         param.setYId(logPo.getYId());
@@ -62,19 +59,19 @@ public class OrderController {
     }
 
     @GetMapping("/queryOrder")
-    public HttpBody queryOrder(OrderRequest param){
+    public HttpBody queryOrder(OrderRequest param) {
         CustomerPO logPo = SessionContextHolder.getAccountAndValid(null);
         param.setOpenId(logPo.getOpenId());
         List<String> dbs = dypDbMapper.queryDb();
         List<OrderPO> orderPOS = new LinkedList<>();
         long size = 0;
-        for (String str : dbs){
+        for (String str : dbs) {
             if (str.equals("dyp_business")) continue;
             BaseVO<OrderPO> baseVO = orderService.queryOrder(param, str);
-            if (baseVO.getTotal() >= 0 ){
-                List<OrderPO> poList =  baseVO.getDetails();
+            if (baseVO.getTotal() >= 0) {
+                List<OrderPO> poList = baseVO.getDetails();
                 poList.forEach(e -> {
-                    if (e.getStatus() == 0){
+                    if (e.getStatus() == 0) {
                         long outTime = DateUtils.addMinutes(e.getCreateTime(), customerConfig.getTimeout()).getTime() - System.currentTimeMillis();
                         e.setOutTime(outTime);
                     }
@@ -88,21 +85,21 @@ public class OrderController {
 
 
     @PostMapping("/payOrder")
-    public HttpBody payOrder(@RequestBody JSONObject json){
+    public HttpBody payOrder(@RequestBody JSONObject json) {
         CustomerPO logPo = SessionContextHolder.getAccountAndValid(null);
         String dbPrefix;
-        if (!StringUtils.isEmpty(json.getString("yId"))){
+        if (!StringUtils.isEmpty(json.getString("yId"))) {
             dbPrefix = CommonConstant.TABLE_SPACE.replace(CommonConstant.TABLE_SPACE_ID, json.getString("yId"));
-        }else {
+        } else {
             dbPrefix = logPo.getDbPrefix();
         }
-        if (StringUtil.isEmpty(logPo.getPayPassword())){
+        if (StringUtil.isEmpty(logPo.getPayPassword())) {
             throw new ServerException("请设置支付密码");
         }
-        if (!json.getString("payPassword").equals(logPo.getPayPassword())){
+        if (!json.getString("payPassword").equals(logPo.getPayPassword())) {
             throw new ServerException("支付密码错误");
         }
-        if (StringUtils.isEmpty(json.getString("orderSn"))){
+        if (StringUtils.isEmpty(json.getString("orderSn"))) {
             throw new ServerException("订单号为空");
         }
         OrderPO orderPO = new OrderPO();
@@ -126,11 +123,11 @@ public class OrderController {
 //        String dbPrefix = CommonConstant.TABLE_SPACE.replace(CommonConstant.TABLE_SPACE_ID, yId);
 //        OrderPO orderPO = orderMapper.queryOrderByOrderSn(dbPrefix, orderSn);
         response.setContentType(MediaType.IMAGE_PNG_VALUE);
-        QrCodeUtil.createQrCode(RSAEncrypt.encrypt(yId+"-"+orderSn, customerConfig.getRsaPublic()), 300,300, response);
+        QrCodeUtil.createQrCode(RSAEncrypt.encrypt(orderSn, customerConfig.getRsaPublic()), 300, 300, response);
     }
 
     @PostMapping("/cancelOrder/{orderSn}/{yId}")
-    public HttpBody cancelOrder(@PathVariable String orderSn, @PathVariable String yId){
+    public HttpBody cancelOrder(@PathVariable String orderSn, @PathVariable String yId) {
         String dbPrefxi = CommonConstant.TABLE_SPACE.replace(CommonConstant.TABLE_SPACE_ID, yId);
         OrderPO orderPO = new OrderPO();
         orderPO.setDbPrefix(dbPrefxi);

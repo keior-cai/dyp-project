@@ -9,7 +9,7 @@ public interface CustomerMapper {
 
     Page<CustomerPO> queryCustomer(CustomerRequest param);
 
-    CustomerPO queryUserById(@Param("id") String id);
+    CustomerPO queryUserById(@Param("id") Integer id);
 
     CustomerPO queryUserByOpenId(@Param("openId") String openId);
 

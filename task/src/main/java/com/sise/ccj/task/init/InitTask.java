@@ -9,6 +9,7 @@ import com.sise.ccj.task.config.TaskConfig;
 import com.sise.ccj.task.constant.TaskConstant;
 import com.sise.ccj.task.down.MovieDownJob;
 import com.sise.ccj.task.down.PSpaceDown;
+import com.sise.ccj.task.down.VipDown;
 import com.sise.ccj.task.open.SendJob;
 import com.sise.ccj.task.out.OrderStaticsTime;
 import com.sise.ccj.task.out.OrderTimeOut;
@@ -27,7 +28,7 @@ public class InitTask {
 
     private void selectorMaster() {
         MasterCache.isMaster = redisUtil.setIfAbsent(TaskConstant.MASTER_ENV, taskConfig.getEnv(), TimeConstant.TOW_MINUTE_SECOND);
-        if (!MasterCache.isMaster) {
+        if (MasterCache.isMaster) {
             MasterCache.masterEnv = redisUtil.get(TaskConstant.MASTER_ENV) + "";
             // 维持master状态
             new Thread(() -> {
@@ -53,6 +54,7 @@ public class InitTask {
             TaskQuartzManager.addJob("TimeOutJob", "TimeOutJobJobTrigger", OrderTimeOut.class, taskConfig.getOrderTimeOutCron());
             TaskQuartzManager.addJob("MovieDownJob", "MovieDownJobTrigger", MovieDownJob.class, taskConfig.getMovieDownCron());
             TaskQuartzManager.addJob("PSpaceDownJob", "PSpaceDownJobTrigger", PSpaceDown.class, taskConfig.getPSpaceDownCron());
+            TaskQuartzManager.addJob("VipDownJob", "VipDownJobTrigger", VipDown.class, taskConfig.getVipDownCron());
             TaskQuartzManager.addJob("OrderStaticsJob", "OrderStaticsJobTrigger", OrderStaticsTime.class, taskConfig.getOrderStaticsCron());
             TaskQuartzManager.addJob("SendJob", "SendJobTrigger", SendJob.class, taskConfig.getSendJobCron());
         }
@@ -60,6 +62,7 @@ public class InitTask {
             TaskQuartzManager.addJob("PullOrderTimeOutJob", "PullOrderTimeOutJobTrigger", PullOrderTimeOutJob.class, taskConfig.getPullTaskCron());
             TaskQuartzManager.addJob("PullSendJob", "PullSendJobTrigger", PullSendJob.class, taskConfig.getPullTaskCron());
             TaskQuartzManager.addJob("PullPSpaceDownJob", "PullPSpaceDownJobTrigger", PullPSpaceDownJob.class, taskConfig.getPullTaskCron());
+            TaskQuartzManager.addJob("PullVipDownJob", "PullVipDownJobTrigger", PullVipDownJob.class, taskConfig.getPullTaskCron());
             TaskQuartzManager.addJob("PullMovieDownJob", "PullMovieDownJobTrigger", PullMovieDownJob.class, taskConfig.getPullTaskCron());
             MasterCache.isFirst = false;
             redisUtil.hmSet(PullHelp.key,taskConfig.getEnv(), "1");

@@ -24,4 +24,6 @@ public class Test {
         System.out.println(table[lenght]);
         return table[lenght];
     }
+
+
 }

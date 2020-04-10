@@ -97,6 +97,12 @@
             <if test="isVip != null">
                 is_vip,
             </if>
+            <if test="vipMouth != null">
+                vip_mouth,
+            </if>
+            <if test="vipCreateTime != null">
+                vip_create_time,
+            </if>
         </trim>
         <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
             #{id},
@@ -133,6 +139,12 @@
             <if test="isVip != null">
                 #{isVip},
             </if>
+            <if test="vipMouth != null">
+                #{vipMouth},
+            </if>
+            <if test="vipCreateTime != null">
+                #{vipCreateTime},
+            </if>
         </trim>
         ON DUPLICATE KEY UPDATE
         <trim suffixOverrides=",">
@@ -168,6 +180,12 @@
             </if>
             <if test="isVip != null">
                 is_vip = values(is_vip),
+            </if>
+            <if test="vipMouth != null">
+                vip_mouth = values(vip_mouth),
+            </if>
+            <if test="vipCreateTime != null">
+                vip_create_time = values(vip_create_time),
             </if>
         </trim>
     </insert>

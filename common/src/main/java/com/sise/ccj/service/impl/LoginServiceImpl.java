@@ -7,6 +7,7 @@ import com.sise.ccj.config.redis.RedisUtil;
 import com.sise.ccj.constant.CommonConstant;
 import com.sise.ccj.constant.TimeConstant;
 import com.sise.ccj.enums.admin.AdminRoleEnums;
+import com.sise.ccj.enums.admin.AdminStatus;
 import com.sise.ccj.enums.note.ServerNote;
 import com.sise.ccj.exception.ServerException;
 import com.sise.ccj.mapper.LogMapper;
@@ -39,7 +40,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public JSONObject handleLogin(LoginRequest param, String ip) {
         UserPO userPO = userMapper.queryUserByNameAndPassword(param.getUserName(), param.getPassword());
-        if (userPO != null) {
+        if (userPO != null && userPO.getStatus().equals(AdminStatus.ACTIVE.toString())) {
             String token = UUID.randomUUID().toString();
             userPO.setTableSpace(CommonConstant.TABLE_SPACE.replace(CommonConstant.TABLE_SPACE_ID, userPO.getId() + ""));
             JSONObject json = Maps.of(CommonConstant.COOKIE_TOKEN, token);

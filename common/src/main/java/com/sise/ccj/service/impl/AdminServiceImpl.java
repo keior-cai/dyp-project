@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.io.StringWriter;
+import java.util.UUID;
 
 /**
  * @ClassName AdminServiceImpl
@@ -92,7 +93,7 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     public void insertUpdate(UserPO userPO) {
         UserPO logpPo = SessionContextHolder.getAccountAndValid();
-        if (userPO.getId() == logpPo.getId()){
+        if (userPO.getId().equals(logpPo.getId())){
             redisUtil.set(CommonConstant.KEY_LOGIN_TOKEN
             .replace(CommonConstant.REPLACE_TOKEN, logpPo.getToken()),
                     JSON.toJSONString(userPO),
@@ -103,6 +104,7 @@ public class AdminServiceImpl implements AdminService {
             if (userPO1 != null){
                 throw new ServerException("用户已存在");
             }
+            userPO.setToken(UUID.randomUUID().toString());
             userMapper.insertUpdate(userPO);
             String tableSql = getBusinessDDL("sql/table.vm",userPO.getId());
             log.info("{}", tableSql);
@@ -113,10 +115,6 @@ public class AdminServiceImpl implements AdminService {
             }
         }else {
             userMapper.insertUpdate(userPO);
-            redisUtil.set(CommonConstant.KEY_LOGIN_TOKEN
-                            .replace(CommonConstant.REPLACE_TOKEN, logpPo.getToken()),
-                    JSON.toJSONString(userPO),
-                    TimeConstant.SERVEN_DAY_SECOND);
         }
     }
     private String getBusinessDDL(String ddlFilePath, Integer id) {

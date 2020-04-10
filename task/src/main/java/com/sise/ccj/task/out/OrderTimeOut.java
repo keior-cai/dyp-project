@@ -89,6 +89,7 @@ public class OrderTimeOut implements Job {
                 }
             });
         }
+        log.info("orderTimeOut load db = {} timeList = {}", MasterCache.dbList, timeOutMap);
     }
 
     @Override
