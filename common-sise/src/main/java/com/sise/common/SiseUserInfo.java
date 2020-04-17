@@ -23,4 +23,8 @@ public class SiseUserInfo {
 
     private String specialty;
 
+    private String userKey;
+
+    private String token;
+
 }
