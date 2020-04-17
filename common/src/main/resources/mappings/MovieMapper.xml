@@ -217,10 +217,10 @@
                 deleted = values(deleted),
             </if>
             <if test="imgUrl != null">
-                img_url = values(img_url)
+                img_url = values(img_url),
             </if>
             <if test="info != null">
-                info = values(info)
+                info = values(info),
             </if>
         </trim>
     </insert>
