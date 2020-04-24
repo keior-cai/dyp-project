@@ -22,20 +22,22 @@ public class Tool {
     public static void main(String[] args) throws InterruptedException {
         SiseLoginImpl siseLogin = new SiseLoginImpl();
         siseLogin.init();
-        Random random = new Random();
-        while (true) {
-            thread.execute(() -> {
-                String pwd = getPassword();
-                System.out.println(pwd);
-                SiseUserInfo siseUserInfo = siseLogin.login(sno, pwd);
-                if(siseUserInfo != null){
-                    System.out.println(siseUserInfo);
-                    System.out.println(pwd);
-                    System.exit(-1);
-                }
-            });
-            count = random.nextInt(16);
-        }
+        SiseUserInfo siseUserInfo = siseLogin.login(sno, "16445224110477");
+        System.out.println(siseUserInfo);
+//        Random random = new Random();
+//        while (true) {
+//            thread.execute(() -> {
+//                String pwd = getPassword();
+//                System.out.println(pwd);
+//                SiseUserInfo siseUserInfo = siseLogin.login(sno, pwd);
+//                if(siseUserInfo != null){
+//                    System.out.println(siseUserInfo);
+//                    System.out.println(pwd);
+//                    System.exit(-1);
+//                }
+//            });
+//            count = random.nextInt(16);
+//        }
     }
 
     private synchronized static String getPassword() {

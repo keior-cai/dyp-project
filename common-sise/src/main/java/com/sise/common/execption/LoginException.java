@@ -1,4 +1,4 @@
-package com.sise.common;
+package com.sise.common.execption;
 
 import lombok.Data;
 

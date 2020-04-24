@@ -1,5 +1,6 @@
 package com.sise.common;
 
+import com.sise.common.execption.LoginException;
 import javafx.util.Pair;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
